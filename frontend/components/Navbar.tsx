@@ -73,8 +73,8 @@ export default function Navbar() {
             >
                 <div className={`
                     max-w-7xl mx-auto transition-all duration-500
-                    relative flex items-center justify-between px-3 sm:px-8 py-2.5 sm:py-4 
-                    rounded-[1.8rem] sm:rounded-[2.5rem] border overflow-hidden
+                    relative flex items-center justify-between px-3 sm:px-8 py-2 sm:py-4 
+                    rounded-[1.25rem] sm:rounded-[2.5rem] border overflow-hidden
                     ${isScrolled
                         ? 'bg-black/60 backdrop-blur-3xl border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]'
                         : 'bg-white/5 backdrop-blur-xl border-white/5'}
@@ -147,20 +147,20 @@ export default function Navbar() {
                         <button
                             onClick={() => setIsAuthOpen(true)}
                             className={`
-                                relative group overflow-hidden flex items-center gap-2 sm:gap-3 px-3 sm:px-8 py-2 sm:py-3 rounded-full 
-                                font-black text-[9px] sm:text-[11px] uppercase tracking-[0.1em] sm:tracking-widest transition-all
+                                relative group overflow-hidden flex items-center gap-1.5 sm:gap-3 px-2.5 sm:px-8 py-1.5 sm:py-3 rounded-full 
+                                font-black text-[8px] sm:text-[11px] uppercase tracking-normal sm:tracking-widest transition-all
                                 ${account
                                     ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
                                     : 'bg-white text-black hover:bg-blue-600 hover:text-white'}
                             `}
                         >
-                            <div className="relative z-10 flex items-center gap-1.5 sm:gap-3">
-                                <Wallet size={12} className={account ? 'text-emerald-400' : ''} />
-                                <span className="truncate max-w-[50px] sm:max-w-none">
+                            <div className="relative z-10 flex items-center gap-1 sm:gap-3">
+                                <Wallet size={10} className={account ? 'text-emerald-400' : ''} />
+                                <span className="truncate max-w-[40px] xs:max-w-[60px] sm:max-w-none">
                                     {account ? `${account.substring(0, 4)}...` : t("nav_connect")}
                                 </span>
                                 {account && reputation && (
-                                    <span className="hidden xs:inline-block px-1.5 py-0.5 bg-emerald-500/20 rounded-md text-[8px] sm:text-[9px]">REP {reputation}</span>
+                                    <span className="hidden xs:inline-block px-1 py-0.5 bg-emerald-500/20 rounded-md text-[7px] sm:text-[9px]">REP {reputation}</span>
                                 )}
                             </div>
                         </button>
@@ -187,9 +187,9 @@ export default function Navbar() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 1.1 }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="fixed inset-0 z-[1900] bg-black/95 backdrop-blur-2xl flex flex-col p-8 pt-32"
+                        className="fixed inset-0 z-[1900] bg-black/95 backdrop-blur-2xl flex flex-col p-6 pt-24"
                     >
-                        <div className="flex flex-col gap-4 overflow-y-auto max-h-[60vh] no-scrollbar">
+                        <div className="flex flex-col gap-3 overflow-y-auto max-h-[70vh] no-scrollbar">
                             {navLinks.map((link) => (
                                 <div key={link.label} className="flex flex-col gap-2">
                                     <div
@@ -242,19 +242,19 @@ export default function Navbar() {
                             ))}
                         </div>
 
-                        <div className="mt-auto grid grid-cols-2 gap-4">
+                        <div className="mt-6 grid grid-cols-2 gap-3 pb-8">
                             <button
                                 onClick={toggleLanguage}
-                                className="flex items-center justify-center gap-3 p-6 rounded-3xl bg-white/5 border border-white/10 text-lg font-black uppercase italic"
+                                className="flex items-center justify-center gap-2 p-4 rounded-[1.5rem] bg-white/5 border border-white/10 text-sm font-black uppercase italic"
                             >
-                                <Globe size={20} />
-                                {lang === 'ko' ? 'English' : '한국어'}
+                                <Globe size={16} />
+                                {lang === 'ko' ? 'EN' : 'KO'}
                             </button>
                             <button
                                 onClick={() => { setIsAuthOpen(true); setIsMobileMenuOpen(false); }}
-                                className="p-6 rounded-3xl bg-blue-600 text-white font-black uppercase italic shadow-lg shadow-blue-600/20"
+                                className="p-4 rounded-[1.5rem] bg-blue-600 text-white text-sm font-black uppercase italic shadow-lg shadow-blue-600/20"
                             >
-                                {account ? (lang === 'ko' ? '노드 연결됨' : 'Node Connected') : t("nav_connect")}
+                                {account ? (lang === 'ko' ? '연결됨' : 'LINKED') : t("nav_connect")}
                             </button>
                         </div>
                     </motion.div>

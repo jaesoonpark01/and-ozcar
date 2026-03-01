@@ -37,23 +37,23 @@ export default function Home() {
         style={{ scaleX }}
       />
 
-      <div className="fixed inset-0 pointer-events-none -z-10">
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
         <div className="absolute top-0 right-[-10%] w-[1000px] h-[1000px] bg-blue-900/5 rounded-full blur-[200px]" />
         <div className="absolute bottom-0 left-[-10%] w-[800px] h-[800px] bg-indigo-900/5 rounded-full blur-[180px]" />
       </div>
 
       <Navbar />
 
-      <main className="relative">
+      <main className="relative overflow-hidden">
         <HeroSection />
 
-        <div className="bg-[#020617] h-32 flex items-center border-y border-white/5 relative z-50 overflow-hidden">
-          <div className="flex animate-ticker gap-20 text-[11px] font-black uppercase tracking-[0.6em] text-white/20 whitespace-nowrap">
+        <div className="bg-[#020617] h-20 sm:h-32 flex items-center border-y border-white/5 relative z-50 overflow-hidden">
+          <div className="flex animate-ticker gap-10 sm:gap-20 text-[9px] sm:text-[11px] font-black uppercase tracking-[0.3em] sm:tracking-[0.6em] text-white/20 whitespace-nowrap">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="flex items-center gap-20">
-                <span className="flex items-center gap-6"><ShieldCheck className="text-blue-600" /> {t('ticker_secured')}</span>
-                <span className="flex items-center gap-6"><Fingerprint className="text-indigo-600" /> {t('ticker_records')}</span>
-                <span className="flex items-center gap-6"><Zap className="text-amber-500 fill-current" /> {t('ticker_predictive')}</span>
+              <div key={i} className="flex items-center gap-10 sm:gap-20">
+                <span className="flex items-center gap-3 sm:gap-6"><ShieldCheck className="text-blue-600" size={14} /> {t('ticker_secured')}</span>
+                <span className="flex items-center gap-3 sm:gap-6"><Fingerprint className="text-indigo-600" size={14} /> {t('ticker_records')}</span>
+                <span className="flex items-center gap-3 sm:gap-6"><Zap className="text-amber-500 fill-current" size={14} /> {t('ticker_predictive')}</span>
               </div>
             ))}
           </div>
@@ -64,17 +64,18 @@ export default function Home() {
         <TrustProofSection />
         <ValueTimelineGraph />
 
-        <section className="py-60 bg-[#010410] px-8 relative overflow-hidden text-center">
-          <div className="max-w-4xl mx-auto space-y-20 relative z-20">
+        <section className="py-32 sm:py-60 bg-[#010410] px-6 sm:px-8 relative overflow-hidden text-center">
+          <div className="max-w-4xl mx-auto space-y-12 sm:space-y-20 relative z-20">
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="space-y-10"
+              viewport={{ once: true }}
+              className="space-y-6 sm:space-y-10"
             >
-              <div className="inline-flex items-center gap-4 bg-blue-600 p-4 rounded-3xl shadow-[0_20px_40px_rgba(37,99,235,0.3)] mb-8">
-                <Trophy size={48} className="text-white" />
+              <div className="inline-flex items-center gap-4 bg-blue-600 p-3 sm:p-4 rounded-2xl sm:rounded-3xl shadow-[0_20px_40px_rgba(37,99,235,0.3)] mb-4 sm:mb-8">
+                <Trophy size={32} className="text-white sm:w-12 sm:h-12" />
               </div>
-              <h2 className="text-6xl md:text-[120px] font-black tracking-[-0.06em] leading-[1.1]">
+              <h2 className="text-4xl sm:text-6xl md:text-[120px] font-black tracking-[-0.06em] leading-[1.1]">
                 {t('final_cta_title').split('\n').map((line, i) => (
                   <React.Fragment key={i}>
                     {line}<br />
@@ -83,11 +84,11 @@ export default function Home() {
               </h2>
             </motion.div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-10">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 onClick={() => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-blue-600 px-20 py-10 rounded-full font-black text-xl shadow-[0_40px_80px_-10px_rgba(37,99,235,0.4)] hover:bg-blue-700 transition-all uppercase italic"
+                className="w-full sm:w-auto bg-blue-600 px-10 sm:px-20 py-6 sm:py-10 rounded-full font-black text-lg shadow-[0_40px_80px_-10px_rgba(37,99,235,0.4)] hover:bg-blue-700 transition-all uppercase italic"
               >
                 {t('final_cta_btn')} <ArrowRight className="inline-block ml-4" />
               </motion.button>
