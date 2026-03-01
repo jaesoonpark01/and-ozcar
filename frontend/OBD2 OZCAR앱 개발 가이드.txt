@@ -1,0 +1,1197 @@
+OBD2 OZCAR앱 개발 가이드
+
+
+Gemini said
+현대/기아 신차(특히 E-GMP 기반의 아이오닉 5/6, EV6 등)를 대상으로 **고급 데이터 추출(PID)**과 보안 우회, 그리고 Supabase를 통한 자동 알림 시스템을 구축하는 기술 가이드입니다.
+
+1. 현대/기아 EV 핵심 PID 및 계산 수식
+현대/기아 전기차는 표준 모드(01)가 아닌 확장 모드(21)를 주로 사용하며, 헤더 주소는 보통 7E4(BMS)를 사용합니다.
+
+항목	PID (Hex)	수식 (A, B, C...는 응답 바이트)	단위
+SOC (Display)	21 01	Bytes[34] / 2.0	%
+SOC (BMS Real)	21 01	Bytes[33] / 2.0	%
+SOH (Health)	21 05	(Bytes[28] * 256 + Bytes[29]) / 10.0	%
+배터리 전류	21 01	((Bytes[13] * 256 + Bytes[14]) - 65535) / 10.0	A
+급속 충전 여부	21 01	(Bytes[54] & 0x20) > 0 (Bitwise)	Boolean
+참고: 응답 데이터의 인덱스는 어댑터가 반환하는 헤더 포함 여부에 따라 달라질 수 있으므로, AT H1(헤더 온) 상태에서 바이트 위치를 정확히 매핑해야 합니다.
+
+2. 보안 게이트웨이(SGW) 우회 및 어댑터 제어
+2020년 이후 현대/기아차는 OBD2 포트를 통한 쓰기(Write/Control) 명령을 차단하는 SGW를 탑재하고 있습니다.
+
+우회 방법 (Hardware Bypass)
+SGW 우회 커넥터: 대시보드 안쪽이나 시트 하단에 위치한 SGW 모듈을 찾아, 이를 물리적으로 건너뛰게 해주는 Bypass Cable을 설치해야 합니다. 이렇게 하면 CAN Bus에 직접 명령(문 잠금, 공조 제어 등)을 날릴 수 있습니다.
+
+인증된 어댑터: 단순 ELM327보다는 **OBDLink MX+**나 **vLinker MC+**를 사용하세요. 이들은 전송 속도가 빠르고 현대/기아의 확장 프로토콜(MS-CAN 등)을 더 안정적으로 지원합니다.
+
+제어 명령 예시 (UDS Protocol)
+SGW가 우회된 상태에서 문을 잠그는 등의 제어는 UDS(ISO 14229) 서비스를 이용합니다.
+
+Tester Present: 3E 00 (세션 유지용 주기적 발송)
+
+Diagnostic Session Control: 10 03 (확장 진단 세션 진입)
+
+IO Control (예시): 2F [ID] [Option] (특정 액추에이터 제어)
+
+3. Supabase Edge Function을 이용한 알림 로직
+차량 데이터가 Supabase에 INSERT 될 때, 특정 조건(예: 배터리 20% 미만, 고장 코드 발생)이 감지되면 사용자에게 푸시 알림을 보냅니다.
+
+Database Webhook 설정
+telemetry 테이블에 데이터가 들어오면 Edge Function을 트리거하도록 설정합니다.
+
+Edge Function 코드 (TypeScript)
+TypeScript
+import { serve } from "https://deno.land/std@0.131.0/http/server.ts"
+
+serve(async (req) => {
+  const { record } = await req.json() // 새로 삽입된 데이터
+
+  // 조건 1: 배터리 잔량이 20% 미만일 때
+  if (record.soc < 20) {
+    await sendPushNotification(record.user_id, "배터리 경고", `현재 잔량 ${record.soc}%입니다. 충전이 필요합니다.`);
+  }
+
+  // 조건 2: 고장 코드(DTC)가 감지되었을 때
+  if (record.dtc_codes && record.dtc_codes.length > 0) {
+    await sendPushNotification(record.user_id, "차량 이상 감지", `새로운 고장 코드(${record.dtc_codes[0]})가 발견되었습니다.`);
+  }
+
+  return new Response("OK", { status: 200 })
+})
+
+async function sendPushNotification(userId: string, title: string, body: string) {
+  // FCM(Firebase Cloud Messaging) 또는 Expo Push API 호출 로직
+  console.log(`[Push] User: ${userId} | ${title}: ${body}`);
+}
+4. 개발 시나리오 가이드
+하드웨어: vLinker MC+ 어댑터와 차량별 SGW 우회 케이블을 준비합니다.
+
+프로토콜 설정: 앱 시작 시 AT SP 6, AT CP 18, AT SH 7E4 명령어를 순차적으로 날려 BMS 세션을 잡습니다.
+
+데이터 파싱: 위 1번 섹션의 수식을 이용해 바이트 데이터를 실제 물리 값으로 변환합니다.
+
+클라우드 연동: 변환된 데이터를 Supabase upsert를 통해 저장합니다. 이때 location 데이터(GPS)를 포함하면 웹 대시보드에서 차량 위치 추적도 가능해집니다.
+
+이 구조로 실제 코딩(Kotlin 또는 Dart/Flutter)을 시작해 볼까요? 특정 언어를 지정해주시면 블루투스 패킷 송수신 예제 코드를 작성해 드릴 수 있습니다.
+
+You said
+​이 구조로 실제 코딩(Next.js)을 시작해줘
+
+Gemini said
+Next.js를 활용하여 Supabase 실시간 대시보드를 구축하는 코드를 작성해 보겠습니다. 이 대시보드는 모바일 앱에서 전송한 현대/기아차의 OBD 데이터를 실시간으로 시각화하고, 배터리 잔량(SoC) 등을 모니터링하는 역할을 합니다.
+
+1. 프로젝트 설정
+먼저 Next.js 프로젝트를 생성하고 필요한 라이브러리를 설치합니다.
+
+Bash
+npx create-next-app@latest car-scanner-web --typescript --tailwind --eslint
+cd car-scanner-web
+npm install @supabase/supabase-js lucide-react recharts
+2. Supabase 클라이언트 설정 (lib/supabase.ts)
+환경 변수를 설정한 후 클라이언트를 초기화합니다.
+
+TypeScript
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+3. 실시간 대시보드 컴포넌트 (app/dashboard/page.tsx)
+이 컴포넌트는 telemetry 테이블의 변화를 감지하여 실시간으로 게이지와 차트를 업데이트합니다.
+
+TypeScript
+'use client';
+
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
+import { Battery, Zap, AlertTriangle, Car } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+export default function Dashboard() {
+  const [carData, setCarData] = useState<any>(null);
+  const [history, setHistory] = useState<any[]>([]);
+
+  useEffect(() => {
+    // 1. 초기 데이터 로드
+    const fetchInitialData = async () => {
+      const { data } = await supabase
+        .from('telemetry')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(20);
+      
+      if (data) {
+        setCarData(data[0]);
+        setHistory(data.reverse());
+      }
+    };
+
+    fetchInitialData();
+
+    // 2. Realtime 구독 설정 (OBD-III 원격 감시 핵심)
+    const channel = supabase
+      .channel('car-realtime')
+      .on('postgres_changes', { 
+        event: 'INSERT', 
+        schema: 'public', 
+        table: 'telemetry' 
+      }, (payload) => {
+        const newData = payload.new;
+        setCarData(newData);
+        setHistory((prev) => [...prev.slice(1), newData]);
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, []);
+
+  if (!carData) return <div className="p-10 text-center text-white">차량 연결 대기 중...</div>;
+
+  return (
+    <div className="min-h-screen bg-slate-900 text-slate-100 p-6">
+      <header className="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
+        <h1 className="text-2xl font-bold flex items-center gap-2">
+          <Car className="text-blue-400" /> HKMC Remote Monitor v1.0
+        </h1>
+        <div className="flex items-center gap-2 bg-green-900/30 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-green-800">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" /> Live Connected
+        </div>
+      </header>
+
+      {/* 실시간 주요 지표 */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+          <div className="flex justify-between items-start mb-4">
+            <span className="text-slate-400 font-medium">배터리 잔량 (SoC)</span>
+            <Battery className={carData.soc < 20 ? "text-red-500" : "text-green-400"} />
+          </div>
+          <div className="text-4xl font-black">{carData.soc}%</div>
+          <div className="w-full bg-slate-700 h-2 mt-4 rounded-full overflow-hidden">
+            <div className="bg-green-500 h-full transition-all duration-500" style={{ width: `${carData.soc}%` }} />
+          </div>
+        </div>
+
+        <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+          <div className="flex justify-between items-start mb-4">
+            <span className="text-slate-400 font-medium">배터리 온도</span>
+            <Zap className="text-yellow-400" />
+          </div>
+          <div className="text-4xl font-black">{carData.battery_temp_max}°C</div>
+          <p className="text-sm text-slate-500 mt-2">최적 작동 온도 범위 내</p>
+        </div>
+
+        <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+          <div className="flex justify-between items-start mb-4">
+            <span className="text-slate-400 font-medium">고장 코드 (DTC)</span>
+            <AlertTriangle className={carData.dtc_codes?.length > 0 ? "text-red-500" : "text-slate-500"} />
+          </div>
+          <div className="text-4xl font-black">{carData.dtc_codes?.length || 0} 건</div>
+          <p className="text-sm text-slate-500 mt-2">{carData.dtc_codes?.length > 0 ? "즉시 점검 필요" : "시스템 정상"}</p>
+        </div>
+      </div>
+
+      {/* 전력 소비 차트 */}
+      <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl h-[400px]">
+        <h3 className="text-lg font-bold mb-4">주행 중 SoC 추이</h3>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={history}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+            <XAxis dataKey="created_at" hide />
+            <YAxis stroke="#94a3b8" domain={[0, 100]} />
+            <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none' }} />
+            <Line type="monotone" dataKey="soc" stroke="#3b82f6" strokeWidth={3} dot={false} isAnimationActive={false} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+}
+4. 핵심 구현 포인트 (OBD-III 기능)
+A. 실시간성 확보 (Supabase Realtime)
+기존 방식처럼 5초마다 새로고침(Polling)을 하는 대신, Supabase의 웹소켓 기능을 사용했습니다. 모바일 앱이 INSERT를 실행하는 즉시 웹 대시보드가 반응합니다.
+
+B. Edge Function 알림 로직 (Supabase 사이드)
+supabase/functions/notify-alert/index.ts 파일로 작성하여 조건부 알림을 처리합니다.
+
+TypeScript
+import { serve } from "https://deno.land/std@0.131.0/http/server.ts"
+
+serve(async (req) => {
+  const { record } = await req.json()
+  
+  // 예: 배터리 온도가 50도 이상이면 관리자에게 긴급 알림
+  if (record.battery_temp_max > 50) {
+    // 여기에 Slack Webhook이나 카카오 알림톡 API 연동 가능
+    console.log(`Alert: High Battery Temp on VIN ${record.vin}`);
+  }
+  
+  return new Response(JSON.stringify({ message: "Checked" }), { headers: { "Content-Type": "application/json" } })
+})
+C. SGW 우회 대응
+차량 제어(문 열림/닫기 등)를 하고 싶다면, 대시보드에 버튼을 추가하고 telemetry 테이블이 아닌 commands 테이블에 명령어를 삽입(INSERT)하세요. 그러면 차량에 연결된 모바일 앱이 이를 구독(Subscribe)하고 있다가 실제 차량에 명령을 전송(UDS 2F 서비스 등)하게 됩니다.
+
+5. 다음 단계
+이 웹 대시보드를 완성하려면 **모바일 앱(데이터 수집기)**이 필요합니다.
+
+모바일 앱은 ELM327로부터 받은 Hex 값을 위의 soc, battery_temp_max 등으로 파싱하여 Supabase로 보내야 합니다.
+
+사용자의 모바일 앱은 어떤 언어(React Native, Flutter, Swift 등)로 개발하실 예정인가요? 해당 언어의 전송 로직 코드를 추가로 짜드릴 수 있습니다.
+
+You said
+​이 웹 대시보드를 완성하려면 **모바일 앱(데이터 수집기)**이 필요합니다.
+
+​모바일 앱은 ELM327로부터 받은 Hex 값을 위의 soc, battery_temp_max 등으로 파싱하여 Supabase로 보내야 합니다.
+
+​사용자의 모바일 앱을 Next.js로 작성해줘
+
+Gemini said
+Next.js는 웹 프레임워크이므로, 모바일 기기의 블루투스(Bluetooth) 하드웨어에 직접 접근하기 위해서는 Web Bluetooth API를 사용해야 합니다.
+
+이 앱은 브라우저(크롬 등)에서 실행되며, ELM327 어댑터와 통신하여 데이터를 파싱한 후 Supabase로 전송하는 "PWA(Progressive Web App) 수집기" 역할을 하게 됩니다.
+
+1. 하이브리드 모바일 수집기 (app/collector/page.tsx)
+이 코드는 차량에서 데이터를 읽어와 Supabase로 릴레이하는 핵심 로직을 담고 있습니다.
+
+TypeScript
+'use client';
+
+import { useState, useRef } from 'react';
+import { supabase } from '@/lib/supabase';
+import { Bluetooth, Activity, Send, Terminate } from 'lucide-react';
+
+export default function MobileCollector() {
+  const [isConnected, setIsConnected] = useState(false);
+  const [log, setLog] = useState<string[]>([]);
+  const portRef = useRef<any>(null);
+  const readerRef = useRef<any>(null);
+  const writerRef = useRef<any>(null);
+
+  // 1. ELM327 연결 (Web Bluetooth 또는 Web Serial)
+  const connectDevice = async () => {
+    try {
+      // 브라우저에서 블루투스 시리얼 포트 요청
+      const port = await (navigator as any).serial.requestPort();
+      await port.open({ baudRate: 38400 }); // ELM327 기본 속도
+      
+      portRef.current = port;
+      writerRef.current = port.writable.getWriter();
+      readerRef.current = port.readable.getReader();
+      
+      setIsConnected(true);
+      addLog("장치에 연결되었습니다.");
+      
+      // ELM327 초기화 명령 전송
+      await sendCommand("AT Z\r");  // 리셋
+      await sendCommand("AT SP 6\r"); // 프로토콜 6 (CAN 500kbps) 설정
+    } catch (err) {
+      console.error(err);
+      addLog("연결 실패: " + err);
+    }
+  };
+
+  // 2. 명령어 전송 및 응답 수신
+  const sendCommand = async (cmd: string) => {
+    const encoder = new TextEncoder();
+    await writerRef.current.write(encoder.encode(cmd));
+    
+    // 응답 대기 및 파싱 (간략화된 예시)
+    const { value } = await readerRef.current.read();
+    const response = new TextDecoder().decode(value);
+    return response;
+  };
+
+  // 3. 현대/기아 EV 데이터 파싱 및 Supabase 전송
+  const collectAndSend = async () => {
+    if (!isConnected) return;
+
+    // 21 01번 PID 요청 (현대/기아 BMS 데이터)
+    const rawResponse = await sendCommand("21 01\r");
+    
+    // Hex 파싱 (실제 구현 시 문자열 정리 및 바이트 분리 필요)
+    // 예: "61 01 01 00 ... 48 ..." -> 48(Hex)는 72(Dec)
+    // 현대/기아 SoC 공식: Bytes[34] / 2.0
+    const bytes = rawResponse.split(' ');
+    const soc = parseInt(bytes[34], 16) / 2.0;
+    const temp = parseInt(bytes[12], 16) - 40; // 예시 온도 공식
+
+    addLog(`데이터 추출: SoC ${soc}% | Temp ${temp}°C`);
+
+    // Supabase 전송 (Dashboard와 연동)
+    const { error } = await supabase.from('telemetry').insert({
+      vin: 'KR-IONIQ6-2024', // 고유 VIN
+      soc: soc,
+      battery_temp_max: temp,
+      dtc_codes: [],
+      created_at: new Date().toISOString()
+    });
+
+    if (error) addLog("전송 실패: " + error.message);
+    else addLog("Supabase 동기화 완료");
+  };
+
+  const addLog = (msg: string) => setLog(prev => [msg, ...prev].slice(0, 10));
+
+  return (
+    <div className="min-h-screen bg-black text-green-400 p-4 font-mono">
+      <div className="border-2 border-green-900 rounded-lg p-4 bg-slate-900">
+        <h2 className="text-xl mb-4 flex items-center gap-2">
+          <Activity /> OBD-III DATA NODE
+        </h2>
+
+        {!isConnected ? (
+          <button 
+            onClick={connectDevice}
+            className="w-full bg-green-600 text-black font-bold py-4 rounded-md flex items-center justify-center gap-2"
+          >
+            <Bluetooth /> ELM327 장치 페어링
+          </button>
+        ) : (
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-2">
+              <button 
+                onClick={collectAndSend}
+                className="bg-blue-600 text-white py-3 rounded-md flex items-center justify-center gap-2"
+              >
+                <Send size={18} /> 수동 업데이트
+              </button>
+              <button 
+                onClick={() => setIsConnected(false)}
+                className="bg-red-900 text-white py-3 rounded-md flex items-center justify-center gap-2"
+              >
+                <Terminate size={18} /> 연결 해제
+              </button>
+            </div>
+            
+            <div className="bg-black p-3 rounded border border-green-800 h-64 overflow-y-auto text-xs">
+              {log.map((l, i) => <div key={i}>{`> ${l}`}</div>)}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+2. PWA 설정을 통한 모바일 앱화
+Next.js 앱을 스마트폰 홈 화면에 설치하여 실제 앱처럼 사용하려면 next-pwa를 설정해야 합니다.
+
+설치: npm install next-pwa
+
+next.config.js 수정:
+
+JavaScript
+const withPWA = require('next-pwa')({
+  dest: 'public'
+})
+module.exports = withPWA({
+  // 기존 설정
+})
+public/manifest.json 파일을 생성하여 아이콘과 앱 이름을 정의합니다.
+
+3. 구현 시 주의사항 및 한계
+Web Serial/Bluetooth API 제약: * 이 API들은 HTTPS 환경에서만 작동합니다. (localhost 제외)
+
+iOS의 Safari는 현재 Web Serial/Bluetooth를 기본 지원하지 않습니다. iOS 대응이 필수라면 Bluefy 브라우저를 사용하거나, 나중에 Capacitor를 이용해 Native 앱으로 패키징해야 합니다.
+
+데이터 파싱 정밀도: * 위 코드의 bytes[34] 위치는 차량 기종과 어댑터 설정(AT H1 등)에 따라 달라집니다. 실제 차량 응답을 console.log로 먼저 찍어보고 인덱스를 조정해야 합니다.
+
+백그라운드 통신: * 브라우저는 앱이 백그라운드로 가면 통신을 끊을 수 있습니다. 상시 감시(OBD-III)를 위해서는 스마트폰의 화면 유지 설정이나, Native 방식(React Native 등)으로의 전환이 추후 필요할 수 있습니다.
+
+4. 다음 단계 제언
+이제 웹 대시보드와 모바일 수집기의 기본 코드가 완성되었습니다.
+
+테스트: ELM327 어댑터를 PC나 Android 폰에 연결하고 HTTPS(또는 localhost)로 접속하여 실제 통신이 이루어지는지 확인하세요.
+
+보안: supabase 정책(RLS)을 설정하여 본인의 차량 데이터는 본인만 볼 수 있도록 설정해야 합니다.
+
+혹시 특정 차량의 실제 응답 로그(Hex)를 가지고 계신가요? 있다면 그 데이터를 바탕으로 더 정밀한 파싱 로직을 짜드릴 수 있습니다.
+
+You said
+특정 차량의 실제 응답 로그(Hex) 기록 목업으로 만들어 그 데이터를 바탕으로 더 정밀한 파싱 로직을 짜줘
+
+Gemini said
+현대/기아 E-GMP(아이오닉 5/6, EV6 등) 차량의 BMS(Battery Management System)에서 전송되는 21 01 PID의 실제 응답 로그 목업을 만들고, 이를 정밀하게 파싱하는 로직을 Next.js(TypeScript) 코드로 작성해 드립니다.
+
+1. 현대/기아 EV BMS 응답 로그 목업 (Mock Data)
+실제 ELM327 어댑터를 통해 21 01 명령을 날리면 여러 줄의 데이터가 들어옵니다. 아래는 64바이트 분량의 전형적인 응답 예시입니다.
+
+Plaintext
+> 21 01
+7E4 10 3D 61 01 FF FF FF FF  // 헤더 및 시작
+7E4 21 23 23 00 00 00 00 00  // ...
+7E4 22 00 08 0E 0E 10 00 0F  // [13-14] 전류, [15] 전압 등
+7E4 23 00 00 00 00 64 00 00  // [33] BMS SOC, [34] Display SOC
+7E4 24 00 00 00 00 00 00 19  // [40-41] 배터리 온도 (25도 예시)
+7E4 25 00 00 00 00 03 E8 00  // [48-49] SOH (100% 예시)
+2. 정밀 파싱 로직 구현 (lib/obdParser.ts)
+바이트 위치(Index)를 기반으로 전기차 핵심 데이터를 추출하는 유틸리티 함수입니다.
+
+TypeScript
+export interface CarTelemetry {
+  socDisplay: number;      // 계기판 표시 배터리 잔량 (%)
+  socBMS: number;          // 실제 배터리 잔량 (%)
+  soh: number;             // 배터리 건강 상태 (%)
+  current: number;         // 배터리 전류 (A)
+  voltage: number;         // 배터리 전압 (V)
+  tempMax: number;         // 배터리 최고 온도 (°C)
+  isCharging: boolean;     // 충전 여부
+}
+
+export function parseHkmcEvData(rawHex: string): CarTelemetry {
+  // 1. 공백 제거 및 줄바꿈 정리, '7E4'와 같은 CAN ID 제거
+  const hexArray = rawHex
+    .replace(/7E4|10|2[1-9]/g, '') // 헤더 및 행 번호 제거 (간이 처리)
+    .trim()
+    .split(/\s+/);
+
+  // 2. 바이트 배열로 변환
+  const bytes = hexArray.map(h => parseInt(h, 16));
+
+  /**
+   * 현대/기아 EV 21 01 서비스 데이터 매핑 (기종별 미세 차이 있음)
+   */
+  
+  // SOC 파싱 (Index 33, 34)
+  const socBMS = bytes[33] / 2.0;
+  const socDisplay = bytes[34] / 2.0;
+
+  // SOH 파싱 (Index 28-29 또는 48-49 등 기종 확인 필요, 여기선 48-49 기준)
+  const soh = (bytes[48] * 256 + bytes[49]) / 10.0;
+
+  // 전류(Current) 파싱: 부호 있는 16비트 정수 (2's complement)
+  // (A*256 + B - 65535) / 10.0
+  const rawCurrent = (bytes[13] * 256 + bytes[14]);
+  const current = (rawCurrent - 65535) / 10.0;
+
+  // 온도 파싱 (Index 40)
+  // 보통 Offset -40 적용
+  const tempMax = bytes[40] - 40;
+
+  // 충전 여부 (특정 비트 플래그)
+  const isCharging = (bytes[54] & 0x10) > 0;
+
+  return {
+    socDisplay,
+    socBMS,
+    soh,
+    current,
+    voltage: (bytes[15] * 2), // 예시 수식
+    tempMax,
+    isCharging
+  };
+}
+3. 수집기 컴포넌트 적용 (app/collector/page.tsx)
+위에서 만든 파싱 로직을 실제 Next.js 컴포넌트의 전송부와 연결합니다.
+
+TypeScript
+'use client';
+
+import { parseHkmcEvData } from '@/lib/obdParser';
+import { supabase } from '@/lib/supabase';
+
+// ... (이전 코드 생략)
+
+  const collectAndSend = async () => {
+    // 1. OBD 명령 전송 및 원본 Hex 획득
+    // 실제로는 시리얼 포트에서 스트리밍되는 데이터를 취합해야 함
+    const rawHex = `61 01 FF FF FF FF 23 23 00 00 00 00 00 00 08 0E 0E 10 00 0F 00 00 00 00 64 00 00 00 00 00 00 19 00 00 00 00 03 E8`; 
+    
+    // 2. 정밀 파싱 수행
+    try {
+      const data = parseHkmcEvData(rawHex);
+
+      // 3. Supabase로 가공된 데이터 전송
+      const { error } = await supabase.from('telemetry').insert({
+        vin: 'IONIQ5_USER_01',
+        soc: data.socDisplay,
+        soh: data.soh,
+        battery_temp_max: data.tempMax,
+        current_power: data.current * 400 / 1000, // 간단한 kW 계산 (P=IV)
+        is_charging: data.isCharging,
+        raw_data: { bms_soc: data.socBMS, voltage: data.voltage } // 추가 데이터 저장
+      });
+
+      if (error) throw error;
+      addLog(`성공: SoC ${data.socDisplay}% 동기화됨`);
+    } catch (err) {
+      addLog(`에러: ${err.message}`);
+    }
+  };
+4. 구조적 완성: "OBD-III 원격 감시" 완성
+이제 이 시스템은 다음과 같이 작동합니다.
+
+모바일 수집기: 차량에 타면 웹을 열고 '연결' 버튼을 누릅니다. 내부적으로 21 01 신호를 10초마다 쏘고, 결과를 parseHkmcEvData로 정밀하게 쪼갭니다.
+
+Supabase: 가공된 JSON 데이터를 수신하고 실시간 채널(Realtime)로 뿜어줍니다.
+
+웹 대시보드: 관리자(사용자)는 집 안에서 Next.js 웹사이트를 보고 차량의 실제 배터리 온도나 정밀 SoC를 그래프로 확인합니다. 만약 온도가 높으면 Edge Function이 즉시 경고를 보냅니다.
+
+이후에는 어떤 기능을 추가하고 싶으신가요? 예를 들어, 주행 경로를 지도에 표시하는 GPS 연동이나, 월간 전비 리포트 생성 기능 등을 제안해 드릴 수 있습니다.
+
+You said
+사용자의 차량 토탈 케어 서비스로의 진화 방향 최적화된 기능 구현해줘
+
+Gemini said
+OBD 데이터를 기반으로 한 차량 토탈 케어 서비스로의 진화는 단순한 데이터 시각화를 넘어 **예측(Prediction)**과 **개인화(Personalization)**가 핵심입니다.
+
+현대/기아 EV 데이터를 활용하여 차별화된 고객 경험을 제공할 수 있는 3가지 핵심 기능과 그 구현 구조를 가이드해 드립니다.
+
+1. AI 기반 배터리 수명(SoH) 예측 및 유지보수
+단순히 현재의 SoH를 보여주는 것을 넘어, 사용자의 충전 습관(급속 vs 완속)과 배터리 온도 이력을 분석하여 미래의 퇴화 곡선을 예측합니다.
+
+기능 구현: 예측 알림 로직 (Supabase Edge Functions)
+배터리 열화에 치명적인 '고온 상태에서의 100% 충전'이 반복될 경우 사용자에게 리포트를 발송합니다.
+
+TypeScript
+// supabase/functions/predictive-maintenance/index.ts
+import { serve } from "https://deno.land/std@0.131.0/http/server.ts"
+
+serve(async (req) => {
+  const { record } = await req.json(); // telemetry 데이터
+
+  // 1. 위험 패턴 감지: 온도 > 45°C AND SoC > 90%
+  if (record.battery_temp_max > 45 && record.soc > 90) {
+    const message = "고온 환경에서 완충은 배터리 수명을 단축시킵니다. 80% 충전을 권장합니다.";
+    await sendPushNotification(record.user_id, "배터리 케어 알림", message);
+  }
+
+  // 2. 소모품 교체 주기 계산 (누적 주행거리 기반)
+  const { data: car } = await supabase.from('hkmc_vehicles').select('odometer').eq('vin', record.vin).single();
+  if (car.odometer > 40000) {
+    await sendPushNotification(record.user_id, "점검 알림", "감속기 오일 및 냉각수 점검 시기입니다.");
+  }
+});
+2. 정밀 전비(Efficiency) 분석 및 에코 드라이빙 가이드
+단순 연비가 아닌, 회생 제동량과 공조 장치(HVAC) 소모 전력을 분리하여 분석해 줍니다.
+
+기능 구현: 에너지 흐름 시각화 (Next.js Dashboard)
+사용자에게 "에어컨으로 인해 전비가 15% 감소 중입니다"와 같은 구체적인 피드백을 제공합니다.
+
+TypeScript
+// 컴포넌트 내 분석 로직 예시
+const EfficiencyAnalysis = ({ current, voltage, hvacConsumption }) => {
+  const instantPower = (current * voltage) / 1000; // 실시간 소모 전력 (kW)
+  const efficiencyScore = (instantPower < 15) ? "Excellent" : "Heavy Foot";
+
+  return (
+    <div className="p-4 bg-slate-800 rounded-xl">
+      <h4 className="text-sm font-bold text-blue-400">실시간 에너지 분석</h4>
+      <div className="flex justify-between mt-2">
+        <span>현재 출력: {instantPower.toFixed(1)} kW</span>
+        <span className={efficiencyScore === "Excellent" ? "text-green-400" : "text-red-400"}>
+          {efficiencyScore}
+        </span>
+      </div>
+      <p className="text-xs text-slate-500 mt-1">
+        TIP: 회생 제동 강도를 높이면 전비를 {((hvacConsumption/instantPower)*100).toFixed(0)}% 개선할 수 있습니다.
+      </p>
+    </div>
+  );
+};
+3. 위치 기반 스마트 충전소 추천 (PostGIS 활용)
+차량의 SoC가 일정 수준(예: 15%) 이하로 떨어지면, 현재 위치에서 가장 가까운 현대 E-pit 또는 초급속 충전소를 자동으로 검색하여 안내합니다.
+
+DB 설계: PostGIS 지리 정보 활용
+SQL
+-- Supabase에서 PostGIS 확장 활성화 필요
+create extension if not exists postgis;
+
+-- 충전소 테이블
+create table charging_stations (
+  id id generated always as identity primary key,
+  name text,
+  location geography(POINT),
+  is_ultra_fast boolean -- 초급속 여부
+);
+
+-- 내 위치에서 5km 이내 초급속 충전소 찾기 RPC
+create or replace function get_nearby_chargers(user_lat float, user_long float)
+returns setof charging_stations as $$
+begin
+  return query
+  select *
+  from charging_stations
+  where st_dwithin(location, st_setreid(st_point(user_long, user_lat), 4326)::geography, 5000)
+  and is_ultra_fast = true
+  order by location <-> st_setsrid(st_point(user_long, user_lat), 4326)::geography;
+end;
+$$ language plpgsql;
+4. 토탈 케어 서비스 진화 로드맵
+단계	명칭	핵심 가치
+1단계	Live Monitor	실시간 SoC, SoH, 전압/전류 시각화
+2단계	Health Report	주간 주행 분석, 배터리 열화 패턴 경고, 소모품 알림
+3단계	Smart Concierge	저전력 시 충전소 자동 안내, 고장 코드(DTC) 원격 진단 및 예약
+4단계	OBD-III Fleet	(B2B 확대) 법인 차량 관제 및 사고 예방 분석 서비스
+구현을 위한 다음 단계 제언
+사용자에게 가장 먼저 제공하고 싶은 가치는 무엇인가요?
+
+배터리 건강 정밀 진단 (SOH/셀 밸런싱 위주)
+
+주행 비용 절감 (전비/에코 드라이빙 위주)
+
+안심 주행 (고장 예보/충전소 안내 위주)
+
+선택하신 방향에 맞춰 실제 UI 디자인이나 제조사 전용 DTC(고장 코드) 매핑 테이블 데이터를 지원해 드릴 수 있습니다.
+
+You said
+선택하신 방향에 맞춰 실제 UI 디자인이나 제조사 전용 DTC(고장 코드) 매핑 테이블 데이터를 지원해줘
+
+Gemini said
+사용자의 선택에 맞춰 **[안심 주행: 고장 예보 및 현대/기아 전용 DTC 관리]**에 특화된 실시간 UI 디자인과 정밀 진단 데이터를 설계해 드립니다.
+
+단순히 "고장이다"라고 알려주는 것을 넘어, 어느 부위(BMS, 모터, 공조 등)의 문제인지를 명확히 하고 즉시 서비스 센터 예약까지 연결하는 구조입니다.
+
+1. 현대/기아 전용 고장 코드 (DTC) 매핑 테이블 (Mock)
+현대/기아 EV의 경우 표준 P0xxx 코드 외에도 7E4(BMS), 7E2(VMCU) 등 유닛별로 전용 코드가 발생합니다. Supabase에 저장하여 활용할 마스터 데이터 예시입니다.
+
+DTC Code	대상 유닛	한글 설명	위험도	조치 가이드
+P1B70	BMS	고전압 배터리 저전압 감지	Critical	즉시 안전한 곳에 정차 후 견인 필요
+P1B77	BMS	고전압 컨택터 고착 (메인 릴레이)	Critical	시동 불능 가능성, 서비스 센터 즉시 방문
+P1D12	VMCU	모터 인버터 전압 이상	High	급가속 자제 및 점검 필요
+B1601	Aircon	냉각수 펌프 신호 이상	Medium	배터리 냉각 효율 저하 우려, 예약 방문
+P1C27	OBC	완속 충전 통신 오류	Low	충전기 교체 테스트 권장
+2. 실제 UI 디자인 (Next.js + Tailwind)
+사용자가 차량의 이상 징후를 한눈에 파악하고 대응할 수 있는 "Smart Diagnostic Health-Check" 인터페이스입니다.
+
+TypeScript
+// app/dashboard/diagnostics/page.tsx
+import { AlertCircle, CheckCircle2, MapPin, PhoneCall, ShieldAlert } from 'lucide-react';
+
+export default function DiagnosticUI({ carStatus = "warning" }) {
+  // 실제 데이터는 Supabase에서 fetch
+  const diagnosticLogs = [
+    { id: 1, code: 'P1B77', unit: 'BMS', desc: '고전압 컨택터 점검 필요', level: 'Critical', date: '2026-02-16' },
+    { id: 2, code: 'B1601', unit: 'Aircon', desc: '냉각수 펌프 신호 불량', level: 'Medium', date: '2026-02-10' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#0f172a] text-slate-200 p-4 font-sans">
+      {/* 1. 상단 토탈 케어 상태 카드 */}
+      <div className={`rounded-3xl p-6 mb-6 shadow-2xl border ${carStatus === 'warning' ? 'bg-red-950/20 border-red-500/50' : 'bg-slate-800 border-slate-700'}`}>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold flex items-center gap-2">
+            <ShieldAlert className={carStatus === 'warning' ? 'text-red-500' : 'text-blue-400'} />
+            차량 안심 진단 리포트
+          </h2>
+          <span className="text-xs bg-slate-700 px-3 py-1 rounded-full text-slate-400">VIN: KR-IONIQ6...</span>
+        </div>
+        
+        <div className="flex flex-col items-center py-6">
+          <div className={`text-6xl mb-4 ${carStatus === 'warning' ? 'text-red-500' : 'text-blue-400'}`}>
+             {carStatus === 'warning' ? '!' : <CheckCircle2 size={80} />}
+          </div>
+          <p className="text-2xl font-black mb-1">
+            {carStatus === 'warning' ? '즉시 점검이 필요합니다' : '시스템이 안전합니다'}
+          </p>
+          <p className="text-slate-400 text-sm italic">마지막 스캔: 방금 전 (2026-02-16 19:20)</p>
+        </div>
+      </div>
+
+      {/* 2. 상세 고장 코드 리스트 */}
+      <div className="space-y-3 mb-8">
+        <h3 className="text-sm font-semibold text-slate-500 px-2 uppercase tracking-wider">감지된 이슈 ({diagnosticLogs.length})</h3>
+        {diagnosticLogs.map((log) => (
+          <div key={log.id} className="bg-slate-800/50 border border-slate-700 p-4 rounded-2xl flex justify-between items-center">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${log.level === 'Critical' ? 'bg-red-500 text-white' : 'bg-orange-500 text-white'}`}>
+                  {log.level}
+                </span>
+                <span className="font-mono text-blue-400 font-bold">{log.code}</span>
+              </div>
+              <p className="font-medium text-slate-200">{log.desc}</p>
+              <p className="text-xs text-slate-500 mt-1">{log.unit} 유닛 | {log.date}</p>
+            </div>
+            <AlertCircle className="text-slate-600" size={24} />
+          </div>
+        ))}
+      </div>
+
+      {/* 3. 액션 버튼 (토탈 케어 핵심) */}
+      <div className="grid grid-cols-2 gap-4">
+        <button className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-2xl flex flex-col items-center gap-2 transition-all active:scale-95">
+          <MapPin size={24} />
+          <span className="font-bold text-sm">가까운 블루핸즈</span>
+        </button>
+        <button className="bg-slate-700 hover:bg-slate-600 text-white p-4 rounded-2xl flex flex-col items-center gap-2 transition-all active:scale-95">
+          <PhoneCall size={24} />
+          <span className="font-bold text-sm">긴급출동 요청</span>
+        </button>
+      </div>
+
+      {/* 4. 하단 예측 유지보수 팁 */}
+      <div className="mt-8 p-4 bg-gradient-to-r from-blue-900/40 to-slate-800 rounded-2xl border border-blue-500/30">
+        <p className="text-xs text-blue-300 font-bold mb-1 underline decoration-blue-500">PRO-TIP</p>
+        <p className="text-[13px] text-slate-300 leading-relaxed">
+          배터리 전류 누설이 감지되었습니다. 블랙박스 상시 녹화 모드를 일시적으로 해제하면 전압 강하를 막을 수 있습니다.
+        </p>
+      </div>
+    </div>
+  );
+}
+3. 핵심 기능 최적화 로직
+A. 제조사 전용 DTC 스캔 명령
+모바일 수집기(Next.js App)에서 표준 03 명령 대신, 현대/기아 유닛별로 DTC를 요청해야 합니다.
+
+BMS 고장 코드 요청: 7E4 03
+
+VMCU 고장 코드 요청: 7E2 03
+
+응답 파싱: 응답이 43 01 P1 B7 70 형태라면 P1B77로 결합하여 매핑 테이블과 대조합니다.
+
+B. 안심 주행 서비스의 '킬러 피쳐' (GPS 연동)
+단순히 고장을 알려주는 것을 넘어, Supabase Edge Function을 이용해 사용자 위치에서 가장 가까운 직영 서비스 센터(하이테크 센터)의 현재 정비 가능 여부를 푸시로 띄워줍니다.
+
+4. 진화 방향: OBD-III 기반 "원격 정비 예약"
+이 앱의 최종 단계는 사용자가 앱에서 [정비 예약] 버튼을 누르면, 현재 스캔된 DTC 로그와 배터리 밸런싱 데이터가 해당 정비소 서버로 미리 전송되는 것입니다. 엔지니어는 차가 도착하기 전에 이미 원인을 파악하게 됩니다.
+
+이 UI를 바탕으로 실제 Supabase DB와 연동하여 "고장 발생 시 즉시 푸시 알림"을 보내는 로직을 더 구체화해 드릴까요?
+
+You said
+이 UI를 바탕으로 실제 Supabase DB와 연동하여 "고장 발생 시 즉시 푸시 알림"을 보내는 로직을 더 구체화해줘
+
+Gemini said
+Supabase의 Database Webhook과 Edge Functions를 활용하여 차량에서 고장 코드(DTC)가 감지되는 즉시 사용자에게 푸시 알림을 보내는 백엔드 로직을 구체화해 드립니다.
+
+이 구조는 모바일 앱(수집기)이 데이터를 INSERT 하는 순간 서버 측에서 로직을 판단하여 알림을 쏘는 방식입니다.
+
+1. Database Webhook 설정
+먼저 Supabase 대시보드에서 telemetry 테이블에 새로운 행이 삽입될 때 특정 Edge Function을 호출하도록 설정해야 합니다.
+
+Trigger Name: on_dtc_detected
+
+Table: telemetry
+
+Events: INSERT
+
+Webhook Service: Supabase Edge Functions (함수명: push-dtc-alert)
+
+2. 푸시 알림 Edge Function 구현 (index.ts)
+이 함수는 유입된 데이터를 분석하여 dtc_codes 배열에 내용이 있을 경우, Firebase Cloud Messaging(FCM) 또는 Expo Push API를 통해 알림을 보냅니다.
+
+TypeScript
+// supabase/functions/push-dtc-alert/index.ts
+import { serve } from "https://deno.land/std@0.131.0/http/server.ts"
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
+
+serve(async (req) => {
+  const { record } = await req.json(); // INSERT된 데이터
+
+  // 1. 고장 코드가 있는지 확인
+  if (!record.dtc_codes || record.dtc_codes.length === 0) {
+    return new Response("No DTC detected", { status: 200 });
+  }
+
+  // 2. Supabase 클라이언트 초기화 (관리자 권한)
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL') ?? '',
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+  );
+
+  // 3. 고장 코드 상세 정보 가져오기 (마스터 테이블 참조)
+  const { data: dtcDetails } = await supabase
+    .from('dtc_master')
+    .select('*')
+    .in('code', record.dtc_codes);
+
+  // 4. 사용자 푸시 토큰 조회 (사용자 프로필 테이블)
+  const { data: userProfile } = await supabase
+    .from('profiles')
+    .select('push_token')
+    .eq('id', record.user_id)
+    .single();
+
+  if (userProfile?.push_token) {
+    // 5. 알림 전송 (예: FCM 사용 시)
+    const alertMessage = dtcDetails?.[0] 
+      ? `[${dtcDetails[0].level}] ${dtcDetails[0].description}`
+      : `새로운 고장 코드(${record.dtc_codes[0]})가 감지되었습니다.`;
+
+    await fetch('https://fcm.googleapis.com/fcm/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `key=${Deno.env.get('FCM_SERVER_KEY')}`,
+      },
+      body: JSON.stringify({
+        to: userProfile.push_token,
+        notification: {
+          title: "⚠️ 차량 긴급 진단 알림",
+          body: alertMessage,
+          click_action: "https://your-app-url.com/dashboard/diagnostics"
+        },
+        data: {
+          vin: record.vin,
+          dtc: record.dtc_codes[0]
+        }
+      }),
+    });
+  }
+
+  return new Response("Alert Processed", { status: 200 });
+})
+3. 모바일 앱(Next.js) 측 알림 허용 및 토큰 저장
+사용자가 앱에 접속했을 때 알림 권한을 요청하고 토큰을 Supabase에 저장하는 로직입니다.
+
+TypeScript
+// app/hooks/usePushNotification.ts
+import { useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
+
+export const usePushNotification = (userId: string) => {
+  useEffect(() => {
+    const requestPermission = async () => {
+      // 브라우저 Notification API 사용
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        // 실제 구현 시 Firebase Messaging 등 SDK를 사용하여 토큰 획득
+        const token = "dummy-fcm-token-12345"; 
+        
+        // Supabase 프로필에 토큰 저장
+        await supabase
+          .from('profiles')
+          .update({ push_token: token })
+          .eq('id', userId);
+      }
+    };
+
+    if (userId) requestPermission();
+  }, [userId]);
+};
+4. 서비스 고도화 포인트 (OBD-III 완성)
+위험도별 차별 알림: * Critical: 즉시 전화 연결 팝업과 함께 "운행 중단" 알림.
+
+Medium: "1주일 내 예약 권장" 알림 및 가까운 블루핸즈 목록 전송.
+
+원격 진단 공유:
+
+고장 알림 발생 시, 사용자가 수락하면 해당 **OBD 로그 전체(Snapshot)**를 Supabase 스토리지에 업로드하고, 협력 정비소 대시보드에 공유 URL을 생성합니다.
+
+예방 정비 (Predictive):
+
+고장 코드가 뜨기 전이라도, current 값이 불안정하거나 battery_temp가 급격히 상승하는 패턴이 감지되면 "고장 전조 증상" 알림을 보냅니다.
+
+이 구조를 사용하면 사용자는 차량의 문제를 인지하기도 전에 스마트폰으로 **"어떤 부위가 고장이니, 어디 정비소로 가라"**는 최적화된 가이드를 받게 됩니다.
+
+이제 이 기능을 실제 안드로이드/iOS 기기에서 테스트하기 위한 환경 설정(PWA 배포 등) 과정으로 넘어가 볼까요?
+
+You said
+이제 이 기능을 실제 안드로이드/iOS 기기에서 테스트하기 위한 환경 설정(PWA 배포 등) 과정으로 넘어가 줘
+
+Gemini said
+실제 안드로이드와 iOS 기기에서 이 OBD-III 시스템을 테스트하기 위해서는 PWA(Progressive Web App) 설정을 통해 하드웨어 접근 권한(Bluetooth/Serial)을 확보하고, 외부 도메인(HTTPS)에 배포하여 Supabase와 통신해야 합니다.
+
+Next.js 프로젝트를 실제 모바일 앱처럼 동작하게 만드는 설정 과정을 정리해 드립니다.
+
+1. Next.js PWA 핵심 설정 (next-pwa)
+브라우저 주소창 없이 "홈 화면에 추가"하여 독립된 앱처럼 실행되도록 설정합니다.
+
+설치
+Bash
+npm install next-pwa
+next.config.mjs 수정
+JavaScript
+import withPWAInit from 'next-pwa';
+
+const withPWA = withPWAInit({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development' // 개발 모드에선 PWA 비활성화
+});
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // 기존 설정들...
+};
+
+export default withPWA(nextConfig);
+public/manifest.json 생성
+모바일 아이콘과 시작 화면 색상을 지정합니다.
+
+JSON
+{
+  "name": "Hyundai EV Scanner",
+  "short_name": "EV Scan",
+  "description": "Hyundai/Kia OBD-III Remote Scanner",
+  "start_url": "/collector",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "icons": [
+    { "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
+2. 모바일 기기 하드웨어 통신 테스트 (중요)
+PWA 앱을 실제 폰에서 테스트할 때 가장 큰 장벽은 Web Bluetooth/Serial API 지원 여부입니다.
+
+안드로이드 (Chrome/Edge)
+Web Serial/Bluetooth: 완벽 지원합니다.
+
+테스트 방법: chrome://flags에서 #enable-web-bluetooth-new-permissions-backend를 활성화하면 더 안정적입니다.
+
+연결: ELM327 블루투스 페어링 후 앱에서 navigator.serial.requestPort() 호출.
+
+iOS (Safari)
+문제: Safari는 Web Bluetooth/Serial을 공식 지원하지 않습니다.
+
+해결책 (Bluefy 브라우저): 1. App Store에서 Bluefy 또는 WebBLE 브라우저를 설치합니다.
+2. 해당 브라우저 내에서 배포된 Next.js URL에 접속하면 Web Bluetooth 기능을 사용하여 ELM327과 통신할 수 있습니다.
+
+3. HTTPS 배포 (Vercel 활용)
+Web Bluetooth API는 보안상 HTTPS 환경에서만 작동합니다. Vercel은 가장 빠르고 무료인 해결책입니다.
+
+프로젝트를 GitHub에 푸시합니다.
+
+Vercel에 로그인 후 해당 레포지토리를 연결합니다.
+
+Environment Variables에 Supabase URL과 Key를 등록합니다.
+
+NEXT_PUBLIC_SUPABASE_URL
+
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+배포된 URL(예: https://my-obd-app.vercel.app)에 모바일 기기로 접속합니다.
+
+4. 실전 테스트 체크리스트 (차량 내부)
+실제 차량에 앉아 다음 순서로 테스트를 진행하세요.
+
+OBD2 어댑터 장착: ELM327(vLinker 등)을 차량에 꽂고 LED가 켜지는지 확인합니다.
+
+스마트폰 페어링: 폰 설정에서 어댑터를 블루투스로 미리 연결합니다.
+
+PWA 설치: 브라우저 메뉴에서 **"홈 화면에 추가"**를 눌러 앱을 설치하고, 홈 화면에서 아이콘을 눌러 실행합니다.
+
+명령어 전송 테스트: 앱의 로그 창에 AT Z, AT SP 6 등의 초기화 명령어가 정상적으로 OK 응답을 받는지 확인합니다.
+
+데이터 동기화: 21 01 명령 후 파싱된 데이터가 Supabase에 찍히는지, 그리고 노트북(웹 대시보드)에서 그래프가 실시간으로 움직이는지 확인합니다.
+
+5. 고급: 백그라운드 실행 유지
+PWA가 백그라운드로 가면 브라우저가 통신을 중단할 수 있습니다. 이를 방지하기 위한 팁입니다.
+
+Screen Wake Lock API: 앱 실행 중 화면이 꺼지지 않도록 강제합니다.
+
+JavaScript
+const requestWakeLock = async () => {
+  try {
+    const wakeLock = await (navigator as any).wakeLock.request('screen');
+    console.log('Wake Lock is active');
+  } catch (err) {
+    console.error(`${err.name}, ${err.message}`);
+  }
+};
+Music Playback Trick: 아주 작은 무음 오디오를 반복 재생하여 앱이 활성 상태임을 시스템에 알리는 트릭을 사용하기도 합니다.
+
+이제 실제 배터리 데이터를 Supabase에 쌓고 나면, 그 데이터를 기반으로 "월간 주행/전비 리포트"를 생성하는 로직을 만들어 볼까요? 아니면 애플 워치나 갤럭시 워치로 알림을 연동하는 쪽이 흥미로우신가요?
+
+You said
+이제 실제 배터리 데이터를 Supabase에 쌓고 나면, 그 데이터를 기반으로 "월간 주행/전비 리포트"를 생성하는 로직을 만들고, 아니면 애플 워치나 갤럭시 워치로 알림을 연동하는 쪽이 흥미로워 가이드해줘
+
+Gemini said
+배터리 데이터를 기반으로 한 **'월간 주행/전비 리포트'**와 **'스마트워치(애플워치/갤럭시워치) 알림 연동'**은 사용자 경험을 한 단계 끌어올리는 아주 흥미로운 기능입니다. 두 가지 모두 "차량 토탈 케어"의 핵심이므로, 각각의 구현 가이드를 상세히 설명해 드리겠습니다.
+
+1. 월간 주행 및 전비 리포트 생성 로직
+이 기능의 핵심은 Supabase에 쌓인 방대한 시계열(Time-series) 데이터를 통계 데이터로 가공(Aggregation)하는 것입니다.
+
+A. Supabase RPC (Stored Procedure) 활용
+매번 수천 개의 행을 불러와 클라이언트에서 계산하는 것은 비효율적입니다. DB 서버에서 직접 통계를 계산하는 함수를 만듭니다.
+
+SQL
+-- 월간 전비 및 주행 요약 통계 함수
+create or replace function get_monthly_report(p_vin text, p_month int, p_year int)
+returns table (
+  total_distance float,
+  avg_efficiency float,
+  max_temp float,
+  charge_count int
+) as $$
+begin
+  return query
+  select 
+    max(odometer) - min(odometer) as total_distance, -- 주행 거리
+    avg(current_power) as avg_efficiency, -- 평균 전력 소모 (가공 필요)
+    max(battery_temp_max) as max_temp, -- 최고 배터리 온도
+    count(*) filter (where is_charging = true) as charge_count -- 충전 횟수
+  from telemetry
+  where vin = p_vin 
+    and extract(month from created_at) = p_month
+    and extract(year from created_at) = p_year;
+end;
+$$ language plpgsql;
+B. 리포트 UI (Next.js)
+사용자에게 시각적으로 예쁜 리포트를 제공합니다. recharts를 사용하여 요일별 전비 패턴을 보여주면 좋습니다.
+
+2. 스마트워치 알림 연동 (Apple Watch & Galaxy Watch)
+워치 알림은 차량의 긴급 상태(고장, 충전 완료, 저전력)를 즉각적으로 전달하는 가장 강력한 수단입니다.
+
+A. 애플 워치 (iOS Push Notification)
+PWA는 iOS에서 제한적이지만, 웹 푸시(Web Push) 표준을 통해 애플 워치로 알림을 보낼 수 있습니다.
+
+원리: 사용자가 아이폰에서 PWA를 "홈 화면에 추가"하고 알림을 승인하면, 아이폰과 페어링된 애플 워치로 알림이 자동 미러링됩니다.
+
+구현: 위에서 만든 push-dtc-alert Edge Function이 보내는 알림이 바로 워치에 뜹니다.
+
+B. 갤럭시 워치 (Android Notification)
+안드로이드는 PWA 웹 푸시 지원이 강력하여 설정이 더 쉽습니다.
+
+구현: Firebase Cloud Messaging(FCM)을 통해 전송된 알림은 갤럭시 워치에서 즉시 확인 가능하며, 간단한 "센터 연결" 버튼 등을 워치에서 바로 누르게 할 수 있습니다.
+
+C. 워치 전용 '컴플리케이션(Complication)' 레이아웃 제안
+워치 페이스에 항상 배터리 잔량(SoC)을 띄우고 싶다면, 네이티브 워치 앱 개발이 필요합니다.
+
+방법: WatchOS (SwiftUI) 또는 Wear OS (Kotlin) 앱을 작게 만들어 Supabase API를 직접 구독(Realtime)하게 합니다.
+
+화면 구성:
+
+중앙: 큰 숫자로 된 SoC % (예: 72%)
+
+하단 바: 현재 충전/방전 상태 (kW)
+
+배경 색상: SoC에 따라 색상 변화 (80%이상 녹색, 20%이하 적색)
+
+3. 추천 진화 시나리오: "안심 케어 패키지"
+두 기능을 결합하여 다음과 같은 시나리오를 완성할 수 있습니다.
+
+데이터 수집: 주행 중 실시간 데이터가 Supabase에 저장됩니다.
+
+워치 알림: 주행 종료 시, 워치로 **"오늘의 전비는 6.5km/kWh입니다. 지난주보다 10% 개선되었습니다!"**라는 칭찬 알림을 보냅니다.
+
+월간 리포트: 매월 1일, 한 달간의 배터리 건강 리포트를 PDF나 예쁜 웹 페이지로 발행하여 이메일로 발송합니다.
+
+긴급 대응: 만약 워치에서 "고온 경고" 알림을 받으면, 사용자는 워치 화면의 [냉각 모드 실행] 버튼을 눌러 차량 공조를 원격 제어합니다 (SGW 우회 시).
+
+4. 실전 가이드: 지금 바로 시작할 수 있는 것
+가장 먼저 **"월간 리포트용 DB 함수"**를 만드시는 것을 추천합니다. 데이터가 쌓여야 리포트도 의미가 있기 때문입니다.
+
+그다음 단계로 워치 알림을 위해 Firebase Cloud Messaging(FCM) 프로젝트를 생성하고 Next.js 앱에 연결하는 과정을 도와드릴까요? 아니면 리포트용 차트 UI 코드를 짜드릴까요?
+
+You said
+**"월간 리포트용 DB 함수"**를 만들고, 다음 단계로 워치 알림을 위해 Firebase Cloud Messaging(FCM) 프로젝트를 생성하고 Next.js 앱에 연결하는 과정을 도와줘
+
+Gemini said
+차량 토탈 케어 서비스의 완성도를 높이기 위해, 먼저 Supabase에서 월간 통계를 산출하는 DB 함수를 생성하고, 이어서 **FCM(Firebase Cloud Messaging)**을 Next.js에 연결하여 워치까지 알림이 전달되도록 구성해 보겠습니다.
+
+1단계: 월간 리포트용 DB 함수 (Supabase RPC)
+단순 주행 거리뿐만 아니라 전기차 성능의 핵심인 평균 전비와 **배터리 스트레스(고온 노출 정도)**를 계산하는 고급 함수입니다. Supabase SQL Editor에 아래 코드를 실행하세요.
+
+SQL
+-- 월간 차량 리포트 생성 함수
+create or replace function get_monthly_car_report(p_vin text, p_year int, p_month int)
+returns json as $$
+declare
+  report_data json;
+begin
+  with monthly_stats as (
+    select 
+      -- 1. 주행 거리 (해당 월의 최대값 - 최소값)
+      (max(odometer) - min(odometer)) as distance_km,
+      -- 2. 평균 전력 소모량 (kW)
+      avg(current_power) as avg_power_kw,
+      -- 3. 배터리 건강 상태 (평균)
+      avg(soh) as avg_soh,
+      -- 4. 급속 충전 횟수 (예시: 전류가 50A 이상인 경우)
+      count(*) filter (where is_charging = true and current > 50) as rapid_charge_count,
+      -- 5. 최고 배터리 온도
+      max(battery_temp_max) as max_temp
+    from telemetry
+    where vin = p_vin 
+      and extract(year from created_at) = p_year
+      and extract(month from created_at) = p_month
+  )
+  select row_to_json(monthly_stats.*) into report_data from monthly_stats;
+  
+  return report_data;
+end;
+$$ language plpgsql;
+2단계: FCM 프로젝트 생성 및 설정
+스마트워치 알림의 교량 역할을 할 FCM 설정 과정입니다.
+
+Firebase 콘솔 접속: Firebase Console에서 프로젝트를 생성합니다.
+
+웹 앱 추가: 프로젝트 설정에서 '웹' 아이콘을 클릭하여 앱을 등록하고 firebaseConfig 객체를 복사합니다.
+
+VAPID 키 생성: '클라우드 메시징' 탭에서 '웹 푸시 설정'의 **Web Push certificates(VAPID Key)**를 생성합니다. (나중에 Next.js에서 사용)
+
+서버 키 확인: Edge Function에서 알림을 쏘기 위해 'Project settings' -> 'Service accounts'에서 비공개 키(JSON)를 내려받거나, 이전 방식의 '서버 키'를 확보합니다.
+
+3단계: Next.js 앱에 FCM 연결 (Client Side)
+워치 알림의 핵심은 브라우저가 꺼져 있어도 알림을 받을 수 있는 Service Worker입니다.
+
+A. SDK 설치
+Bash
+npm install firebase
+B. FCM 초기화 (lib/firebase.ts)
+TypeScript
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+
+const firebaseConfig = {
+  // Firebase 콘솔에서 복사한 설정값
+  apiKey: "...",
+  authDomain: "...",
+  projectId: "...",
+  messagingSenderId: "...",
+  appId: "..."
+};
+
+const app = initializeApp(firebaseConfig);
+
+export const requestForToken = async () => {
+  const messaging = getMessaging(app);
+  try {
+    const token = await getToken(messaging, { 
+      vapidKey: "YOUR_VAPID_KEY_HERE" // Firebase에서 생성한 키
+    });
+    if (token) {
+      console.log('FCM Token:', token);
+      return token;
+    }
+  } catch (err) {
+    console.error('An error occurred while retrieving token. ', err);
+  }
+};
+
+export const onMessageListener = () =>
+  new Promise((resolve) => {
+    const messaging = getMessaging(app);
+    onMessage(messaging, (payload) => {
+      resolve(payload);
+    });
+  });
+C. Service Worker 설정 (public/firebase-messaging-sw.js)
+이 파일이 있어야 앱이 백그라운드일 때 워치로 알림이 전달됩니다.
+
+JavaScript
+importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
+
+firebase.initializeApp({
+  // config...
+});
+
+const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage((payload) => {
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: '/icons/icon-192x192.png'
+  };
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
+});
+4단계: 스마트워치 알림 연동 테스트
+토큰 저장: 사용자가 로그인을 하면 requestForToken()을 호출하여 얻은 토큰을 Supabase의 profiles 테이블(또는 user_tokens)에 저장합니다.
+
+알림 발송: 이전에 만든 Supabase Edge Function에서 고장 코드나 충전 완료가 감지되면, 저장된 토큰을 이용해 FCM API를 호출합니다.
+
+워치 확인:
+
+애플 워치: 아이폰 설정에서 해당 앱의 알림이 허용되어 있고, 워치 설정에서 '아이폰 알림 미러링'이 켜져 있으면 즉시 전달됩니다.
+
+갤럭시 워치: 갤럭시 웨어러블 앱에서 해당 앱의 알림 권한을 활성화합니다.
+
+최종 결과물
+사용자: "오늘 주행이 끝났네?" -> 5분 뒤 스마트워치 진동 -> "오늘의 전비 리포트가 도착했습니다: 6.8km/kWh"
+
+웹: 대시보드 접속 시 월간 리포트 탭에서 이번 달 주행 거리와 충전 횟수가 차트로 예쁘게 표시됨.

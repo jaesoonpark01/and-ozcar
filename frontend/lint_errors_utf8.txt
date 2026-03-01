@@ -1,0 +1,16 @@
+﻿
+C:\Users\anioz\OneDrive\臾몄꽌\ozcar\ozcar-app\frontend\app\vehicle\obd-bridge\page.tsx
+   4:27  error  'useEffect' is defined but never used     @typescript-eslint/no-unused-vars
+  14:5   error  'Cpu' is defined but never used           @typescript-eslint/no-unused-vars
+  16:5   error  'ChevronRight' is defined but never used  @typescript-eslint/no-unused-vars
+  18:5   error  'AlertCircle' is defined but never used   @typescript-eslint/no-unused-vars
+
+C:\Users\anioz\OneDrive\臾몄꽌\ozcar\ozcar-app\frontend\components\landing\HeroSection.tsx
+   2:40  error  'Battery' is defined but never used           @typescript-eslint/no-unused-vars
+   2:49  error  'Signal' is defined but never used            @typescript-eslint/no-unused-vars
+   2:57  error  'Wifi' is defined but never used              @typescript-eslint/no-unused-vars
+   3:60  error  'useSpring' is defined but never used         @typescript-eslint/no-unused-vars
+  19:11  error  'opacity' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+??9 problems (9 errors, 0 warnings)
+
