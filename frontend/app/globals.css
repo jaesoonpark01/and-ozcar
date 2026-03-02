@@ -78,6 +78,15 @@ body {
   animation: pulse-neon 2s infinite ease-in-out;
 }
 
+/* RainbowKit Modal Fix: Ensure it's above Shadcn Dialog */
+[data-rk] {
+  z-index: 10000 !important;
+}
+
+div[role="dialog"][aria-modal="true"] {
+  z-index: 9998;
+}
+
 .glow-text {
   text-shadow: 0 0 20px var(--primary-glow);
 }
