@@ -62,6 +62,7 @@ export function AuthDialog({ isOpen, onOpenChange }: AuthDialogProps) {
                                 providers={["kakao", "google"]}
                                 theme="dark"
                                 onlyThirdPartyProviders
+                                redirectTo={typeof window !== "undefined" ? window.location.origin : undefined}
                             />
                         ) : (
                             <div className="text-emerald-400 text-sm font-bold bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20 text-center">
