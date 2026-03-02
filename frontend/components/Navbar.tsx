@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useWeb3 } from "./Web3Provider";
 import { AuthDialog } from "./AuthDialog";
 import { useI18n } from "@/hooks/useI18n";
+import { createClient } from "@supabase/supabase-js";
 import {
     Wallet,
     Globe,
@@ -22,9 +23,15 @@ import {
     Activity,
     Target,
     Vote,
-    Landmark
+    Landmark,
+    User,
+    LogOut
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function Navbar() {
     const { account, connectWallet, reputation } = useWeb3();
@@ -32,11 +39,25 @@ export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isAuthOpen, setIsAuthOpen] = useState(false);
+    const [session, setSession] = useState<any>(null);
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 50);
         window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+
+        // Supabase session management
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+        });
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+        });
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            subscription.unsubscribe();
+        };
     }, []);
 
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -144,26 +165,67 @@ export default function Navbar() {
                         </button>
 
                         {/* Wallet / Portal Access */}
-                        <button
-                            onClick={() => setIsAuthOpen(true)}
-                            className={`
-                                relative group overflow-hidden flex items-center gap-1.5 sm:gap-3 px-2.5 sm:px-8 py-1.5 sm:py-3 rounded-full 
-                                font-black text-[8px] sm:text-[11px] uppercase tracking-normal sm:tracking-widest transition-all
-                                ${account
-                                    ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
-                                    : 'bg-white text-black hover:bg-blue-600 hover:text-white'}
-                            `}
-                        >
-                            <div className="relative z-10 flex items-center gap-1 sm:gap-3">
-                                <Wallet size={10} className={account ? 'text-emerald-400' : ''} />
-                                <span className="truncate max-w-[40px] xs:max-w-[60px] sm:max-w-none">
-                                    {account ? `${account.substring(0, 4)}...` : t("nav_connect")}
-                                </span>
-                                {account && reputation && (
-                                    <span className="hidden xs:inline-block px-1 py-0.5 bg-emerald-500/20 rounded-md text-[7px] sm:text-[9px]">REP {reputation}</span>
-                                )}
-                            </div>
-                        </button>
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setIsAuthOpen(true)}
+                                className={`
+                                    relative group overflow-hidden flex items-center gap-1.5 sm:gap-3 px-2.5 sm:px-6 py-1.5 sm:py-3 rounded-full 
+                                    font-black text-[8px] sm:text-[11px] uppercase tracking-normal sm:tracking-widest transition-all
+                                    ${(account || session)
+                                        ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
+                                        : 'bg-white text-black hover:bg-blue-600 hover:text-white'}
+                                `}
+                            >
+                                <div className="relative z-10 flex items-center gap-1 sm:gap-3">
+                                    {(account || session) ? (
+                                        session?.user?.email ? (
+                                            <div className="flex items-center gap-2">
+                                                <User size={12} className="text-emerald-400" />
+                                                <span className="truncate max-w-[60px] xs:max-w-[100px] border-r border-emerald-500/20 pr-2">
+                                                    {session.user.email.split('@')[0]}
+                                                </span>
+                                                {account ? (
+                                                    <span className="text-[7px] sm:text-[9px] opacity-70">
+                                                        {account.substring(0, 4)}...
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-[7px] sm:text-[9px] text-blue-400 italic">지갑미연결</span>
+                                                )}
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <Wallet size={10} className="text-emerald-400" />
+                                                <span className="truncate max-w-[40px] xs:max-w-[60px] sm:max-w-none">
+                                                    {account ? `${account.substring(0, 4)}...` : '연결됨'}
+                                                </span>
+                                            </>
+                                        )
+                                    ) : (
+                                        <>
+                                            <Wallet size={10} />
+                                            <span>{t("nav_connect")}</span>
+                                        </>
+                                    )}
+                                    {account && reputation && (
+                                        <span className="hidden xs:inline-block px-1 py-0.5 bg-emerald-500/20 rounded-md text-[7px] sm:text-[9px]">REP {reputation}</span>
+                                    )}
+                                </div>
+                            </button>
+
+                            {(account || session) && (
+                                <button
+                                    onClick={async () => {
+                                        await supabase.auth.signOut();
+                                        // Wagmi logout is tricky with pure vanilla button, usually handled in ConnectButton
+                                        // or via disconnect() from useDisconnect
+                                    }}
+                                    className="p-2 sm:p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-red-400 transition-colors"
+                                    title="Logout"
+                                >
+                                    <LogOut size={14} />
+                                </button>
+                            )}
+                        </div>
 
                         {/* Mobile Menu Toggle */}
                         <button
