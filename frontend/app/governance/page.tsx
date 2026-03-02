@@ -16,19 +16,20 @@ import {
     ArrowUpRight,
     Flame,
     Share2,
-    Layout
+    Layout,
+    Landmark
 } from 'lucide-react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import GovernanceService, { JuryTier, Case, Juror } from '@/services/GovernanceService';
-import { JurySection, GenesisSection, PromotionSection, PortalAppsSection } from '@/components/governance/DAOSections';
+import { JurySection, GenesisSection, PromotionSection, ConstitutionSection } from '@/components/governance/DAOSections';
 
-type TabType = 'jury' | 'genesis' | 'promotion';
+type TabType = 'constitution' | 'jury' | 'genesis' | 'promotion';
 
 export default function GovernancePage() {
     const { t, lang } = useI18n();
     const { account, signer } = useWeb3(); // Retaining 'signer' as per original logic, 'governanceService' would conflict with useState
-    const [activeTab, setActiveTab] = useState<TabType>('jury');
+    const [activeTab, setActiveTab] = useState<TabType>('constitution');
     const [governanceService, setGovernanceService] = useState<GovernanceService | null>(null);
     const [juror, setJuror] = useState<Juror | null>(null);
     const [pendingCases, setPendingCases] = useState<Case[]>([]);
@@ -137,6 +138,7 @@ export default function GovernancePage() {
 
     // Tabs configuration
     const tabs = [
+        { id: 'constitution', label: '주권 헌장', icon: <Landmark size={16} /> },
         { id: 'jury', label: t('gov_tab_jury'), icon: <Shield size={16} /> },
         { id: 'genesis', label: t('nav_genesis'), icon: <Flame size={16} /> },
         { id: 'promotion', label: t('nav_promotion'), icon: <Share2 size={16} /> },
@@ -304,6 +306,7 @@ export default function GovernancePage() {
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.4 }}
                     >
+                        {activeTab === 'constitution' && <ConstitutionSection />}
                         {activeTab === 'jury' && (
                             <JurySection
                                 juror={juror}
