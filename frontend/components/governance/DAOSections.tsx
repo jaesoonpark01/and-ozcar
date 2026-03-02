@@ -357,3 +357,116 @@ export const PortalAppsSection = () => {
         </div>
     );
 };
+
+// --- Sovereign Constitution Section ---
+export const ConstitutionSection = () => {
+    return (
+        <div className="space-y-12">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00ffc2]/10 border border-[#00ffc2]/30 text-[#00ffc2] text-[10px] font-black uppercase tracking-widest mb-6">
+                    <Landmark size={14} className="animate-pulse" />
+                    <span>Ozcar Sovereign DAO Constitution</span>
+                </div>
+                <h2 className="text-5xl font-black italic uppercase mb-4">주권 DAO <span className="text-[#00ffc2]">운영 헌장</span></h2>
+                <p className="text-slate-400 font-medium max-w-2xl mx-auto">
+                    블록체인 기술과 AI의 투명성을 기반으로 파운더들의 권익을 보호하고, 데이터 자산화의 비전을 법적·기술적으로 확립합니다.
+                </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 gap-8">
+                <div className="carbon-panel p-8 sm:p-12 rounded-[3.5rem] border border-white/5 bg-[#121212]/50 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+                        <Landmark size={200} />
+                    </div>
+
+                    <div className="prose prose-invert max-w-none space-y-12 relative z-10">
+                        <section className="space-y-4">
+                            <h3 className="text-2xl font-black italic text-white flex items-center gap-3">
+                                <span className="text-[#00ffc2]">📜</span> 전문 (Preamble)
+                            </h3>
+                            <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
+                                <p className="text-slate-300 leading-relaxed text-sm">
+                                    본 헌장은 자동차를 단순한 소모품에서 가치 있는 &apos;자산&apos;으로, 드라이버를 데이터의 진정한 &apos;주권자&apos;로 전환하기 위한 오즈카 생태계의 최상위 규범이다. 우리는 <strong className="text-white">&quot;코드가 곧 법이다(Code is Law)&quot;</strong>라는 원칙 아래, 정의를 알고리즘으로 구현하고 AI를 통해 운영 효율을 극대화하며, 초기 파운더들의 헌신에 걸맞은 투명하고 강력한 보상을 보장함을 목적으로 한다.
+                                </p>
+                            </div>
+                        </section>
+
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <div className="space-y-6">
+                                <article className="space-y-3">
+                                    <h4 className="text-sm font-black text-[#00ffc2] uppercase tracking-[0.2em]">제1조 [데이터 주권 및 자산화]</h4>
+                                    <ul className="space-y-3 text-xs text-slate-400 list-none font-medium">
+                                        <li className="flex gap-2"><span>1.</span> <span className="text-white font-bold">소유권:</span> 모든 주행 및 정비 데이터의 근원적 주권은 데이터를 생성한 드라이버에게 있다.</li>
+                                        <li className="flex gap-2"><span>2.</span> <span className="text-white font-bold">자산 가치:</span> 오즈카 DAO는 로우 데이터를 AI 에이전트를 통해 &apos;Gold 데이터&apos;로 변환하여 상업적 수익을 창출한다.</li>
+                                        <li className="flex gap-2"><span>3.</span> <span className="text-white font-bold">무결성 보장:</span> 데이터 위변조는 스마트 컨트랙트를 통해 실시간 감지하며 즉각적인 제재(Slashing)를 집행한다.</li>
+                                    </ul>
+                                </article>
+
+                                <article className="space-y-3">
+                                    <h4 className="text-sm font-black text-[#00ffc2] uppercase tracking-[0.2em]">제2조 [파운더의 권리와 의무]</h4>
+                                    <ul className="space-y-3 text-xs text-slate-400 list-none font-medium">
+                                        <li className="flex gap-2"><span>1.</span> <span className="text-white font-bold">수익 배분 우선권:</span> 다이아몬드/플래티넘 파운더는 플랫폼 순매출에 대해 우선 배당 권리를 가진다.</li>
+                                        <li className="flex gap-2"><span>2.</span> <span className="text-white font-bold">거버넌스 의결권:</span> 파운더는 주요 정책 투표권을 가지며, 다이아몬드 등급은 중대 안건에 대해 <strong className="text-white">거부권(Veto Power)</strong>을 행사할 수 있다.</li>
+                                        <li className="flex gap-2"><span>3.</span> <span className="text-white font-bold">배심원 의무:</span> 고평판 파운더는 사건 판결 배심원으로 참여할 의무를 지며 별도의 보상을 수령한다.</li>
+                                    </ul>
+                                </article>
+                            </div>
+
+                            <div className="space-y-6">
+                                <article className="space-y-3">
+                                    <h4 className="text-sm font-black text-[#00ffc2] uppercase tracking-[0.2em]">제3조 [AI 자율 운영 및 효율화]</h4>
+                                    <ul className="space-y-3 text-xs text-slate-400 list-none font-medium">
+                                        <li className="flex gap-2"><span>1.</span> <span className="text-white font-bold">자율 공정:</span> AI 기반 자율 운영 시스템을 지향하며, 운영 비용을 매출 대비 20% 이하로 엄격히 유지한다.</li>
+                                        <li className="flex gap-2"><span>2.</span> <span className="text-white font-bold">디지털 레버리지:</span> 절감된 모든 관리 비용은 파운더들의 배당 풀(Pool)로 즉시 전환되어 실질 ROI를 극대화한다.</li>
+                                    </ul>
+                                </article>
+
+                                <article className="space-y-3">
+                                    <h4 className="text-sm font-black text-[#00ffc2] uppercase tracking-[0.2em]">제4조 [디지털 법정 및 자동 집행]</h4>
+                                    <ul className="space-y-3 text-xs text-slate-400 list-none font-medium">
+                                        <li className="flex gap-2"><span>1.</span> <span className="text-white font-bold">자동화 원칙:</span> 보상 지급 및 몰수는 사전에 합의된 로직에 의해 인간의 개입 없이 자동 집행된다.</li>
+                                        <li className="flex gap-2"><span>2.</span> <span className="text-white font-bold">배심원 판결:</span> 부정행위는 배심원단의 투표를 거쳐 최종 확정되며, 이 결과는 온체인에 영구 기록된다.</li>
+                                    </ul>
+                                </article>
+                            </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <article className="p-6 rounded-2xl bg-white/5 border border-white/5 space-y-3">
+                                <h4 className="text-sm font-black text-[#00ffc2] uppercase tracking-[0.2em]">제5조 [자산 보호 및 원금 회수]</h4>
+                                <ul className="space-y-2 text-[11px] text-slate-400 list-none font-medium">
+                                    <li className="flex gap-2"><span>1.</span> <span className="text-white">상환 보장(Put Option):</span> 2년 이상 활동한 파운더 희망 시 투자 원금의 100% 가치를 상환할 책임을 진다.</li>
+                                    <li className="flex gap-2"><span>2.</span> <span className="text-white">시장가 방어:</span> 수익의 일정 비율은 $OZC 토큰 및 NFT 가치 유지를 위한 바이백과 소각에 사용된다.</li>
+                                </ul>
+                            </article>
+                            <article className="p-6 rounded-2xl bg-[#00ffc2]/5 border border-[#00ffc2]/10 space-y-3">
+                                <h4 className="text-sm font-black text-[#00ffc2] uppercase tracking-[0.2em] italic">🏛️ 파운더를 위한 Insight</h4>
+                                <p className="text-[11px] text-[#00ffc2] leading-relaxed font-bold">
+                                    이 헌장은 귀하가 투자하신 자산이 알고리즘에 의해 어떻게 보호받고, AI를 통해 어떻게 증식되는지를 규정하는 &apos;기술적 약속&apos;입니다.
+                                </p>
+                            </article>
+                        </div>
+
+                        <section className="p-8 rounded-[2.5rem] bg-gradient-to-br from-[#00ffc2]/10 via-[#00ffc2]/5 to-transparent border border-[#00ffc2]/20">
+                            <h4 className="text-lg font-black italic text-white mb-6 uppercase">제6조 [2027 글로벌 확장 및 기득권 보장]</h4>
+                            <div className="grid sm:grid-cols-3 gap-8">
+                                <div className="space-y-2">
+                                    <p className="text-[10px] font-black text-[#00ffc2] uppercase tracking-tighter">Guaranteed Whitelist</p>
+                                    <p className="text-[11px] text-slate-300 leading-relaxed font-medium">해외 국가별 노드 NFT 발행 시, 오리지널 파운더에게 물량의 40%를 우선 할당한다.</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <p className="text-[10px] font-black text-[#00ffc2] uppercase tracking-tighter">Global Loyalty</p>
+                                    <p className="text-[11px] text-slate-300 leading-relaxed font-medium">글로벌 데이터 판매 수익의 5%는 초기 인프라 구축 공로 인정하여 한국 파운더들에게 영구 배분한다.</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <p className="text-[10px] font-black text-[#00ffc2] uppercase tracking-tighter">Senate Right</p>
+                                    <p className="text-[11px] text-slate-300 leading-relaxed font-medium">오리지널 다이아몬드 파운더는 글로벌 중대 안건에 대해 상원 의원 지위와 투표 가중치 2배를 갖는다.</p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
