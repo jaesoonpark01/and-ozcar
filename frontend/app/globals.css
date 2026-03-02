@@ -12,6 +12,9 @@
   --carbon-dark: #121212;
   --neon-mint: #00ffc2;
   --accent-blue: #3b82f6;
+  --neon-green: #00FF41;
+  --carbon-dark: #0a0a0a;
+  --carbon-border: rgba(255, 255, 255, 0.08);
 }
 
 html,
@@ -27,10 +30,52 @@ body {
 }
 
 .glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+}
+
+.carbon-panel {
+  background: linear-gradient(135deg, #0f0f0f 0%, #050505 100%);
+  border: 1px solid var(--carbon-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.carbon-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+.neon-glow-text {
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.5), 0 0 20px rgba(0, 255, 65, 0.3);
+  color: var(--neon-green);
+}
+
+.neon-border-glow {
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+  border-color: rgba(0, 255, 65, 0.4);
+}
+
+@keyframes pulse-neon {
+
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    filter: brightness(1.2);
+  }
+}
+
+.animate-pulse-neon {
+  animation: pulse-neon 2s infinite ease-in-out;
 }
 
 .glow-text {

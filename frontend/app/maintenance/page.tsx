@@ -23,12 +23,14 @@ import DiagnosticGateway from '@/components/technician/DiagnosticGateway';
 import LiveDiagnosticMonitor from '@/components/technician/LiveDiagnosticMonitor';
 import PremiumReportBlur from '@/components/diagnostics/PremiumReportBlur';
 import ChurnPreventionModal from '@/components/diagnostics/ChurnPreventionModal';
+import MiningSimulator from '@/components/maintenance/MiningSimulator';
+import DiagnosticShuttle from '@/components/maintenance/DiagnosticShuttle';
 import { useI18n } from '@/hooks/useI18n';
 
 export default function MaintenancePortal() {
     const { account } = useWeb3();
     const { t } = useI18n();
-    const [view, setView] = useState<'DIAGNOSTIC' | 'HISTORY' | 'BOOKING'>('DIAGNOSTIC');
+    const [view, setView] = useState<'DIAGNOSTIC' | 'MINING' | 'HISTORY' | 'BOOKING'>('DIAGNOSTIC');
     const [isConnected, setIsConnected] = useState(false);
 
     // Subscription Mock State
@@ -67,17 +69,17 @@ export default function MaintenancePortal() {
                         </motion.h1>
                     </div>
 
-                    <div className="flex bg-white/5 backdrop-blur-xl p-1 rounded-2xl border border-white/10">
-                        {['DIAGNOSTIC', 'HISTORY', 'BOOKING'].map((tab) => (
+                    <div className="flex bg-white/5 backdrop-blur-xl p-1 rounded-2xl border border-white/10 overflow-x-auto no-scrollbar">
+                        {['DIAGNOSTIC', 'MINING', 'HISTORY', 'BOOKING'].map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setView(tab as any)}
-                                className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${view === tab
-                                    ? 'bg-[#00ffc2] text-black shadow-[0_0_20px_rgba(0,255,194,0.3)]'
+                                className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${view === tab
+                                    ? 'bg-neon-green text-black shadow-[0_0_20px_rgba(0,255,65,0.4)]'
                                     : 'text-slate-500 hover:text-white'
                                     }`}
                             >
-                                {tab === 'DIAGNOSTIC' ? t('maint_tab_diagnostic') : tab === 'HISTORY' ? t('maint_tab_history') : t('maint_tab_booking')}
+                                {tab === 'DIAGNOSTIC' ? t('maint_tab_diagnostic') : tab === 'MINING' ? 'Mining' : tab === 'HISTORY' ? t('maint_tab_history') : t('maint_tab_booking')}
                             </button>
                         ))}
                     </div>
@@ -90,8 +92,11 @@ export default function MaintenancePortal() {
                             initial={{ opacity: 0, scale: 0.98 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.98 }}
-                            className="space-y-8"
+                            className="space-y-12"
                         >
+                            {/* NEW: AI Safety Guardian Diagnostic Shuttle */}
+                            <DiagnosticShuttle />
+
                             {/* Device Connection Status */}
                             <div className="bg-gradient-to-r from-blue-600/20 to-transparent border border-blue-500/20 rounded-[2.5rem] p-8 flex flex-col md:flex-row items-center justify-between gap-8">
                                 <div className="flex items-center gap-6">
@@ -164,6 +169,38 @@ export default function MaintenancePortal() {
                                             )}
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {view === 'MINING' && (
+                        <motion.div
+                            key="mining"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="space-y-12"
+                        >
+                            <div className="text-center max-w-2xl mx-auto mb-16">
+                                <h2 className="text-3xl sm:text-4xl font-black italic uppercase tracking-tighter text-white mb-4">
+                                    Mining <span className="text-neon-green">Master Plan</span>
+                                </h2>
+                                <p className="text-slate-400 text-sm leading-relaxed">
+                                    정직한 정비 기록은 곧 수익이 됩니다. 마이닝 시뮬레이터를 통해 정비사님의 명성 가치를 확인하세요.
+                                </p>
+                            </div>
+
+                            <MiningSimulator />
+
+                            <div className="grid md:grid-cols-2 gap-8">
+                                <div className="carbon-panel p-8 rounded-3xl border border-white/5">
+                                    <h4 className="text-lg font-black italic text-white mb-4 uppercase">Step 1: 자산화</h4>
+                                    <p className="text-xs text-slate-500 leading-relaxed uppercase">사라지는 기술을 블록체인에 박제하여 영구적인 명성 자산으로 만드십시오.</p>
+                                </div>
+                                <div className="carbon-panel p-8 rounded-3xl border border-white/5">
+                                    <h4 className="text-lg font-black italic text-white mb-4 uppercase">Step 2: 마이닝</h4>
+                                    <p className="text-xs text-slate-500 leading-relaxed uppercase">정직한 기록 한 건이 OZC 토큰 보상으로 직결되는 확실한 수익 전략을 경험하세요.</p>
                                 </div>
                             </div>
                         </motion.div>
