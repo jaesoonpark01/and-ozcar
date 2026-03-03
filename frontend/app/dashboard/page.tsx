@@ -3,7 +3,7 @@
 import { useWeb3 } from "@/components/Web3Provider";
 import { useI18n } from "@/hooks/useI18n";
 import Link from "next/link";
-import { PlusCircle, ShoppingBag, Sparkles, Car } from "lucide-react";
+import { PlusCircle, ShoppingBag, Sparkles, Car, Shield, Activity, Cpu } from "lucide-react";
 import AIReservationCard from "@/components/user/AIReservationCard";
 import AssetOptimizationAlert from "@/components/user/AssetOptimizationAlert";
 import WarrantySubscriptionCard from "@/components/user/WarrantySubscriptionCard";
@@ -55,6 +55,34 @@ export default function Dashboard() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <AIReservationCard aiRecommendation={aiRecommendation} />
                         <AssetOptimizationAlert assetData={assetData} />
+                    </div>
+
+                    {/* Secondary Founder Strategy Integration */}
+                    <div className="bg-gradient-to-r from-[#0052FF]/20 to-[#00F0FF]/20 border border-[#0052FF]/30 p-8 rounded-[3rem] relative overflow-hidden group">
+                        <div className="absolute -right-20 -top-20 w-64 h-64 bg-[#0052FF]/10 blur-[100px] group-hover:bg-[#0052FF]/20 transition-all duration-1000"></div>
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+                            <div className="flex items-center gap-6">
+                                <div className="p-5 bg-black/40 rounded-3xl border border-[#0052FF]/50 shadow-[0_0_20px_rgba(0,82,255,0.3)]">
+                                    <Shield className="text-[#0052FF]" size={32} />
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="text-[10px] font-black text-[#0052FF] uppercase tracking-[0.3em]">Specialized Role Available</span>
+                                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+                                    </div>
+                                    <h2 className="text-3xl font-black italic uppercase italic tracking-tighter text-blue-900">Secondary Founder <span className="text-[#0052FF]">Portal</span></h2>
+                                    <p className="text-slate-500 text-sm mt-1">Unlock sovereign data rights and participate in the Ozcar data economy.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <Link href="/insight-lab" className="px-8 py-4 bg-[#0052FF] text-white font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-blue-500/30 hover:scale-105 transition-all text-xs">
+                                    Go to Insight Lab
+                                </Link>
+                                <Link href="/telemetry" className="p-4 bg-white/80 backdrop-blur-md border border-slate-200 rounded-2xl text-slate-700 hover:bg-white transition-all">
+                                    <Cpu size={20} />
+                                </Link>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -25,7 +25,9 @@ import {
     Vote,
     Landmark,
     User,
-    LogOut
+    LogOut,
+    Cpu,
+    BarChart3
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -76,6 +78,16 @@ export default function Navbar() {
                 { href: "/jury", label: t('nav_jury'), icon: <Target size={14} /> },
                 { href: "/governance/vote", label: t('nav_gov_vote'), icon: <Vote size={14} /> },
                 { href: "/governance/report", label: t('nav_gov_report'), icon: <Landmark size={14} /> },
+            ]
+        },
+        {
+            href: "#",
+            label: t('nav_founder_portal'),
+            icon: <Shield size={14} />,
+            subLinks: [
+                { href: "/insight-lab", label: t('nav_insight_lab'), icon: <Activity size={14} /> },
+                { href: "/telemetry", label: t('nav_telemetry'), icon: <Cpu size={14} /> },
+                { href: "/technician/dashboard", label: t('nav_mining_sim'), icon: <BarChart3 size={14} /> },
             ]
         },
         { href: "/governance", label: t('nav_governance'), icon: <Shield size={14} /> },

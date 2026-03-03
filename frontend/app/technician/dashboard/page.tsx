@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import TechnicianLayout from '../../../components/layout/TechnicianLayout';
 import MaintenanceForm from '../../../components/mining/MaintenanceForm';
 import SoftwareHealthMonitor from '../../../components/technician/SoftwareHealthMonitor';
@@ -55,7 +56,7 @@ export default function TechnicianDashboard() {
                 </div>
 
                 {/* AI Safety Guardian Link */}
-                <div className="flex items-center gap-4 bg-[#00ffc2]/5 border border-[#00ffc2]/20 px-6 py-3 rounded-2xl">
+                <Link href="/telemetry" className="flex items-center gap-4 bg-[#00ffc2]/5 border border-[#00ffc2]/20 px-6 py-3 rounded-2xl hover:bg-[#00ffc2]/10 transition-all cursor-pointer">
                     <div className="relative">
                         <div className="w-2 h-2 bg-[#00ffc2] rounded-full animate-ping absolute" />
                         <div className="w-2 h-2 bg-[#00ffc2] rounded-full relative" />
@@ -66,7 +67,7 @@ export default function TechnicianDashboard() {
                     </div>
                     <div className="h-6 w-[1px] bg-white/10 mx-2" />
                     <span className="text-xs font-black text-white italic">0Z-OBD-777</span>
-                </div>
+                </Link>
             </div>
 
             {view === 'WORK' ? (
