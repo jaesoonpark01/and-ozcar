@@ -60,7 +60,7 @@ const MOCK_VEHICLES = [
     }
 ];
 
-import DataMarketplaceUI from '../../components/admin/DataMarketplaceUI';
+import DataMarketplace from '../../components/telemetry/DataMarketplace';
 
 export default function MarketplacePage() {
     const { t } = useI18n();
@@ -160,7 +160,7 @@ export default function MarketplacePage() {
                     >
                         {/* Background abstract element */}
                         <div className="absolute top-0 right-0 w-1/2 h-full bg-indigo-500/5 blur-[120px] pointer-events-none" />
-                        <DataMarketplaceUI />
+                        <DataMarketplace />
                     </motion.div>
                 )}
             </AnimatePresence>
