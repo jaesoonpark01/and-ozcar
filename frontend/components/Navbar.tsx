@@ -35,8 +35,20 @@ export default function Navbar() {
     const { lang, toggleLanguage, t } = useI18n();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isAuthOpen, setIsAuthOpen] = useState(false);
-    const [session, setSession] = useState<any>(null);
+    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+    const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
+
+    const handleMouseEnter = (label: string) => {
+        if (dropdownTimeout) clearTimeout(dropdownTimeout);
+        setActiveDropdown(label);
+    };
+
+    const handleMouseLeave = () => {
+        const timeout = setTimeout(() => {
+            setActiveDropdown(null);
+        }, 150); // Short delay to prevent accidental closing
+        setDropdownTimeout(timeout);
+    };
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -57,12 +69,13 @@ export default function Navbar() {
         };
     }, []);
 
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+    const [session, setSession] = useState<any>(null);
+    const [isAuthOpen, setIsAuthOpen] = useState(false);
 
     const navLinks = [
         {
             href: "#",
-            label: "Sovereign Hub",
+            label: t('nav_sovereign_hub'),
             icon: <Shield size={14} />,
             subLinks: [
                 { href: "/insight-lab", label: t('nav_insight_lab'), icon: <Activity size={14} /> },
@@ -74,7 +87,7 @@ export default function Navbar() {
         },
         {
             href: "#",
-            label: "Mobility Commons",
+            label: t('nav_mobility_commons'),
             icon: <ShoppingBag size={14} />,
             subLinks: [
                 { href: "/marketplace", label: t('nav_market'), icon: <ShoppingBag size={14} /> },
@@ -84,13 +97,13 @@ export default function Navbar() {
         },
         {
             href: "/dashboard",
-            label: "Command Center",
+            label: t('nav_command_center'),
             icon: <LayoutDashboard size={14} />,
             subLinks: [
-                { href: "/dashboard", label: "Overview", icon: <LayoutDashboard size={14} /> },
+                { href: "/dashboard", label: t('nav_overview'), icon: <LayoutDashboard size={14} /> },
                 { href: "/wallet", label: t('nav_wallet'), icon: <Wallet size={14} /> },
                 { href: "/my-garage", label: t('nav_garage'), icon: <Car size={14} /> },
-                { href: "/admin/hub", label: "Developer Hub", icon: <Cpu size={14} /> },
+                { href: "/admin/hub", label: t('nav_dev_hub'), icon: <Cpu size={14} /> },
             ]
         },
     ];
@@ -120,20 +133,20 @@ export default function Navbar() {
                     </Link>
 
                     {/* Desktop Navigation Links */}
-                    <div className="hidden lg:flex items-center gap-1 xl:gap-2 bg-white/5 p-1.5 rounded-full border border-white/5 mx-4 overflow-visible">
+                    <div className="hidden lg:flex items-center gap-2 xl:gap-4 bg-white/5 p-1.5 rounded-full border border-white/5 mx-4 overflow-visible">
                         {navLinks.map((link) => (
                             <div
                                 key={link.label}
                                 className="relative"
-                                onMouseEnter={() => link.subLinks && setActiveDropdown(link.label)}
-                                onMouseLeave={() => setActiveDropdown(null)}
+                                onMouseEnter={() => link.subLinks && handleMouseEnter(link.label)}
+                                onMouseLeave={handleMouseLeave}
                             >
                                 <Link
                                     href={link.href}
                                     className="flex items-center gap-1.5 xl:gap-2 px-4 xl:px-6 py-2.5 rounded-full text-[10px] xl:text-[11px] font-black uppercase tracking-widest text-slate-400 hover:text-white hover:bg-white/10 transition-all italic whitespace-nowrap"
                                 >
                                     {link.icon}
-                                    {link.label}
+                                    <span className="ml-1.5">{link.label}</span>
                                     {link.subLinks && <ChevronDown size={12} className={`ml-1 transition-transform ${activeDropdown === link.label ? 'rotate-180' : ''}`} />}
                                 </Link>
 
@@ -142,7 +155,7 @@ export default function Navbar() {
                                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-black/90 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-4 shadow-2xl z-[3000]"
+                                        className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-64 bg-black/95 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-4 shadow-[0_30px_60px_rgba(0,0,0,0.8)] z-[3000] overflow-hidden"
                                     >
                                         <div className="grid gap-2">
                                             {link.subLinks.map((sub) => (
@@ -200,14 +213,14 @@ export default function Navbar() {
                                                         {account.substring(0, 4)}...
                                                     </span>
                                                 ) : (
-                                                    <span className="text-[7px] sm:text-[9px] text-blue-400 italic">지갑미연결</span>
+                                                    <span className="text-[7px] sm:text-[9px] text-blue-400 italic font-black uppercase tracking-tighter">{t('nav_not_connected')}</span>
                                                 )}
                                             </div>
                                         ) : (
                                             <>
                                                 <Wallet size={10} className="text-emerald-400" />
                                                 <span className="truncate max-w-[40px] xs:max-w-[60px] sm:max-w-none">
-                                                    {account ? `${account.substring(0, 4)}...` : '연결됨'}
+                                                    {account ? `${account.substring(0, 4)}...` : t('nav_connected')}
                                                 </span>
                                             </>
                                         )
@@ -327,7 +340,7 @@ export default function Navbar() {
                                 onClick={() => { setIsAuthOpen(true); setIsMobileMenuOpen(false); }}
                                 className="p-4 rounded-[1.5rem] bg-blue-600 text-white text-sm font-black uppercase italic shadow-lg shadow-blue-600/20"
                             >
-                                {account ? (lang === 'ko' ? '연결됨' : 'LINKED') : t("nav_connect")}
+                                {account ? t('nav_connected') : t("nav_connect")}
                             </button>
                         </div>
                     </motion.div>
