@@ -3,7 +3,7 @@
 import { useWeb3 } from "@/components/Web3Provider";
 import { useI18n } from "@/hooks/useI18n";
 import Link from "next/link";
-import { PlusCircle, ShoppingBag, Sparkles, Car, Shield, Activity, Cpu } from "lucide-react";
+import { PlusCircle, ShoppingBag, Sparkles, Car, Shield, Activity, Cpu, Wallet, Award, TrendingUp } from "lucide-react";
 import AIReservationCard from "@/components/user/AIReservationCard";
 import AssetOptimizationAlert from "@/components/user/AssetOptimizationAlert";
 import WarrantySubscriptionCard from "@/components/user/WarrantySubscriptionCard";
@@ -46,11 +46,64 @@ export default function Dashboard() {
             </div>
 
             {!account ? (
-                <div className="text-center py-20 bg-slate-50 border-2 border-dashed border-slate-200 rounded-[3rem]">
-                    <h2 className="text-xl font-bold text-gray-400">{t("dash_connect")}</h2>
+                <div className="text-center py-24 bg-slate-50/50 border-2 border-dashed border-slate-200 rounded-[3.5rem] backdrop-blur-sm">
+                    <div className="bg-white p-6 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-slate-200/50">
+                        <Wallet className="text-slate-300" size={32} />
+                    </div>
+                    <h2 className="text-2xl font-black text-slate-400 italic uppercase tracking-tighter">{t("dash_connect")}</h2>
                 </div>
             ) : (
-                <div className="space-y-12">
+                <div className="space-y-10">
+                    {/* Command Center: Core Stats */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+                            <div className="flex justify-between items-start mb-6">
+                                <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    <Wallet size={20} />
+                                </div>
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">{t("dash_wallet_balance")}</span>
+                            </div>
+                            <div className="text-3xl font-black italic tracking-tighter text-slate-900 mb-1">
+                                {Number(useWeb3().balance).toLocaleString()} <span className="text-sm font-bold text-blue-600">OZC</span>
+                            </div>
+                        </div>
+
+                        <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+                            <div className="flex justify-between items-start mb-6">
+                                <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                                    <Award size={20} />
+                                </div>
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">{t("dash_reputation_score")}</span>
+                            </div>
+                            <div className="text-3xl font-black italic tracking-tighter text-slate-900 mb-1">
+                                {useWeb3().reputation} <span className="text-sm font-bold text-emerald-600">REP</span>
+                            </div>
+                        </div>
+
+                        <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+                            <div className="flex justify-between items-start mb-6">
+                                <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                                    <Car size={20} />
+                                </div>
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Asset Status</span>
+                            </div>
+                            <div className="text-xl font-black italic tracking-tight text-slate-900 mb-1">
+                                Verified <span className="text-sm font-bold text-indigo-600">NFT</span>
+                            </div>
+                        </div>
+
+                        <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+                            <div className="flex justify-between items-start mb-6">
+                                <div className="p-3 bg-amber-50 text-amber-600 rounded-2xl group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                                    <TrendingUp size={20} />
+                                </div>
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Daily ROI</span>
+                            </div>
+                            <div className="text-3xl font-black italic tracking-tighter text-slate-900 mb-1">
+                                +12.5%
+                            </div>
+                        </div>
+                    </div>
                     {/* Phase 3 & 4: AI Intelligent Layer for User */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <AIReservationCard aiRecommendation={aiRecommendation} />

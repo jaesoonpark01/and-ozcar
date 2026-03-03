@@ -23,13 +23,10 @@ import { useI18n } from '@/hooks/useI18n';
 
 import HardwareSimulatorUI from './HardwareSimulatorUI';
 import RealtimeTelemetryDashboard from './RealtimeTelemetryDashboard';
-import OZPWalletUI from './OZPWalletUI';
-import DataMarketplaceUI from './DataMarketplaceUI';
-import VehiclePassportUI from './VehiclePassportUI';
 import SecurityDashboard from './SecurityDashboard';
-import WorkshopMatchingUI from './WorkshopMatchingUI';
+import Link from 'next/link';
 
-type ViewMode = 'telemetry' | 'simulator' | 'wallet' | 'marketplace' | 'security' | 'passport' | 'workshop';
+type ViewMode = 'telemetry' | 'simulator' | 'security' | 'technician';
 
 export default function OzcarAdminHub() {
     const { t } = useI18n();
@@ -39,22 +36,25 @@ export default function OzcarAdminHub() {
     const navItems = [
         { id: 'simulator', label: t('hub_sidemenu_simulator'), icon: Cpu, color: 'text-emerald-400' },
         { id: 'telemetry', label: t('hub_sidemenu_telemetry'), icon: Zap, color: 'text-yellow-400' },
-        { id: 'wallet', label: t('hub_sidemenu_wallet'), icon: Wallet, color: 'text-indigo-400' },
-        { id: 'marketplace', label: t('hub_sidemenu_marketplace'), icon: ShoppingBag, color: 'text-purple-400' },
-        { id: 'passport', label: t('hub_sidemenu_passport'), icon: FileText, color: 'text-blue-400' },
         { id: 'security', label: t('hub_sidemenu_security'), icon: ShieldAlert, color: 'text-red-400' },
-        { id: 'workshop', label: t('hub_sidemenu_workshop'), icon: Wrench, color: 'text-amber-400' },
+        { id: 'technician', label: t('nav_technician'), icon: Wrench, color: 'text-amber-400' },
     ];
 
     const renderView = () => {
         switch (view) {
             case 'simulator': return <HardwareSimulatorUI />;
             case 'telemetry': return <RealtimeTelemetryDashboard />;
-            case 'wallet': return <OZPWalletUI />;
-            case 'marketplace': return <DataMarketplaceUI />;
-            case 'passport': return <VehiclePassportUI />;
             case 'security': return <SecurityDashboard />;
-            case 'workshop': return <WorkshopMatchingUI />;
+            case 'technician': return (
+                <div className="flex flex-col items-center justify-center h-[60vh] text-center space-y-6">
+                    <Wrench className="w-16 h-16 text-amber-500 animate-bounce" />
+                    <h2 className="text-2xl font-black italic tracking-tighter uppercase">Technician Portal Shortcut</h2>
+                    <p className="text-slate-500 max-w-md">Access the dedicated service operations and business intelligence engine.</p>
+                    <Link href="/technician/dashboard" className="px-8 py-3 bg-indigo-600 rounded-xl font-bold hover:bg-indigo-700 transition-all">
+                        Launch Full Portal
+                    </Link>
+                </div>
+            );
             default: return <HardwareSimulatorUI />;
         }
     };

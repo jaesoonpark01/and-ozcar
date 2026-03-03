@@ -17,17 +17,12 @@ import {
     Car,
     Wrench,
     Shield,
-    Share2,
-    Star,
     ChevronDown,
     Activity,
-    Target,
-    Vote,
     Landmark,
     User,
     LogOut,
-    Cpu,
-    BarChart3
+    Cpu
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -65,35 +60,39 @@ export default function Navbar() {
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
     const navLinks = [
-        { href: "/marketplace", label: t('nav_market'), icon: <ShoppingBag size={14} /> },
         {
             href: "#",
-            label: t('nav_ecosystem'),
-            icon: <Globe size={14} />,
-            subLinks: [
-                { href: "/vehicle/onboarding", label: t('nav_onboarding'), icon: <Car size={14} /> },
-                { href: "/vehicle/mining-report", label: t('nav_mining_report'), icon: <Star size={14} /> },
-                { href: "/leaderboard", label: t('nav_leaderboard'), icon: <Activity size={14} /> },
-                { href: "/justice-center", label: t('nav_justice'), icon: <Shield size={14} /> },
-                { href: "/jury", label: t('nav_jury'), icon: <Target size={14} /> },
-                { href: "/governance/vote", label: t('nav_gov_vote'), icon: <Vote size={14} /> },
-                { href: "/governance/report", label: t('nav_gov_report'), icon: <Landmark size={14} /> },
-            ]
-        },
-        {
-            href: "#",
-            label: t('nav_founder_portal'),
+            label: "Sovereign Hub",
             icon: <Shield size={14} />,
             subLinks: [
                 { href: "/insight-lab", label: t('nav_insight_lab'), icon: <Activity size={14} /> },
                 { href: "/telemetry", label: t('nav_telemetry'), icon: <Cpu size={14} /> },
-                { href: "/technician/dashboard", label: t('nav_mining_sim'), icon: <BarChart3 size={14} /> },
+                { href: "/governance", label: t('nav_governance'), icon: <Landmark size={14} /> },
+                { href: "/justice-center", label: t('nav_justice'), icon: <Shield size={14} /> },
+                { href: "/leaderboard", label: t('nav_leaderboard'), icon: <Activity size={14} /> },
             ]
         },
-        { href: "/governance", label: t('nav_governance'), icon: <Shield size={14} /> },
-        { href: "/maintenance", label: t('nav_maintenance'), icon: <Wrench size={14} /> },
-        { href: "/admin/hub", label: t('nav_hub'), icon: <LayoutDashboard size={14} /> },
-        { href: "/dashboard", label: t('dash_title'), icon: <Star size={14} /> },
+        {
+            href: "#",
+            label: "Mobility Commons",
+            icon: <ShoppingBag size={14} />,
+            subLinks: [
+                { href: "/marketplace", label: t('nav_market'), icon: <ShoppingBag size={14} /> },
+                { href: "/sell", label: t('nav_onboarding'), icon: <Car size={14} /> },
+                { href: "/maintenance", label: t('nav_maintenance'), icon: <Wrench size={14} /> },
+            ]
+        },
+        {
+            href: "/dashboard",
+            label: "Command Center",
+            icon: <LayoutDashboard size={14} />,
+            subLinks: [
+                { href: "/dashboard", label: "Overview", icon: <LayoutDashboard size={14} /> },
+                { href: "/wallet", label: t('nav_wallet'), icon: <Wallet size={14} /> },
+                { href: "/my-garage", label: t('nav_garage'), icon: <Car size={14} /> },
+                { href: "/admin/hub", label: "Developer Hub", icon: <Cpu size={14} /> },
+            ]
+        },
     ];
 
     return (

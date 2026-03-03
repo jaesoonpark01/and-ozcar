@@ -28,6 +28,7 @@ export const translations = {
         nav_mining_sim: "마이닝 시뮬레이터",
         nav_telemetry: "하드웨어 텔레메트리",
         nav_founder_portal: "파운더 포털",
+        nav_wallet: "자산 지갑",
         hub_sidemenu_simulator: "HW 시뮬레이터",
         hub_sidemenu_telemetry: "라이브 텔레메트리",
         hub_sidemenu_wallet: "자산 금고",
@@ -239,6 +240,8 @@ export const translations = {
         dash_ai_recommend_oil_pads: "엔진오일 & 브레이크 패드",
         dash_shop_gangnam: "마스터 정비센터 강남점",
         dash_warranty_expired: "보증 만료 {days}일 전",
+        dash_reputation_score: "나의 평판 점수",
+        dash_wallet_balance: "지갑 잔액",
         dash_escrow_desc: "진행 중인 모든 에스크로 안전 거래 내역을 실시간으로 확인하고 합의를 진행할 수 있습니다.",
 
         // Maintenance
@@ -712,6 +715,7 @@ export const translations = {
         nav_mining_sim: "Mining Simulator",
         nav_telemetry: "Hardware Telemetry",
         nav_founder_portal: "Founder Portal",
+        nav_wallet: "Asset Wallet",
         hub_sidemenu_simulator: "HW Simulator",
         hub_sidemenu_telemetry: "Live Telemetry",
         hub_sidemenu_wallet: "Asset Vault",
@@ -923,7 +927,9 @@ export const translations = {
         dash_ai_recommend_oil_pads: "Engine Oil & Brake Pads",
         dash_shop_gangnam: "Master Service Center Gangnam",
         dash_warranty_expired: "Warranty expires in {days} days",
-        dash_escrow_desc: "Track all active escrow secure trades in real-time and proceed with agreements.",
+        dash_reputation_score: "My Reputation Score",
+        dash_wallet_balance: "Wallet Balance",
+        dash_escrow_desc: "Real-time verification of all ongoing escrow secure transactions and consensus progress.",
 
         // Maintenance
         maint_title: "Maintenance",
