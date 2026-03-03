@@ -17,7 +17,9 @@ import {
     Flame,
     Share2,
     Layout,
-    Landmark
+    Landmark,
+    TrendingDown,
+    Gavel
 } from 'lucide-react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -265,12 +267,35 @@ export default function GovernancePage() {
                             <h1 className="text-6xl font-black text-white tracking-tighter uppercase italic">
                                 DAO <span className="text-[#00ffc2] glow-text">Portal</span>
                             </h1>
-                            <span className="bg-[#00ffc2]/10 text-[#00ffc2] px-4 py-1.5 rounded-full text-[10px] font-black uppercase border border-[#00ffc2]/30">
-                                {governanceService?.getTierName(juror?.tier || JuryTier.CITIZEN)}
-                            </span>
+                            <div className="flex gap-2">
+                                <span className="bg-[#00ffc2]/10 text-[#00ffc2] px-4 py-1.5 rounded-full text-[10px] font-black uppercase border border-[#00ffc2]/30 flex items-center gap-2">
+                                    <Star size={12} className="fill-current" /> {t('gov_founder_prestige')}: DIAMOND
+                                </span>
+                                <span className="bg-blue-500/10 text-blue-400 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border border-blue-500/30 flex items-center gap-2">
+                                    <Shield size={12} /> {t('gov_jury_honor')}: MASTER
+                                </span>
+                            </div>
                         </div>
                         <p className="text-slate-500 font-black uppercase tracking-[0.2em] text-xs">Decentralized Autonomous Organization Hub</p>
                     </div>
+
+                    {/* OIP-1 Spotlight Alert */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="bg-gradient-to-r from-[#00ffc2]/20 to-transparent border-l-4 border-[#00ffc2] p-6 rounded-r-[2rem] max-w-md hidden lg:block"
+                    >
+                        <div className="flex items-center gap-3 mb-2">
+                            <Flame size={16} className="text-[#00ffc2] animate-pulse" />
+                            <span className="text-[10px] font-black text-[#00ffc2] uppercase tracking-widest">{t('gov_oip_proposal_title')}</span>
+                        </div>
+                        <p className="text-[11px] text-slate-300 font-medium leading-relaxed">
+                            {t('gov_oip_proposal_desc')}
+                        </p>
+                        <button className="mt-3 text-[10px] font-black text-[#00ffc2] uppercase tracking-widest flex items-center gap-2 hover:underline">
+                            {t('gov_vote_participation')} <ArrowUpRight size={14} />
+                        </button>
+                    </motion.div>
 
                     {/* Premium Tab Switcher */}
                     <div className="flex items-center p-1.5 bg-[#121212] rounded-[1.8rem] border border-white/5 shadow-2xl">

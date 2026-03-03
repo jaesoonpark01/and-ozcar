@@ -11,6 +11,7 @@ import LiveDiagnosticMonitor from '../../../components/technician/LiveDiagnostic
 import AVVScanner from '../../../components/technician/AVVScanner';
 import { motion } from 'framer-motion';
 import { BarChart3, Users, Wrench, Settings, TrendingUp, DollarSign, Calendar, Activity, Cpu, ShieldCheck, Zap, RefreshCw, Clock, Star } from 'lucide-react';
+import { MiningSimulator } from '../../../components/technician/MiningSimulator';
 
 export default function TechnicianDashboard() {
     const [view, setView] = useState<'WORK' | 'ANALYTICS' | 'SDV'>('WORK');
@@ -33,23 +34,39 @@ export default function TechnicianDashboard() {
                     "SDV Diagnostic Insight"
         }>
             {/* View Switcher */}
-            <div className="flex gap-2 mb-10 bg-white/5 p-1.5 rounded-[1.8rem] border border-white/5 w-fit">
-                {[
-                    { id: 'WORK', label: 'Operations' },
-                    { id: 'ANALYTICS', label: 'BI Engine' },
-                    { id: 'SDV', label: 'SDV Insights' }
-                ].map((btn) => (
-                    <button
-                        key={btn.id}
-                        onClick={() => setView(btn.id as any)}
-                        className={`px-8 py-3 rounded-[1.4rem] font-black text-[10px] uppercase tracking-widest transition-all ${view === btn.id
-                            ? 'bg-blue-600 text-white shadow-xl shadow-blue-500/20'
-                            : 'text-slate-500 hover:text-white hover:bg-white/5'
-                            }`}
-                    >
-                        {btn.label}
-                    </button>
-                ))}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+                <div className="flex gap-2 bg-white/5 p-1.5 rounded-[1.8rem] border border-white/5 w-fit">
+                    {[
+                        { id: 'WORK', label: 'Operations' },
+                        { id: 'ANALYTICS', label: 'BI Engine' },
+                        { id: 'SDV', label: 'SDV Insights' }
+                    ].map((btn) => (
+                        <button
+                            key={btn.id}
+                            onClick={() => setView(btn.id as any)}
+                            className={`px-8 py-3 rounded-[1.4rem] font-black text-[10px] uppercase tracking-widest transition-all ${view === btn.id
+                                ? 'bg-blue-600 text-white shadow-xl shadow-blue-500/20'
+                                : 'text-slate-500 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            {btn.label}
+                        </button>
+                    ))}
+                </div>
+
+                {/* AI Safety Guardian Link */}
+                <div className="flex items-center gap-4 bg-[#00ffc2]/5 border border-[#00ffc2]/20 px-6 py-3 rounded-2xl">
+                    <div className="relative">
+                        <div className="w-2 h-2 bg-[#00ffc2] rounded-full animate-ping absolute" />
+                        <div className="w-2 h-2 bg-[#00ffc2] rounded-full relative" />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="text-[9px] font-black text-[#00ffc2] uppercase tracking-widest leading-none mb-1">AI Safety Guardian</span>
+                        <span className="text-[10px] font-bold text-white uppercase italic">Direct Node Connection: ACTIVE</span>
+                    </div>
+                    <div className="h-6 w-[1px] bg-white/10 mx-2" />
+                    <span className="text-xs font-black text-white italic">0Z-OBD-777</span>
+                </div>
             </div>
 
             {view === 'WORK' ? (
@@ -180,6 +197,10 @@ export default function TechnicianDashboard() {
                                 ))}
                             </div>
                         </div>
+                    </div>
+
+                    <div className="mt-8">
+                        <MiningSimulator />
                     </div>
                 </div>
             ) : (

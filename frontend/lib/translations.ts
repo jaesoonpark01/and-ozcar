@@ -24,6 +24,8 @@ export const translations = {
         nav_promotion: "리워드 홍보",
         nav_maintenance: "정비/진단",
         nav_hub: "오즈카 허브",
+        nav_insight_lab: "인사이트 랩",
+        nav_mining_sim: "마이닝 시뮬레이터",
         hub_sidemenu_simulator: "HW 시뮬레이터",
         hub_sidemenu_telemetry: "라이브 텔레메트리",
         hub_sidemenu_wallet: "자산 금고",
@@ -221,6 +223,15 @@ export const translations = {
         gov_tab_jury: "검증단 광장",
         gov_vote_failed: "투표 실패",
 
+        // Governance - Strategy
+        gov_founder_prestige: "파운더 명성",
+        gov_jury_honor: "배심원 명예",
+        gov_reputation_power: "평판 파워",
+        gov_oip_proposal_title: "OIP-1: 리워드 배분 최적화 안건",
+        gov_oip_proposal_desc: "데이터 품질 향상을 위해 주행 보상 비중을 줄이고 정비 이력 보상을 강화합니다.",
+        gov_vote_participation: "투표 참여",
+        gov_vote_voting_power: "투표권 가중치",
+
         // Dashboard
         dash_ai_guardian_active: "AI Guardian 가동 중",
         dash_ai_recommend_oil_pads: "엔진오일 & 브레이크 패드",
@@ -304,6 +315,25 @@ export const translations = {
         maint_dtc_btn_reserve: "즉시 정비 예약 제안",
         maint_dtc_system: "시스템",
         maint_concierge_alert: "[OZCAR 컨시어지] 정비 예약 프로세스 시작: {code}",
+
+        // Mining Simulator
+        sim_mining_title: "디지털 명세서 마이닝 시뮬레이터",
+        sim_mining_desc: "정직한 기록이 연금이 되는 순간을 미리 체험해 보세요.",
+        sim_mining_est_monthly: "월 예상 채굴 수익 (OZC)",
+        sim_mining_daily_records: "일일 평균 정비 기록 건수",
+        sim_mining_high_res_media: "고화질 사진/영상 포함 (+0.2x)",
+        sim_mining_staking_bonus: "스테이킹 가중치 적용 (+0.3x)",
+        sim_mining_current_rank: "현재 정비사 등급: Master (x2.0)",
+        sim_mining_cta: "지금 바로 마이닝 시작하기",
+
+        // Insight Lab
+        lab_title: "오즈카 데이터 인사이트 랩",
+        lab_secondary_founder: "세컨더리 파운더 대시보드",
+        lab_data_assets_value: "데이터 자산 총 가치",
+        lab_roi_projection: "3개년 ROI 예측 (5X)",
+        lab_global_market_demand: "글로벌 데이터 시장 수요",
+        lab_sovereignty_status: "데이터 주권 확보 상태",
+        lab_lab_desc: "단순한 비즈니스를 넘어 신뢰의 모빌리티 금융 표준을 설계합니다.",
 
         // Sentinel AI
         sentinel_ai_analyzing: "Sentinel AI 초기 분석 중...",
@@ -588,7 +618,37 @@ export const translations = {
         success: "성공",
         back: "뒤로 가기",
         market_coin_name: "OZC 토큰",
-        market_tx_completed: "마이닝되었습니다."
+        market_tx_completed: "마이닝되었습니다.",
+
+        // Hardware Strategy (Telemetry & Safety)
+        hw_telemetry_title: "고속 텔레메트리",
+        hw_telemetry_subtitle: "실시간 CAN FD 데이터 스트림",
+        hw_telemetry_connected: "HW 링크: 활성",
+        hw_telemetry_disconnected: "HW 링크: 연결 끊김",
+        hw_metrics_rpm: "엔진 회전수 (RPM)",
+        hw_metrics_speed: "차량 속도 (km/h)",
+        hw_metrics_aps: "가속 페달 (%)",
+        hw_metrics_bps: "브레이크 페달 상태",
+        hw_session_start: "세션 시작",
+        hw_session_end: "세션 종료",
+        hw_safety_title: "AI 세이프티 가디언",
+        hw_safety_status_normal: "시스템 상태: 안정",
+        hw_safety_status_critical: "심각: SUA 신호 불일치",
+        hw_safety_alert_mismatch: "브레이크 작동 중 가속 검출! 로그 분석 중...",
+        hw_safety_report_generate: "증거 리포트 생성",
+        hw_market_title: "데이터 마켓플레이스",
+        hw_market_subtitle: "운전 데이터 자산화",
+        hw_market_asset_diamond: "다이아몬드 등급 (HW 서명)",
+        hw_market_asset_gold: "골드 등급 (검증됨)",
+        hw_market_asset_silver: "실버 등급 (일반)",
+        hw_market_sell_button: "자산 봉인 및 판매",
+        hw_market_offer_title: "활성 데이터 오퍼",
+        hw_wallet_title: "OZP 디지털 금고",
+        hw_wallet_balance: "현재 잔액",
+        hw_wallet_staking: "평판 스테이킹",
+        hw_wallet_history: "거래 히스토리",
+        hw_wallet_withdraw: "출금하기",
+        hw_wallet_conversion: "추정 가치 (KRW)"
     },
     en: {
         // Navigation
@@ -615,6 +675,8 @@ export const translations = {
         nav_promotion: "Reward Promotion",
         nav_maintenance: "Maintenance",
         nav_hub: "Ozcar Hub",
+        nav_insight_lab: "Insight Lab",
+        nav_mining_sim: "Mining Simulator",
         hub_sidemenu_simulator: "HW Simulator",
         hub_sidemenu_telemetry: "Live Telemetry",
         hub_sidemenu_wallet: "Asset Vault",
@@ -812,6 +874,15 @@ export const translations = {
         gov_tab_jury: "Jury Plaza",
         gov_vote_failed: "Vote failed",
 
+        // Governance - Strategy
+        gov_founder_prestige: "Founder Prestige",
+        gov_jury_honor: "Jury Honor",
+        gov_reputation_power: "Reputation Power",
+        gov_oip_proposal_title: "OIP-1: Reward Optimization Proposal",
+        gov_oip_proposal_desc: "Reducing driving rewards and increasing maintenance rewards to improve data quality.",
+        gov_vote_participation: "Vote Now",
+        gov_vote_voting_power: "Voting Power Weight",
+
         // Dashboard
         dash_ai_guardian_active: "AI Guardian Active",
         dash_ai_recommend_oil_pads: "Engine Oil & Brake Pads",
@@ -895,6 +966,25 @@ export const translations = {
         maint_dtc_btn_reserve: "Suggest Immediate Booking",
         maint_dtc_system: "System",
         maint_concierge_alert: "[OZCAR Concierge] Starting maintenance reservation process: {code}",
+
+        // Mining Simulator
+        sim_mining_title: "Digital Statement Mining Simulator",
+        sim_mining_desc: "Experience how honest records become your pension.",
+        sim_mining_est_monthly: "Est. Monthly Mining (OZC)",
+        sim_mining_daily_records: "Avg. Daily Maintenance Records",
+        sim_mining_high_res_media: "High-res Media Included (+0.2x)",
+        sim_mining_staking_bonus: "Staking Bonus Applied (+0.3x)",
+        sim_mining_current_rank: "Current Rank: Master (x2.0)",
+        sim_mining_cta: "Start Mining Simulation Now",
+
+        // Insight Lab
+        lab_title: "Ozcar Data Insight Lab",
+        lab_secondary_founder: "Secondary Founder Dashboard",
+        lab_data_assets_value: "Total Data Asset Value",
+        lab_roi_projection: "3-Year ROI Projection (5X)",
+        lab_global_market_demand: "Global Data Market Demand",
+        lab_sovereignty_status: "Data Sovereignty Secured",
+        lab_lab_desc: "Designing the benchmark of trust in mobility finance beyond simple business.",
 
         // Sentinel AI
         sentinel_ai_analyzing: "Sentinel AI Initial analysis in progress...",
@@ -1179,7 +1269,37 @@ export const translations = {
         success: "Success",
         back: "Back",
         market_coin_name: "OZC Tokens",
-        market_tx_completed: "mined successfully."
+        market_tx_completed: "mined successfully.",
+
+        // Hardware Strategy (Telemetry & Safety)
+        hw_telemetry_title: "High-Speed Telemetry",
+        hw_telemetry_subtitle: "Real-time CAN FD Data Stream",
+        hw_telemetry_connected: "HW Link: Active",
+        hw_telemetry_disconnected: "HW Link: Disconnected",
+        hw_metrics_rpm: "Engine Speed (RPM)",
+        hw_metrics_speed: "Vehicle Speed (km/h)",
+        hw_metrics_aps: "Accelerator Pedal (%)",
+        hw_metrics_bps: "Brake Pedal Status",
+        hw_session_start: "Start Session",
+        hw_session_end: "End Session",
+        hw_safety_title: "AI Safety Guardian",
+        hw_safety_status_normal: "System Status: Stable",
+        hw_safety_status_critical: "CRITICAL: SUA Signal Mismatch",
+        hw_safety_alert_mismatch: "Brake-Applied Acceleration Detected! Analyzing log for evidence...",
+        hw_safety_report_generate: "Generate Evidence Report",
+        hw_market_title: "Data Marketplace",
+        hw_market_subtitle: "Monetize Your Driving Data",
+        hw_market_asset_diamond: "Diamond Grade (HW-Signed)",
+        hw_market_asset_gold: "Gold Grade (Verified)",
+        hw_market_asset_silver: "Silver Grade (Standard)",
+        hw_market_sell_button: "Seal & Sell Asset",
+        hw_market_offer_title: "Active Data Offers",
+        hw_wallet_title: "OZP Digital Vault",
+        hw_wallet_balance: "Current Balance",
+        hw_wallet_staking: "Staking for Reputation",
+        hw_wallet_history: "Transaction History",
+        hw_wallet_withdraw: "Withdraw",
+        hw_wallet_conversion: "Estimated Value (KRW)"
     }
 }
 

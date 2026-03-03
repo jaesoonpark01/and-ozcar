@@ -233,17 +233,23 @@ export const JurySection = ({
                 <div className="bg-[#121212] border border-white/5 p-8 rounded-[2rem] relative overflow-hidden group shadow-2xl">
                     <div className="flex justify-between items-start mb-4">
                         <Zap className="w-8 h-8 text-[#00ffc2]" />
-                        {juror?.isTrial && (
-                            <span className="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[9px] font-black rounded-full uppercase tracking-widest animate-pulse">
-                                수습 대원 (Trial)
+                        <div className="flex flex-col items-end gap-1">
+                            {juror?.isTrial && (
+                                <span className="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[9px] font-black rounded-full uppercase tracking-widest animate-pulse">
+                                    Trial Juror
+                                </span>
+                            )}
+                            <span className="px-3 py-1 bg-[#00ffc2]/10 border border-[#00ffc2]/30 text-[#00ffc2] text-[9px] font-black rounded-full uppercase tracking-widest">
+                                Secondary Founder Tier
                             </span>
-                        )}
+                        </div>
                     </div>
-                    <h3 className="text-[10px] font-black uppercase tracking-[0.1em] mb-2 text-slate-500">참여 가치 (Score)</h3>
+                    <h3 className="text-[10px] font-black uppercase tracking-[0.1em] mb-2 text-slate-500">Reputation Power (REP)</h3>
                     <div className="flex items-baseline gap-2">
-                        <div className="text-6xl font-black italic text-white tracking-tighter">{(juror?.votingPower || 1).toFixed(1)}</div>
-                        <div className="text-xl font-black text-[#00ffc2] italic text-xs">P</div>
+                        <div className="text-6xl font-black italic text-white tracking-tighter">{(juror?.votingPower || 1.0).toFixed(1)}</div>
+                        <div className="text-xl font-black text-[#00ffc2] italic text-xs">RP</div>
                     </div>
+                    <p className="text-[9px] text-slate-500 mt-2 font-bold italic uppercase tracking-widest">Proof of Contribution: ACTIVE</p>
                     <div className="mt-4 w-full bg-white/5 h-1 rounded-full overflow-hidden">
                         <div className="bg-[#00ffc2] h-full" style={{ width: '75%' }}></div>
                     </div>
