@@ -32,12 +32,12 @@ export default function DataMarketplace() {
         <div className="bg-gray-900/40 border border-white/5 rounded-3xl p-8 backdrop-blur-2xl">
             <div className="flex justify-between items-end mb-8">
                 <div>
-                    <h2 className="text-2xl font-bold text-white mb-2">{t("hw_market_title")}</h2>
-                    <p className="text-gray-400 text-sm">{t("hw_market_subtitle")}</p>
+                    <h2 className="text-2xl font-black italic uppercase tracking-tighter text-white mb-2">{t("hw_market_title")}</h2>
+                    <p className="text-gray-400 text-sm italic">{t("hw_market_subtitle")}</p>
                 </div>
                 <div className="flex items-center gap-2 bg-[#0052FF]/10 border border-[#0052FF]/30 px-4 py-2 rounded-full">
                     <TrendingUp size={16} className="text-[#0052FF]" />
-                    <span className="text-xs font-bold text-[#0052FF]">Data Demand: HIGH</span>
+                    <span className="text-xs font-bold text-[#0052FF]">{t("hw_market_demand_high")}</span>
                 </div>
             </div>
 
@@ -57,7 +57,7 @@ export default function DataMarketplace() {
                         </div>
                         <div className="mt-4 flex items-center gap-2 text-xs text-cyan-400/80">
                             <ShieldCheck size={14} />
-                            <span>HW-Signed (STM32G4 / S32K3)</span>
+                            <span>{t("hw_market_signed_desc")}</span>
                         </div>
                     </div>
 
@@ -75,7 +75,7 @@ export default function DataMarketplace() {
 
                 {/* Offers Area */}
                 <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                    <h3 className="text-sm font-black italic text-gray-400 uppercase tracking-widest flex items-center gap-2">
                         <Target size={16} />
                         {t("hw_market_offer_title")}
                     </h3>
@@ -97,7 +97,7 @@ export default function DataMarketplace() {
                                             <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold ${offer.grade === 'DIAMOND' ? 'bg-cyan-500/20 text-cyan-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
                                                 {offer.grade}
                                             </span>
-                                            <span className="text-[10px] text-gray-500">{offer.reward} / Sess</span>
+                                            <span className="text-[10px] text-gray-500">{offer.reward} {t("hw_market_per_sess")}</span>
                                         </div>
                                     </div>
                                 </div>

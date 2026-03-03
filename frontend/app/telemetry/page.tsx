@@ -72,11 +72,11 @@ export default function TelemetryPage() {
     }, [isActive]);
 
     return (
-        <div className="min-h-screen bg-black text-white p-6 font-mono">
+        <div className="min-h-screen bg-black text-white p-6">
             {/* Header */}
             <div className="flex justify-between items-center mb-8 border-b border-[#0052FF]/30 pb-4">
                 <div>
-                    <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#0052FF] to-[#00F0FF]">
+                    <h1 className="text-4xl lg:text-5xl font-black italic tracking-tighter uppercase bg-clip-text text-transparent bg-gradient-to-r from-[#0052FF] to-[#00F0FF]">
                         {t("hw_telemetry_title")}
                     </h1>
                     <p className="text-gray-400 text-sm">{t("hw_telemetry_subtitle")}</p>
@@ -103,7 +103,7 @@ export default function TelemetryPage() {
                 <div className="lg:col-span-1 space-y-6">
                     {/* Main Gauges */}
                     <div className="bg-gray-900/50 border border-white/10 rounded-2xl p-6 backdrop-blur-xl">
-                        <h3 className="text-gray-500 text-xs mb-4 uppercase tracking-tighter">Live Metrics</h3>
+                        <h3 className="text-gray-500 text-xs mb-4 uppercase tracking-tighter">{t("hw_telemetry_live_metrics")}</h3>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="p-4 bg-black/40 rounded-xl border border-[#00F0FF]/20">
                                 <span className="text-[10px] text-gray-500 uppercase">{t("hw_metrics_rpm")}</span>
@@ -118,7 +118,7 @@ export default function TelemetryPage() {
                             </div>
                             <div className="p-4 bg-black/40 rounded-xl border border-[#0052FF]/20">
                                 <span className="text-[10px] text-gray-500 uppercase">{t("hw_metrics_speed")}</span>
-                                <div className="text-2xl font-bold text-white">{Math.round(metrics.speed)} <span className="text-xs text-gray-500">km/h</span></div>
+                                <div className="text-2xl font-bold text-white">{Math.round(metrics.speed)} <span className="text-xs text-gray-500">{t("hw_telemetry_unit_kmh")}</span></div>
                                 <div className="w-full h-1 bg-gray-800 mt-2 rounded-full overflow-hidden">
                                     <motion.div
                                         className="h-full bg-[#0052FF]"
@@ -145,7 +145,7 @@ export default function TelemetryPage() {
                             <div className="flex items-center justify-between p-3 bg-black/40 rounded-xl border border-white/5">
                                 <span className="text-xs text-gray-400">{t("hw_metrics_bps")}</span>
                                 <div className={`px-4 py-1 rounded text-xs font-bold ${metrics.bps > 0 ? 'bg-red-500/20 text-red-500 animate-pulse' : 'bg-gray-800 text-gray-500'}`}>
-                                    {metrics.bps > 0 ? 'APPLIED' : 'IDLE'}
+                                    {metrics.bps > 0 ? t("hw_telemetry_status_applied") : t("hw_telemetry_status_idle")}
                                 </div>
                             </div>
                         </div>
@@ -158,8 +158,8 @@ export default function TelemetryPage() {
                         className={`p-6 rounded-2xl border ${status === 'critical' ? 'bg-red-900/20 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)]' : 'bg-gray-900/50 border-white/10'}`}
                     >
                         <div className="flex items-center gap-3 mb-4">
-                            <ShieldAlert className={status === 'critical' ? 'text-red-500' : 'text-[#0052FF]'} />
-                            <h2 className="text-lg font-bold">{t("hw_safety_title")}</h2>
+                            <ShieldAlert size={20} className={status === 'critical' ? 'text-red-500' : 'text-[#0052FF]'} />
+                            <h2 className="text-xl font-black italic uppercase tracking-tight">{t("hw_safety_title")}</h2>
                         </div>
 
                         <div className="space-y-4">
@@ -194,7 +194,7 @@ export default function TelemetryPage() {
                         <div className="flex justify-between items-center mb-6">
                             <div className="flex items-center gap-2">
                                 <BarChart3 size={18} className="text-[#0052FF]" />
-                                <span className="text-sm font-bold uppercase tracking-widest text-gray-400">Live CAN FD Stream (0.01ms Delta)</span>
+                                <span className="text-sm font-black italic uppercase tracking-widest text-slate-400">{t("hw_telemetry_chart_stream")}</span>
                             </div>
                             <div className="flex items-center gap-4 text-[10px] text-gray-500 uppercase italic">
                                 <span className="flex items-center gap-1"><div className="w-2 h-2 bg-[#00F0FF] rounded-full"></div> RPM</span>
@@ -251,7 +251,7 @@ export default function TelemetryPage() {
                                         <div className="w-16 h-16 rounded-full bg-[#0052FF]/20 border border-[#0052FF]/50 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                                             <Play className="text-[#0052FF] ml-1" />
                                         </div>
-                                        <span className="text-sm font-bold text-gray-400 group-hover:text-white transition-colors uppercase tracking-widest">Connect Hardware</span>
+                                        <span className="text-sm font-bold text-gray-400 group-hover:text-white transition-colors uppercase tracking-widest">{t("hw_session_start")}</span>
                                     </div>
                                 </div>
                             )}
@@ -265,8 +265,8 @@ export default function TelemetryPage() {
                                 <Lock className="text-[#0052FF]" />
                             </div>
                             <div>
-                                <h4 className="text-sm font-bold mb-1">Hardware Security Engine</h4>
-                                <p className="text-[10px] text-gray-500 leading-tight">NXP S32K3 / STM32G4 HSE Active.<br />All data packets HMAC-signed.</p>
+                                <h4 className="text-sm font-black italic uppercase tracking-tight mb-1">{t("hw_telemetry_hw_secure_engine")}</h4>
+                                <p className="text-[10px] text-gray-500 leading-tight">{t("hw_telemetry_hw_secure_desc")}</p>
                             </div>
                         </div>
                         <div className="p-6 bg-gray-900/50 border border-white/10 rounded-2xl flex items-center gap-4">
@@ -274,8 +274,8 @@ export default function TelemetryPage() {
                                 <Zap className="text-[#00F0FF]" />
                             </div>
                             <div>
-                                <h4 className="text-sm font-bold mb-1">Network Uplink (6G)</h4>
-                                <p className="text-[10px] text-gray-500 leading-tight">Latency: 4ms | Jitter: 0.1ms<br />Edge Gateway Connected.</p>
+                                <h4 className="text-sm font-black italic uppercase tracking-tight mb-1">{t("hw_telemetry_net_uplink")}</h4>
+                                <p className="text-[10px] text-gray-500 leading-tight">{t("hw_telemetry_net_desc")}</p>
                             </div>
                         </div>
                     </div>

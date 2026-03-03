@@ -22,8 +22,8 @@ export default function OZPWallet() {
                     <Wallet className="text-white" />
                 </div>
                 <div>
-                    <h2 className="text-xl font-bold text-white">{t("hw_wallet_title")}</h2>
-                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Node Wallet: 0x71...f92a</p>
+                    <h2 className="text-xl font-black italic uppercase tracking-tight text-white">{t("hw_wallet_title")}</h2>
+                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">{t("hw_wallet_node_id").replace("{id}", "0x71...f92a")}</p>
                 </div>
             </div>
 
@@ -35,7 +35,7 @@ export default function OZPWallet() {
                             <PieChart size={14} />
                             {t("hw_wallet_balance")}
                         </span>
-                        <div className="text-4xl font-black text-white mb-1">
+                        <div className="text-4xl font-black italic tracking-tighter text-white mb-1">
                             1,240.85 <span className="text-xl font-bold text-[#0052FF]">OIP</span>
                         </div>
                         <div className="text-sm text-gray-500">
@@ -50,7 +50,7 @@ export default function OZPWallet() {
                         </button>
                         <button className="flex flex-col items-center justify-center p-4 bg-gray-800/30 rounded-2xl border border-white/5 hover:border-[#00F0FF]/30 transition-all group">
                             <Repeat className="text-gray-400 group-hover:text-[#00F0FF] mb-2" />
-                            <span className="text-[10px] font-bold uppercase tracking-tighter text-gray-400 group-hover:text-white">Convert Asset</span>
+                            <span className="text-[10px] font-bold uppercase tracking-tighter text-gray-400 group-hover:text-white">{t("hw_wallet_convert_asset")}</span>
                         </button>
                     </div>
                 </div>
@@ -61,8 +61,8 @@ export default function OZPWallet() {
                         <div className="flex justify-between items-start relative z-10">
                             <div>
                                 <span className="text-[10px] text-[#0052FF] font-bold uppercase tracking-widest">{t("hw_wallet_staking")}</span>
-                                <div className="text-2xl font-bold text-white mt-1">450.0 OIP</div>
-                                <p className="text-[10px] text-gray-500 mt-1">Founding Reputation Power: +12%</p>
+                                <div className="text-2xl font-black italic tracking-tight text-white mt-1">450.0 OIP</div>
+                                <p className="text-[10px] text-gray-500 mt-1">{t("hw_wallet_rep_power").replace("{val}", "12")}</p>
                             </div>
                             <Trophy className="text-yellow-500/50" size={24} />
                         </div>
@@ -71,7 +71,7 @@ export default function OZPWallet() {
                     <div className="flex-1 space-y-3">
                         <div className="flex items-center justify-between text-[10px] text-gray-500 uppercase tracking-widest mb-2 px-2">
                             <span className="flex items-center gap-1"><History size={10} /> {t("hw_wallet_history")}</span>
-                            <span>More</span>
+                            <span>{t("hw_wallet_more")}</span>
                         </div>
                         {[1, 2, 3].map((i) => (
                             <div key={i} className="flex items-center justify-between p-3 bg-black/40 rounded-xl border border-white/5 hover:bg-white/5 transition-colors group">
@@ -80,7 +80,7 @@ export default function OZPWallet() {
                                         <ArrowDownLeft size={16} className="text-green-500" />
                                     </div>
                                     <div>
-                                        <div className="text-[11px] font-bold text-white uppercase tracking-tighter">Drive Session Award</div>
+                                        <div className="text-[11px] font-bold text-white uppercase tracking-tighter">{t("hw_wallet_drive_award")}</div>
                                         <div className="text-[9px] text-gray-500 italic">March {i + 1}, 2026</div>
                                     </div>
                                 </div>

@@ -50,7 +50,7 @@ export default function InsightLabPage() {
                     <div>
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-2 h-8 bg-[#00ffc2] rounded-full" />
-                            <span className="text-xs font-black text-[#00ffc2] uppercase tracking-[0.3em]">Governance Lab 0x1</span>
+                            <span className="text-xs font-black text-[#00ffc2] uppercase tracking-[0.3em]">{t("hw_lab_gov_badge")}</span>
                         </div>
                         <h1 className="text-5xl lg:text-7xl font-black italic tracking-tighter uppercase leading-[0.9]">
                             {t('lab_title').split(' ').map((word: string, i: number) => (
@@ -63,8 +63,8 @@ export default function InsightLabPage() {
                     </div>
                     <div className="flex items-center gap-6">
                         <div className="text-right">
-                            <div className="text-[10px] font-black text-[#00ffc2] uppercase tracking-widest mb-1">Founder Status</div>
-                            <div className="text-xl font-black italic uppercase">Secondary Founder</div>
+                            <div className="text-[10px] font-black text-[#00ffc2] uppercase tracking-widest mb-1">{t("hw_lab_founder_status")}</div>
+                            <div className="text-xl font-black italic uppercase">{t("hw_lab_founder_secondary")}</div>
                         </div>
                         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#00ffc2] to-blue-600 p-[2px]">
                             <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
@@ -83,11 +83,11 @@ export default function InsightLabPage() {
                             </div>
                             <div>
                                 <h2 className="text-2xl font-black uppercase italic tracking-widest">{t("hw_telemetry_title")}</h2>
-                                <p className="text-gray-400 text-xs mt-1 uppercase tracking-tight">Real-time CAN FD Analysis Interface active</p>
+                                <p className="text-gray-400 text-xs mt-1 uppercase tracking-tight">{t("hw_lab_telemetry_desc")}</p>
                             </div>
                         </div>
                         <Link href="/telemetry" className="px-10 py-5 bg-[#0052FF] hover:bg-[#0042CC] text-white font-black uppercase tracking-[0.2em] rounded-2xl shadow-[0_0_20px_rgba(0,82,255,0.5)] transition-all hover:scale-105">
-                            Launch Link
+                            {t("hw_lab_launch_link")}
                         </Link>
                     </div>
                 </div>
@@ -97,28 +97,28 @@ export default function InsightLabPage() {
                     <StatCard
                         title={t('lab_data_assets_value')}
                         value="$42.5M"
-                        detail="Global Aggregated"
+                        detail={t("hw_lab_global_agg")}
                         icon={Database}
                         color="emerald"
                     />
                     <StatCard
                         title={t('lab_roi_projection')}
                         value="520%"
-                        detail="36-Month Yield"
+                        detail={t("hw_lab_36m_yield")}
                         icon={TrendingUp}
                         color="blue"
                     />
                     <StatCard
                         title={t('lab_global_market_demand')}
                         value="High"
-                        detail="Insurance & OEM"
+                        detail={t("hw_lab_insurance_oem")}
                         icon={Globe}
                         color="purple"
                     />
                     <StatCard
                         title={t('lab_sovereignty_status')}
                         value="99.9%"
-                        detail="Encrypted & Anchored"
+                        detail={t("hw_lab_encrypted_anchored")}
                         icon={Lock}
                         color="amber"
                     />
@@ -137,12 +137,12 @@ export default function InsightLabPage() {
                         <div className="bg-[#080808] border border-white/5 rounded-[3rem] p-10 relative overflow-hidden group">
                             <div className="relative z-10">
                                 <div className="flex justify-between items-center mb-12">
-                                    <h3 className="text-xl font-black italic uppercase italic tracking-tighter text-slate-400">Regional Data Distribution</h3>
+                                    <h3 className="text-xl font-black italic uppercase italic tracking-tighter text-slate-400">{t("hw_lab_regional_dist")}</h3>
                                 </div>
                                 <div className="aspect-[21/9] w-full bg-white/5 rounded-3xl border border-dashed border-white/10 flex items-center justify-center">
                                     <div className="text-center">
                                         <Layers className="mx-auto mb-4 text-slate-800" size={32} />
-                                        <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest italic">Global Oracle Network</p>
+                                        <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest italic">{t("hw_lab_oracle_net")}</p>
                                     </div>
                                 </div>
                             </div>
@@ -151,7 +151,7 @@ export default function InsightLabPage() {
 
                     <div className="space-y-8">
                         <div className="bg-[#121212] border border-white/5 p-8 rounded-[2.5rem]">
-                            <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">Network Health</h4>
+                            <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">{t("hw_lab_net_health")}</h4>
                             <div className="space-y-4">
                                 {[
                                     { name: 'Shard-1 (KR)', status: 'Optimal' },
