@@ -12,7 +12,7 @@ export const translations = {
         nav_orders: "주문 내역",
         nav_sovereign_hub: "Sovereign 허브",
         nav_mobility_commons: "Mobility 커먼즈",
-        nav_command_center: "커맨드 센터",
+        nav_command_center: "나의 지휘소",
         nav_overview: "개요",
         nav_dev_hub: "개발자 허브",
         nav_not_connected: "지갑 미연결",
