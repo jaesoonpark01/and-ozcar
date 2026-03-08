@@ -116,6 +116,8 @@ export default function Navbar() {
         },
     ];
 
+    const [isBottomNavVisible, setIsBottomNavVisible] = useState(false);
+
     return (
         <>
             <motion.nav
@@ -364,19 +366,41 @@ export default function Navbar() {
 
             <AuthDialog isOpen={isAuthOpen} onOpenChange={setIsAuthOpen} />
 
-            {/* Mobile Bottom Navigation Bar (Modern Accessibility Trend) */}
-            <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[2000] w-[90%] max-w-md">
-                <div className="bg-black/60 backdrop-blur-3xl border border-white/10 rounded-full flex items-center justify-around p-2 shadow-[0_15px_30px_rgba(0,0,0,0.5)]">
-                    <Link href="/" className="p-3 text-slate-400 hover:text-white transition-colors">
-                        <Globe size={20} />
-                    </Link>
-                    <Link href="/sentinel" className="p-4 bg-blue-600 text-white rounded-full shadow-lg shadow-blue-900/40 -translate-y-2 hover:scale-105 transition-transform">
-                        <Activity size={24} />
-                    </Link>
-                    <Link href="/dashboard" className="p-3 text-slate-400 hover:text-white transition-colors">
-                        <LayoutDashboard size={20} />
-                    </Link>
-                </div>
+            {/* Mobile Bottom Navigation Bar (Toggleable for better visibility) */}
+            <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[2000] flex flex-col items-center gap-4 w-[90%] max-w-md">
+                <AnimatePresence>
+                    {isBottomNavVisible && (
+                        <motion.div
+                            initial={{ y: 20, opacity: 0, scale: 0.95 }}
+                            animate={{ y: 0, opacity: 1, scale: 1 }}
+                            exit={{ y: 20, opacity: 0, scale: 0.95 }}
+                            className="bg-black/60 backdrop-blur-3xl border border-white/10 rounded-full flex items-center justify-around p-2 shadow-[0_15px_30px_rgba(0,0,0,0.5)] w-full"
+                        >
+                            <Link href="/" className="p-3 text-slate-400 hover:text-white transition-colors" onClick={() => setIsBottomNavVisible(false)}>
+                                <Globe size={20} />
+                            </Link>
+                            <Link href="/sentinel" className="p-4 bg-blue-600 text-white rounded-full shadow-lg shadow-blue-900/40 -translate-y-2 hover:scale-105 transition-transform" onClick={() => setIsBottomNavVisible(false)}>
+                                <Activity size={24} />
+                            </Link>
+                            <Link href="/dashboard" className="p-3 text-slate-400 hover:text-white transition-colors" onClick={() => setIsBottomNavVisible(false)}>
+                                <LayoutDashboard size={20} />
+                            </Link>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* Toggle Button/Handle */}
+                <button
+                    onClick={() => setIsBottomNavVisible(!isBottomNavVisible)}
+                    className={`
+                        p-4 rounded-full border shadow-2xl transition-all duration-300
+                        ${isBottomNavVisible
+                            ? 'bg-red-500/20 border-red-500/30 text-red-400 rotate-45'
+                            : 'bg-blue-600 border-blue-400/50 text-white hover:scale-110 active:scale-90'}
+                    `}
+                >
+                    {isBottomNavVisible ? <X size={24} /> : <Activity size={24} className="animate-pulse" />}
+                </button>
             </div>
         </>
     );
