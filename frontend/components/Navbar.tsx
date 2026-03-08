@@ -274,8 +274,14 @@ export default function Navbar() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 1.1 }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="fixed inset-0 z-[1900] bg-black/95 backdrop-blur-2xl flex flex-col p-6 pt-24"
+                        className="fixed inset-0 z-[2500] bg-black/95 backdrop-blur-2xl flex flex-col p-6 pt-24"
                     >
+                        <button
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="absolute top-6 right-6 p-3 bg-white/10 rounded-2xl border border-white/10 text-white hover:bg-white/20 transition-colors"
+                        >
+                            <X size={22} />
+                        </button>
                         <div className="flex flex-col gap-3 overflow-y-auto max-h-[70vh] no-scrollbar">
                             {navLinks.map((link) => (
                                 <div key={link.label} className="flex flex-col gap-2">
