@@ -14,8 +14,10 @@ import DataCertificate from '@/components/obd/DataCertificate';
 import WeeklyReport from '@/components/obd/WeeklyReport';
 import { Activity, Bluetooth, Power, Send, ShieldCheck, Coins, LayoutDashboard, CalendarDays } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useI18n } from '@/hooks/useI18n';
 
 export default function SentinelDashboard() {
+    const { t, lang } = useI18n();
     const {
         isConnected,
         log,
@@ -90,7 +92,7 @@ export default function SentinelDashboard() {
                         <Activity className="text-blue-500" size={32} />
                         Ozcar Sentinel
                     </h1>
-                    <p className="text-slate-400 mt-2 text-sm">실시간 주행 데이터 자산화 대시보드</p>
+                    <p className="text-slate-400 mt-2 text-sm">{t('sentinel_subtitle')}</p>
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -98,12 +100,12 @@ export default function SentinelDashboard() {
                     {isConnected ? (
                         <div className="flex items-center gap-2 bg-blue-900/30 text-blue-400 px-4 py-2 rounded-full text-sm font-semibold border border-blue-800">
                             <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-pulse" />
-                            OBD-II 연결됨
+                            {t('sentinel_obd_connected')}
                         </div>
                     ) : (
                         <div className="flex items-center gap-2 bg-slate-800 text-slate-400 px-4 py-2 rounded-full text-sm font-semibold border border-slate-700">
                             <div className="w-2.5 h-2.5 bg-slate-500 rounded-full" />
-                            장치 미연결
+                            {t('sentinel_obd_disconnected')}
                         </div>
                     )}
                 </div>
@@ -117,25 +119,25 @@ export default function SentinelDashboard() {
                     {/* 데이터 채굴 현황 컴포넌트 */}
                     <div className="bg-gradient-to-r from-purple-900/60 to-indigo-900/40 p-5 rounded-2xl border border-purple-500/30">
                         <p className="text-purple-300 text-xs font-bold mb-1 flex items-center gap-1">
-                            <Coins size={14} /> 현재 드라이브에서 채굴된 에셋 가치
+                            <Coins size={14} /> {t('sentinel_mined_value')}
                         </p>
                         <div className="flex items-end gap-2">
                             <p className="text-3xl font-black text-white">{Math.floor(minedOzp).toLocaleString()}</p>
                             <span className="text-purple-400 font-bold mb-1">OZP</span>
                         </div>
-                        <p className="text-slate-400 text-xs mt-2">({totalPackets.toLocaleString()} 패킷 보안 전송 완료)</p>
+                        <p className="text-slate-400 text-xs mt-2">{t('sentinel_packets_sent', { count: totalPackets.toLocaleString() })}</p>
                     </div>
 
                     <div>
                         <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                            <Bluetooth className="text-blue-400" /> 커넥션 매니저
+                            <Bluetooth className="text-blue-400" /> {t('sentinel_connection_mgr')}
                         </h2>
                         {!isConnected ? (
                             <button
                                 onClick={connectDevice}
                                 className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 transition-colors shadow-lg shadow-blue-900/20"
                             >
-                                <Bluetooth size={20} /> 블루투스 스캐너 페어링
+                                <Bluetooth size={20} /> {t('sentinel_bt_pairing')}
                             </button>
                         ) : (
                             <div className="flex flex-col gap-3">
@@ -152,22 +154,22 @@ export default function SentinelDashboard() {
                                         }`}
                                 >
                                     {isPolling ? <Power size={20} /> : <Send size={20} />}
-                                    {isPolling ? '주행 데이터 수집 중지' : '데이터 수익화 시작'}
+                                    {isPolling ? t('sentinel_stop_polling') : t('sentinel_start_polling')}
                                 </button>
                                 <button
                                     onClick={disconnectDevice}
                                     className="w-full bg-slate-800 hover:bg-red-900/40 text-slate-300 font-bold py-3 rounded-xl transition-colors border border-slate-700"
                                 >
-                                    연결 해제
+                                    {t('sentinel_disconnect')}
                                 </button>
                             </div>
                         )}
                     </div>
 
                     <div className="flex-1 min-h-[200px] flex flex-col">
-                        <h3 className="text-sm font-bold text-slate-400 mb-2">터미널 로그</h3>
+                        <h3 className="text-sm font-bold text-slate-400 mb-2">{t('sentinel_terminal_log')}</h3>
                         <div className="flex-1 bg-black/50 p-4 rounded-xl border border-slate-800/50 overflow-y-auto font-mono text-xs text-green-400 flex flex-col gap-1">
-                            {log.length === 0 ? <p className="text-slate-600 italic">대기 중...</p> : null}
+                            {log.length === 0 ? <p className="text-slate-600 italic">{t('sentinel_waiting')}</p> : null}
                             {log.map((l, i) => (
                                 <div key={i} className="break-all opacity-80 hover:opacity-100 flex gap-2">
                                     <span className="text-slate-500 select-none">&rsaquo;</span>
@@ -191,26 +193,26 @@ export default function SentinelDashboard() {
                                 className="bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-6 rounded-3xl flex flex-col items-center justify-center gap-2 transition-all border border-slate-700 shadow-xl h-full group"
                             >
                                 <LayoutDashboard className="text-[#00ffcc] group-hover:scale-110 transition-transform" size={28} />
-                                <span className="text-sm tracking-widest uppercase">HUD 모드 켜기</span>
+                                <span className="text-sm tracking-widest uppercase">{t('sentinel_btn_hud')}</span>
                             </button>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
                         <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800">
-                            <p className="text-slate-500 text-sm font-semibold mb-1">배터리 (SoC)</p>
+                            <p className="text-slate-500 text-sm font-semibold mb-1">{t('sentinel_stat_soc')}</p>
                             <p className="text-3xl font-black text-white">{carData?.socDisplay.toFixed(1) || '--'} <span className="text-base font-medium text-slate-500">%</span></p>
                         </div>
                         <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800">
-                            <p className="text-slate-500 text-sm font-semibold mb-1">배터리 최고 온도</p>
+                            <p className="text-slate-500 text-sm font-semibold mb-1">{t('sentinel_stat_temp')}</p>
                             <p className="text-3xl font-black text-amber-400">{carData?.tempMax.toFixed(1) || '--'} <span className="text-base font-medium text-amber-600/50">°C</span></p>
                         </div>
                         <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800">
-                            <p className="text-slate-500 text-sm font-semibold mb-1">전류 (Current)</p>
+                            <p className="text-slate-500 text-sm font-semibold mb-1">{t('sentinel_stat_current')}</p>
                             <p className="text-3xl font-black text-blue-400">{carData?.current.toFixed(1) || '--'} <span className="text-base font-medium text-blue-600/50">A</span></p>
                         </div>
                         <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex flex-col justify-center">
-                            <p className="text-slate-500 text-sm font-semibold mb-2">건강도 (SOH)</p>
+                            <p className="text-slate-500 text-sm font-semibold mb-2">{t('sentinel_stat_soh')}</p>
                             <div className="flex items-end gap-2">
                                 <ShieldCheck className={carData?.soh && carData.soh > 90 ? "text-emerald-500" : "text-slate-600"} size={28} />
                                 <span className="text-xl font-bold">{carData?.soh.toFixed(1) || '--'}%</span>
@@ -237,8 +239,8 @@ export default function SentinelDashboard() {
                             <div className="flex items-center gap-3">
                                 <Power className="text-emerald-500 animate-pulse" />
                                 <div>
-                                    <p className="font-bold text-emerald-400 text-sm">급속 충전 중</p>
-                                    <p className="text-emerald-500/70 text-xs">배터리 수명 보호 로직 가동 중</p>
+                                    <p className="font-bold text-emerald-400 text-sm">{t('sentinel_charging_fast')}</p>
+                                    <p className="text-emerald-500/70 text-xs">{t('sentinel_charging_desc')}</p>
                                 </div>
                             </div>
                             <p className="font-mono text-emerald-500/80 text-sm">{carData.voltage.toFixed(1)}V</p>
@@ -254,25 +256,25 @@ export default function SentinelDashboard() {
                         onClick={() => setActiveView('live')}
                         className={`text-lg font-bold px-4 py-2 rounded-xl transition-all ${activeView === 'live' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:bg-slate-800'}`}
                     >
-                        실시간 텔레메트리 (이전 영역)
+                        {t('sentinel_tab_live')}
                     </button>
                     <button
                         onClick={() => setActiveView('community')}
                         className={`text-lg font-bold px-4 py-2 rounded-xl transition-all ${activeView === 'community' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800'}`}
                     >
-                        커뮤니티 랭킹
+                        {t('sentinel_tab_community')}
                     </button>
                     <button
                         onClick={() => setActiveView('weekly')}
                         className={`text-lg font-bold px-4 py-2 rounded-xl transition-all ${activeView === 'weekly' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:bg-slate-800'}`}
                     >
-                        주간 리포트
+                        {t('sentinel_tab_weekly')}
                     </button>
                     <button
                         onClick={() => setActiveView('certificate')}
                         className={`text-lg font-bold px-4 py-2 rounded-xl transition-all ${activeView === 'certificate' ? 'bg-amber-600 text-white' : 'text-slate-400 hover:bg-slate-800'}`}
                     >
-                        데이터 인증서
+                        {t('sentinel_tab_certificate')}
                     </button>
                 </div>
 
@@ -288,7 +290,7 @@ export default function SentinelDashboard() {
                 )}
                 {activeView === 'live' && (
                     <div className="text-center py-10 bg-slate-900/50 rounded-2xl border border-slate-800 text-slate-400">
-                        <p>위 패널에서 수집되는 실시간 런타임 텔레메트리를 모니터링합니다.</p>
+                        <p>{t('sentinel_live_placeholder')}</p>
                     </div>
                 )}
                 {activeView === 'weekly' && (

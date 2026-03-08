@@ -1,28 +1,32 @@
 "use client";
 
 import React from 'react';
+import { useI18n } from '@/hooks/useI18n';
 
 // 차량 상태 팁 계산 로직 (간소화)
 const getTipMessage = (temp: number, soc: number) => {
-    if (temp < 5) return "오늘 아침 기온이 좀 차갑네요. 칠공이의 배터리 효율 향상을 위해 실내 주차를 권장해요!";
-    if (temp > 40) return "날이 덥네요! 과속을 줄이면 배터리 스트레스를 크게 낮출 수 있어요.";
-    if (soc < 20) return "배터리가 많이 배고파요. 얼른 밥 주러 갈까요?";
-    if (soc > 80 && temp > 35) return "배터리가 가득 찼지만 온도가 높아요. 회생제동을 부드럽게 쓰시는 걸 추천드려요!";
-    return "칠공이 컨디션 이상 무! 훌륭한 주행 습관 덕분이에요 🚗💨";
+    if (temp < 5) return "summary_card_tip_cold";
+    if (temp > 40) return "summary_card_tip_hot";
+    if (soc < 20) return "summary_card_tip_low_soc";
+    if (soc > 80 && temp > 35) return "summary_card_tip_full_hot";
+    return "summary_card_tip_default";
 };
 
 export default function SummaryCard() {
+    const { t, lang } = useI18n();
+
     // 모의 차량 데이터
     const mockData = {
-        date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }),
-        time: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }),
-        carName: "칠공이",
+        date: new Date().toLocaleDateString(lang === 'ko' ? 'ko-KR' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }),
+        time: new Date().toLocaleTimeString(lang === 'ko' ? 'ko-KR' : 'en-US', { hour: '2-digit', minute: '2-digit' }),
+        carName: lang === 'ko' ? "칠공이" : "Ioniq 6",
         distanceLeftKm: 342,
         soc: 72,
         temp: 22,
     };
 
-    const tipMessage = getTipMessage(mockData.temp, mockData.soc);
+    const tipKey = getTipMessage(mockData.temp, mockData.soc);
+    const tipMessage = t(tipKey as any, { carName: mockData.carName, temp: mockData.temp, soc: mockData.soc });
 
     return (
         <div className="relative overflow-hidden rounded-[32px] p-8 text-white shadow-2xl bg-gradient-to-br from-[#0052ff]/90 to-purple-700/90 backdrop-blur-xl border border-white/20 hover:shadow-blue-500/30 transition-all duration-500 group">
@@ -38,8 +42,8 @@ export default function SummaryCard() {
                         {mockData.date} {mockData.time}
                     </p>
                     <h2 className="text-2xl font-black leading-snug drop-shadow-md">
-                        {mockData.carName}의 컨디션은 <span className="text-yellow-300 border-b-2 border-yellow-300/50 pb-0.5">최고예요!</span> <br />
-                        오늘 외출도 문제없어요. ⭐
+                        {mockData.carName}{t('summary_card_status_great')} <br />
+                        {t('summary_card_status_desc')}
                     </h2>
                 </div>
 
@@ -71,7 +75,7 @@ export default function SummaryCard() {
                         </div>
                         <div className="mt-2 text-xs font-semibold text-white/60 bg-black/20 px-3 py-1.5 rounded-full inline-flex w-max relative overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
-                            온도: {mockData.temp}°C
+                            {t('summary_card_temp')}: {mockData.temp}°C
                         </div>
                     </div>
                 </div>

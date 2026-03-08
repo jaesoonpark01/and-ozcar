@@ -1,7 +1,8 @@
 "use client";
 
 import React from 'react';
-import { X, Award, Leaf, BatteryCharging, Zap, Map } from 'lucide-react';
+import { X, Award, Leaf, BatteryCharging, Zap, Map as MapIcon } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 interface TripSummaryProps {
     score: number;
@@ -12,6 +13,7 @@ interface TripSummaryProps {
 }
 
 export default function TripSummary({ score, distance, efficiency, savedMoney, onClose }: TripSummaryProps) {
+    const { t } = useI18n();
     // 모의 주행 분석 데이터
     const mockAnalysis = {
         drivingPercent: 70,
@@ -46,21 +48,21 @@ export default function TripSummary({ score, distance, efficiency, savedMoney, o
 
                         <div className="inline-flex flex-col items-center gap-2">
                             <div className="bg-white/20 backdrop-blur-md px-5 py-1.5 rounded-full text-sm font-bold text-white flex items-center gap-2 border border-white/20">
-                                <span>🏆 상위 3%의 부드러운 주행!</span>
+                                <span>{t('trip_summary_top_percent', { percent: 3 })}</span>
                             </div>
-                            <p className="text-blue-100/80 text-xs">지구를 아끼는 마음이 느껴져요! 🌿</p>
+                            <p className="text-blue-100/80 text-xs">{t('trip_summary_eco_message')}</p>
                         </div>
                     </div>
 
                     {/* 2. 주요 수치 그리드 */}
                     <div className="grid grid-cols-2 gap-4 mb-6">
                         <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
-                            <p className="text-slate-400 text-xs mb-1 font-medium flex items-center gap-1"><Map size={14} /> 주행 거리</p>
+                            <p className="text-slate-400 text-xs mb-1 font-medium flex items-center gap-1"><MapIcon size={14} /> {t('trip_summary_distance')}</p>
                             <p className="text-2xl font-bold text-white">{distance} <span className="text-sm font-normal text-slate-500">km</span></p>
                         </div>
                         <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700 relative overflow-hidden">
                             <div className="absolute -right-2 -bottom-2 opacity-5"><Zap size={48} /></div>
-                            <p className="text-slate-400 text-xs mb-1 font-medium flex items-center gap-1"><BatteryCharging size={14} /> 평균 전비</p>
+                            <p className="text-slate-400 text-xs mb-1 font-medium flex items-center gap-1"><BatteryCharging size={14} /> {t('trip_summary_avg_efficiency')}</p>
                             <p className="text-2xl font-bold text-emerald-400">{efficiency.toFixed(1)} <span className="text-sm font-normal text-slate-500">km/kWh</span></p>
                         </div>
                     </div>
@@ -71,37 +73,37 @@ export default function TripSummary({ score, distance, efficiency, savedMoney, o
                             <h3 className="text-xs font-bold text-emerald-500 mb-1 flex items-center gap-1 uppercase tracking-wider">
                                 <Leaf size={14} /> Benefit Report
                             </h3>
-                            <p className="text-3xl font-black text-white mt-2">+{savedMoney.toLocaleString()}원</p>
-                            <p className="text-xs text-slate-400 mt-1">동급 내연기관차 대비 연료비 절감액</p>
+                            <p className="text-3xl font-black text-white mt-2">{t('trip_summary_saved_money', { amount: savedMoney.toLocaleString() })}</p>
+                            <p className="text-xs text-slate-400 mt-1">{t('trip_summary_saved_desc')}</p>
                         </div>
                         <div className="text-5xl opacity-80">☕</div>
                     </div>
 
                     {/* 분석 디테일 (에너지 분포) */}
                     <div className="mb-8">
-                        <p className="text-sm font-semibold text-slate-300 mb-3">에너지 사용 분포</p>
+                        <p className="text-sm font-semibold text-slate-300 mb-3">{t('trip_summary_energy_dist')}</p>
                         <div className="w-full h-3 bg-slate-800 rounded-full flex overflow-hidden mb-2">
-                            <div className="h-full bg-blue-500" style={{ width: `${mockAnalysis.drivingPercent}%` }} title="주행" />
-                            <div className="h-full bg-amber-500" style={{ width: `${mockAnalysis.hvacPercent}%` }} title="공조" />
-                            <div className="h-full bg-purple-500" style={{ width: `${mockAnalysis.electronicsPercent}%` }} title="전장" />
+                            <div className="h-full bg-blue-500" style={{ width: `${mockAnalysis.drivingPercent}%` }} title={t('trip_summary_dist_driving')} />
+                            <div className="h-full bg-amber-500" style={{ width: `${mockAnalysis.hvacPercent}%` }} title={t('trip_summary_dist_hvac')} />
+                            <div className="h-full bg-purple-500" style={{ width: `${mockAnalysis.electronicsPercent}%` }} title={t('trip_summary_dist_electronics')} />
                         </div>
                         <div className="flex justify-between text-[10px] text-slate-500 font-medium">
-                            <span className="text-blue-400">주행 {mockAnalysis.drivingPercent}%</span>
-                            <span className="text-amber-400">공조 {mockAnalysis.hvacPercent}%</span>
-                            <span className="text-purple-400">전장 {mockAnalysis.electronicsPercent}%</span>
+                            <span className="text-blue-400">{t('trip_summary_dist_driving')} {mockAnalysis.drivingPercent}%</span>
+                            <span className="text-amber-400">{t('trip_summary_dist_hvac')} {mockAnalysis.hvacPercent}%</span>
+                            <span className="text-purple-400">{t('trip_summary_dist_electronics')} {mockAnalysis.electronicsPercent}%</span>
                         </div>
                         <p className="text-xs text-emerald-400 mt-3 text-center bg-emerald-900/10 py-2 rounded-lg border border-emerald-900/30">
-                            ⚡ 회생 제동으로 주행거리를 <strong>{mockAnalysis.regenDistance}km</strong>나 더 늘렸어요!
+                            {t('trip_summary_regen_bonus', { distance: mockAnalysis.regenDistance })}
                         </p>
                     </div>
 
                     {/* 4. 하단 버튼 액션 */}
                     <div className="grid grid-cols-2 gap-4">
                         <button className="bg-slate-800 hover:bg-slate-700 text-slate-300 py-4 rounded-xl font-bold text-sm transition-colors cursor-not-allowed opacity-50">
-                            상세 지도 보기
+                            {t('trip_summary_view_map')}
                         </button>
                         <button className="bg-blue-600 hover:bg-blue-500 text-white py-4 rounded-xl font-bold text-sm transition-colors shadow-lg shadow-blue-900/20">
-                            리포트 자랑하기
+                            {t('trip_summary_share_report')}
                         </button>
                     </div>
 

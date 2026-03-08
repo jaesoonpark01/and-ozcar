@@ -1,21 +1,24 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Trophy, Medal, Star, Flame, Target, ChevronRight } from 'lucide-react';
-
-// 모의 데이터
-const LEAGUES = ['브론즈', '실버', '골드', '플래티넘'];
-const MOCK_RANKINGS = [
-    { rank: 1, name: "오즈의마법사", car: "아이오닉 6", score: 98, isMe: false },
-    { rank: 2, name: "전비왕제이", car: "아이오닉 6", score: 95, isMe: false },
-    { rank: 3, name: "에코부스터", car: "아이오닉 6", score: 91, isMe: false },
-    { rank: 4, name: "EV마스터", car: "아이오닉 6", score: 88, isMe: false },
-    { rank: 5, name: "칠공이엄마", car: "아이오닉 6", score: 85, isMe: true }, // 본인
-    { rank: 6, name: "조용한질주", car: "아이오닉 6", score: 82, isMe: false },
-];
+import { Trophy, Medal, Star, Flame, ChevronRight } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 export default function CommunityRanking() {
+    const { t, lang } = useI18n();
     const [activeTab, setActiveTab] = useState<'league' | 'model'>('model');
+
+    const LEAGUES = t('ranking_league_names').split(', ');
+    const MOCK_RANKINGS = [
+        { rank: 1, name: lang === 'ko' ? "오즈의마법사" : "OzWizard", car: lang === 'ko' ? "아이오닉 6" : "Ioniq 6", score: 98, isMe: false },
+        { rank: 2, name: lang === 'ko' ? "전비왕제이" : "EcoKingJ", car: lang === 'ko' ? "아이오닉 6" : "Ioniq 6", score: 95, isMe: false },
+        { rank: 3, name: lang === 'ko' ? "에코부스터" : "EcoBooster", car: lang === 'ko' ? "아이오닉 6" : "Ioniq 6", score: 91, isMe: false },
+        { rank: 4, name: lang === 'ko' ? "EV마스터" : "EVMaster", car: lang === 'ko' ? "아이오닉 6" : "Ioniq 6", score: 88, isMe: false },
+        { rank: 5, name: lang === 'ko' ? "칠공이엄마" : "IoniqMom", car: lang === 'ko' ? "아이오닉 6" : "Ioniq 6", score: 85, isMe: true }, // 본인
+        { rank: 6, name: lang === 'ko' ? "조용한질주" : "SilentRush", car: lang === 'ko' ? "아이오닉 6" : "Ioniq 6", score: 82, isMe: false },
+    ];
+
+    const myLeague = LEAGUES[2]; // 골드 / Gold
 
     return (
         <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden text-white flex flex-col h-full shadow-2xl">
@@ -26,13 +29,13 @@ export default function CommunityRanking() {
                 <div className="flex justify-between items-start relative z-10">
                     <div>
                         <h2 className="text-2xl font-black flex items-center gap-2">
-                            <Trophy className="text-yellow-400" size={26} /> ozcar 챌린지
+                            <Trophy className="text-yellow-400" size={26} /> {t('ranking_title')}
                         </h2>
-                        <p className="text-blue-300/80 text-sm mt-1">시즌 1: 에코 드라이버를 찾아라</p>
+                        <p className="text-blue-300/80 text-sm mt-1">{t('ranking_season_desc')}</p>
                     </div>
                     <div className="bg-slate-950/50 backdrop-blur-sm px-4 py-2 rounded-2xl border border-white/5 flex flex-col items-center">
                         <span className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-0.5">My League</span>
-                        <span className="text-amber-500 font-black text-sm flex items-center gap-1"><Star size={12} /> 골드</span>
+                        <span className="text-amber-500 font-black text-sm flex items-center gap-1"><Star size={12} /> {myLeague}</span>
                     </div>
                 </div>
 
@@ -42,13 +45,13 @@ export default function CommunityRanking() {
                         onClick={() => setActiveTab('model')}
                         className={`px-5 py-2 rounded-xl text-sm font-bold transition-all ${activeTab === 'model' ? 'bg-blue-600 shadow-md text-white' : 'text-slate-400 hover:text-white'}`}
                     >
-                        동일 차종 (아이오닉6)
+                        {t('ranking_tab_model', { model: lang === 'ko' ? '아이오닉6' : 'Ioniq 6' })}
                     </button>
                     <button
                         onClick={() => setActiveTab('league')}
                         className={`px-5 py-2 rounded-xl text-sm font-bold transition-all ${activeTab === 'league' ? 'bg-indigo-600 shadow-md text-white' : 'text-slate-400 hover:text-white'}`}
                     >
-                        전체 (골드 리그)
+                        {t('ranking_tab_league', { league: myLeague })}
                     </button>
                 </div>
             </div>
@@ -61,12 +64,12 @@ export default function CommunityRanking() {
                             <Flame size={20} />
                         </div>
                         <div>
-                            <p className="text-[10px] text-orange-300 font-bold uppercase tracking-wider mb-0.5">주간 미션</p>
-                            <p className="font-bold text-sm">급가속 0회 달성하기</p>
+                            <p className="text-[10px] text-orange-300 font-bold uppercase tracking-wider mb-0.5">{t('ranking_weekly_mission')}</p>
+                            <p className="font-bold text-sm">{t('ranking_mission_desc')}</p>
                         </div>
                     </div>
                     <button className="text-orange-400 bg-orange-500/10 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-orange-500/20 transition-colors">
-                        보상 2,000P
+                        {t('ranking_mission_reward', { amount: '2,000' })}
                     </button>
                 </div>
             </div>
@@ -96,7 +99,7 @@ export default function CommunityRanking() {
 
                                     {/* 프로필 이미지 (임시 목업 아바타 대신 로고류) */}
                                     <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 border ${row.isMe ? 'bg-blue-600 border-blue-400' : 'bg-slate-700 border-slate-600'}`}>
-                                        {row.isMe ? '나' : row.name.charAt(0)}
+                                        {row.isMe ? t('ranking_me_label') : row.name.charAt(0)}
                                     </div>
 
                                     <div>
@@ -125,15 +128,15 @@ export default function CommunityRanking() {
             <div className="bg-slate-950 p-4 border-t border-slate-800 flex justify-between items-center z-10 shrink-0">
                 <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-blue-600 rounded-full border-2 border-slate-950 shadow-lg flex items-center justify-center font-bold text-xl relative -mt-8 -ml-1">
-                        나
+                        {t('ranking_me_label')}
                     </div>
                     <div>
-                        <p className="text-xs text-slate-400">나의 oz-Score</p>
-                        <p className="font-black text-lg text-white">85 <span className="text-xs font-normal text-slate-500">점</span></p>
+                        <p className="text-xs text-slate-400">{t('ranking_my_score')}</p>
+                        <p className="font-black text-lg text-white">85 <span className="text-xs font-normal text-slate-500">{lang === 'ko' ? '점' : 'pts'}</span></p>
                     </div>
                 </div>
                 <button className="flex items-center gap-1 text-sm font-bold text-blue-400 hover:text-blue-300">
-                    내 전비 팁 설정 <ChevronRight size={16} />
+                    {t('ranking_set_tips')} <ChevronRight size={16} />
                 </button>
             </div>
 

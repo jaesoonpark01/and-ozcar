@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { X, FlipHorizontal } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 interface HUDProps {
     speed: number;
@@ -13,6 +14,7 @@ interface HUDProps {
 }
 
 export default function HUDMode({ speed, soc, temp, powerKw, dtcWarning = false, onClose }: HUDProps) {
+    const { t } = useI18n();
     const [isMirror, setIsMirror] = useState(false);
     const [time, setTime] = useState('');
 
@@ -54,7 +56,7 @@ export default function HUDMode({ speed, soc, temp, powerKw, dtcWarning = false,
                 {dtcWarning && (
                     <div className="flex animate-pulse items-center gap-3 bg-red-900/40 text-red-500 px-6 py-2 rounded-full border border-red-500/50">
                         <span className="text-3xl">⚠️</span>
-                        <span className="text-xl font-bold tracking-widest uppercase">System Check</span>
+                        <span className="text-xl font-bold tracking-widest uppercase">{t('hud_system_check')}</span>
                     </div>
                 )}
             </div>
@@ -70,7 +72,7 @@ export default function HUDMode({ speed, soc, temp, powerKw, dtcWarning = false,
             {/* 3. 재생/동력 게이지 (아치/직선 형태 단순 표현) */}
             <div className="absolute bottom-40 w-full px-20 flex flex-col items-center justify-center opacity-80">
                 <div className="text-xs text-white/40 mb-3 tracking-[0.4em] uppercase font-bold text-center">
-                    {isRegen ? 'Charge' : 'Power'}
+                    {isRegen ? t('hud_charge') : t('hud_power')}
                 </div>
                 <div className="w-[60%] h-3 bg-white/10 rounded-full overflow-hidden relative border border-white/5 shadow-inner">
                     {/* 회생 제동이면 중앙에서 왼쪽으로, 가속이면 중앙에서 오른쪽으로 스케일되는 형태를 간단히 폭으로 모사합니다. */}
@@ -85,7 +87,7 @@ export default function HUDMode({ speed, soc, temp, powerKw, dtcWarning = false,
             <div className="absolute bottom-16 w-full px-16 flex justify-between items-end">
                 {/* 좌측: 배터리 잔량 */}
                 <div className="flex flex-col items-start min-w-[120px]">
-                    <span className="text-emerald-500/80 text-xl mb-2 tracking-[0.3em] font-bold uppercase">Battery</span>
+                    <span className="text-emerald-500/80 text-xl mb-2 tracking-[0.3em] font-bold uppercase">{t('hud_battery')}</span>
                     <div className="flex items-baseline gap-2">
                         <span className={`text-[5rem] font-bold leading-none ${soc < 20 ? 'text-rose-500' : 'text-white'}`}>{soc.toFixed(0)}</span>
                         <span className="text-3xl text-white/40 font-bold">%</span>
@@ -94,7 +96,7 @@ export default function HUDMode({ speed, soc, temp, powerKw, dtcWarning = false,
 
                 {/* 우측: 배터리 온도 */}
                 <div className="flex flex-col items-end min-w-[120px]">
-                    <span className="text-amber-500/80 text-xl mb-2 tracking-[0.3em] font-bold uppercase">Temp</span>
+                    <span className="text-amber-500/80 text-xl mb-2 tracking-[0.3em] font-bold uppercase">{t('hud_temp')}</span>
                     <div className="flex items-baseline gap-2">
                         <span className={`text-[5rem] font-bold leading-none ${temp > 45 ? 'text-rose-500' : 'text-white'}`}>{temp.toFixed(0)}</span>
                         <span className="text-3xl text-white/40 font-bold">°C</span>
