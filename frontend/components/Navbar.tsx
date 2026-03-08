@@ -74,36 +74,44 @@ export default function Navbar() {
 
     const navLinks = [
         {
-            href: "#",
-            label: t('nav_sovereign_hub'),
-            icon: <Shield size={14} />,
+            href: "/my-garage",
+            label: t('nav_my_car'),
+            icon: <Car size={14} />,
             subLinks: [
-                { href: "/insight-lab", label: t('nav_insight_lab'), icon: <Activity size={14} /> },
-                { href: "/telemetry", label: t('nav_telemetry'), icon: <Cpu size={14} /> },
-                { href: "/governance", label: t('nav_governance'), icon: <Landmark size={14} /> },
-                { href: "/justice-center", label: t('nav_justice'), icon: <Shield size={14} /> },
-                { href: "/leaderboard", label: t('nav_leaderboard'), icon: <Activity size={14} /> },
-            ]
-        },
-        {
-            href: "#",
-            label: t('nav_mobility_commons'),
-            icon: <ShoppingBag size={14} />,
-            subLinks: [
-                { href: "/marketplace", label: t('nav_market'), icon: <ShoppingBag size={14} /> },
-                { href: "/sell", label: t('nav_onboarding'), icon: <Car size={14} /> },
+                { href: "/my-garage", label: t('nav_garage'), icon: <Car size={14} /> },
                 { href: "/maintenance", label: t('nav_maintenance'), icon: <Wrench size={14} /> },
+                { href: "/sentinel", label: t('nav_telemetry'), icon: <Activity size={14} /> },
             ]
         },
         {
             href: "/dashboard",
-            label: t('nav_command_center'),
+            label: t('nav_dashboard'),
             icon: <LayoutDashboard size={14} />,
             subLinks: [
                 { href: "/dashboard", label: t('nav_overview'), icon: <LayoutDashboard size={14} /> },
                 { href: "/wallet", label: t('nav_wallet'), icon: <Wallet size={14} /> },
-                { href: "/my-garage", label: t('nav_garage'), icon: <Car size={14} /> },
                 { href: "/admin/hub", label: t('nav_dev_hub'), icon: <Cpu size={14} /> },
+            ]
+        },
+        {
+            href: "/marketplace",
+            label: t('nav_market'),
+            icon: <ShoppingBag size={14} />,
+            subLinks: [
+                { href: "/marketplace", label: t('nav_market'), icon: <ShoppingBag size={14} /> },
+                { href: "/sell", label: t('nav_onboarding'), icon: <Car size={14} /> },
+                { href: "/orders", label: t('nav_orders'), icon: <ShoppingBag size={14} /> },
+                { href: "/insight-lab", label: t('nav_insight_lab'), icon: <Activity size={14} /> },
+            ]
+        },
+        {
+            href: "/governance",
+            label: t('nav_dao'),
+            icon: <Landmark size={14} />,
+            subLinks: [
+                { href: "/governance", label: t('nav_governance'), icon: <Landmark size={14} /> },
+                { href: "/jury", label: t('nav_justice'), icon: <Shield size={14} /> },
+                { href: "/governance/constitution", label: t('nav_constitution'), icon: <Shield size={14} /> },
             ]
         },
     ];
