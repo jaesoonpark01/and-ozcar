@@ -46,7 +46,7 @@ export default function Navbar() {
     const handleMouseLeave = () => {
         const timeout = setTimeout(() => {
             setActiveDropdown(null);
-        }, 150); // Short delay to prevent accidental closing
+        }, 200); // Optimized for UX (200ms)
         setDropdownTimeout(timeout);
     };
 
@@ -155,7 +155,8 @@ export default function Navbar() {
                                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-64 bg-black/95 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-4 shadow-[0_30px_60px_rgba(0,0,0,0.8)] z-[3000] overflow-hidden"
+                                        transition={{ type: "spring", damping: 20, stiffness: 300 }}
+                                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-black/90 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-4 shadow-[0_30px_60px_rgba(0,0,0,0.8)] z-[3000] overflow-hidden"
                                     >
                                         <div className="grid gap-2">
                                             {link.subLinks.map((sub) => (
@@ -196,8 +197,8 @@ export default function Navbar() {
                                     relative group overflow-hidden flex items-center gap-1.5 sm:gap-3 px-2.5 sm:px-6 py-1.5 sm:py-3 rounded-full 
                                     font-black text-[8px] sm:text-[11px] uppercase tracking-normal sm:tracking-widest transition-all
                                     ${(account || session)
-                                        ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
-                                        : 'bg-white text-black hover:bg-blue-600 hover:text-white'}
+                                        ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.2)]'
+                                        : 'bg-white text-black hover:bg-blue-600 hover:text-white shadow-[0_4px_15px_rgba(59,130,246,0.3)]'}
                                 `}
                             >
                                 <div className="relative z-10 flex items-center gap-1 sm:gap-3">
@@ -348,6 +349,21 @@ export default function Navbar() {
             </AnimatePresence>
 
             <AuthDialog isOpen={isAuthOpen} onOpenChange={setIsAuthOpen} />
+
+            {/* Mobile Bottom Navigation Bar (Modern Accessibility Trend) */}
+            <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[2000] w-[90%] max-w-md">
+                <div className="bg-black/60 backdrop-blur-3xl border border-white/10 rounded-full flex items-center justify-around p-2 shadow-[0_15px_30px_rgba(0,0,0,0.5)]">
+                    <Link href="/" className="p-3 text-slate-400 hover:text-white transition-colors">
+                        <Globe size={20} />
+                    </Link>
+                    <Link href="/sentinel" className="p-4 bg-blue-600 text-white rounded-full shadow-lg shadow-blue-900/40 -translate-y-2 hover:scale-105 transition-transform">
+                        <Activity size={24} />
+                    </Link>
+                    <Link href="/dashboard" className="p-3 text-slate-400 hover:text-white transition-colors">
+                        <LayoutDashboard size={20} />
+                    </Link>
+                </div>
+            </div>
         </>
     );
 }
