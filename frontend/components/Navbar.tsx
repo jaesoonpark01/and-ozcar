@@ -22,7 +22,10 @@ import {
     Landmark,
     User,
     LogOut,
-    Cpu
+    Cpu,
+    Zap,
+    IdCard,
+    Users
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -80,6 +83,7 @@ export default function Navbar() {
             subLinks: [
                 { href: "/my-garage", label: t('nav_garage'), icon: <Car size={14} /> },
                 { href: "/maintenance", label: t('nav_maintenance'), icon: <Wrench size={14} /> },
+                { href: "/technician/pro-check", label: t('nav_pro_check'), icon: <Zap size={14} /> },
                 { href: "/sentinel", label: t('nav_telemetry'), icon: <Activity size={14} /> },
             ]
         },
@@ -90,6 +94,7 @@ export default function Navbar() {
             subLinks: [
                 { href: "/dashboard", label: t('nav_overview'), icon: <LayoutDashboard size={14} /> },
                 { href: "/wallet", label: t('nav_wallet'), icon: <Wallet size={14} /> },
+                { href: "/master-profile", label: t('nav_master_profile'), icon: <IdCard size={14} /> },
                 { href: "/admin/hub", label: t('nav_dev_hub'), icon: <Cpu size={14} /> },
             ]
         },
@@ -110,6 +115,7 @@ export default function Navbar() {
             icon: <Landmark size={14} />,
             subLinks: [
                 { href: "/governance", label: t('nav_governance'), icon: <Landmark size={14} /> },
+                { href: "/lounge", label: t('nav_founders_lounge'), icon: <Users size={14} /> },
                 { href: "/jury", label: t('nav_justice'), icon: <Shield size={14} /> },
                 { href: "/governance/constitution", label: t('nav_constitution'), icon: <Shield size={14} /> },
             ]
