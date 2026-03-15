@@ -18,21 +18,22 @@ export const MiningSimulator = () => {
     const [dailyRecords, setDailyRecords] = useState(5);
     const [useHighRes, setUseHighRes] = useState(true);
     const [isStaking, setIsStaking] = useState(true);
+    const [isMaster, setIsMaster] = useState(true);
     const [estimatedReward, setEstimatedReward] = useState(0);
 
     // Multipliers based on strategy doc
     const BASE_REWARD_PER_RECORD = 12.5; // OZC
     const HIGH_RES_MULTIPLIER = 1.2;
     const STAKING_MULTIPLIER = 1.3;
-    const RANK_MULTIPLIER = 2.0; // Master Tier assumed for tech
+    const MASTER_MULTIPLIER = 2.0; // Master Tier 가중치
 
     useEffect(() => {
         let reward = dailyRecords * BASE_REWARD_PER_RECORD * 30; // Monthly base
         if (useHighRes) reward *= HIGH_RES_MULTIPLIER;
         if (isStaking) reward *= STAKING_MULTIPLIER;
-        reward *= RANK_MULTIPLIER;
+        if (isMaster) reward *= MASTER_MULTIPLIER;
         setEstimatedReward(Math.round(reward));
-    }, [dailyRecords, useHighRes, isStaking]);
+    }, [dailyRecords, useHighRes, isStaking, isMaster]);
 
     return (
         <div className="bg-[#050505] border border-white/5 rounded-[2.5rem] p-8 lg:p-10 shadow-2xl relative overflow-hidden group">
@@ -53,9 +54,12 @@ export const MiningSimulator = () => {
                             {t('sim_mining_desc')}
                         </p>
                     </div>
-                    <div className="bg-[#00ffc2]/10 border border-[#00ffc2]/20 px-4 py-2 rounded-xl">
-                        <span className="text-[10px] font-black text-[#00ffc2] uppercase tracking-widest block mb-1">Rank</span>
-                        <span className="text-xs font-black text-white italic uppercase">Master (x2.0)</span>
+                    <div className="bg-[#00ffc2]/10 border border-[#00ffc2]/20 px-4 py-2 rounded-xl flex items-center justify-between gap-4 cursor-pointer hover:bg-[#00ffc2]/20 transition-colors" onClick={() => setIsMaster(!isMaster)}>
+                        <div>
+                            <span className="text-[10px] font-black text-[#00ffc2] uppercase tracking-widest block mb-1">Rank</span>
+                            <span className="text-xs font-black text-white italic uppercase">{isMaster ? 'Master (x2.0)' : 'Standard (x1.0)'}</span>
+                        </div>
+                        <ShieldCheck size={20} className={isMaster ? 'text-[#00ffc2]' : 'text-slate-500'} />
                     </div>
                 </div>
 

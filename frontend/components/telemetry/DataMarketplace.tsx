@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useI18n } from "@/hooks/useI18n";
 import { motion } from "framer-motion";
 import {
@@ -10,8 +10,11 @@ import {
     ShieldCheck,
     ExternalLink,
     ChevronRight,
-    Target
+    Target,
+    PieChart,
+    ArrowRightLeft
 } from "lucide-react";
+import { PricingEngine, PricingResult } from "@/services/PricingEngine";
 
 const OFFERS = [
     { id: 1, type: 'insurance', buyer: 'Samsung Fire', reward: '5.2 OZC', grade: 'GOLD' },
@@ -22,6 +25,20 @@ const OFFERS = [
 export default function DataMarketplace() {
     const { t } = useI18n();
     const [sellingId, setSellingId] = useState<number | null>(null);
+    const [pricingResult, setPricingResult] = useState<PricingResult | null>(null);
+
+    useEffect(() => {
+        // 프리싱 엔진 시뮬레이션: 428.5 MB 데이터, 하드웨어 서명+ZKP 적용
+        const res = PricingEngine.calculateAdvancedValue(428.5 * 1024, {
+            reliability: 1.0,
+            scarcity: 1.2,
+            fidelity: 1.0,
+            demand: 1.5,
+            hasHardwareSignature: true,
+            hasZKP: true
+        });
+        setPricingResult(res);
+    }, []);
 
     const handleSell = (id: number) => {
         setSellingId(id);
@@ -55,9 +72,37 @@ export default function DataMarketplace() {
                                 <Diamond className="text-cyan-400 animate-pulse" />
                             </div>
                         </div>
-                        <div className="mt-4 flex items-center gap-2 text-xs text-cyan-400/80">
-                            <ShieldCheck size={14} />
-                            <span>{t("hw_market_signed_desc")}</span>
+                        <div className="mt-4 flex flex-col gap-2 relative z-10">
+                            <div className="flex items-center gap-2 text-xs text-cyan-400/80">
+                                <ShieldCheck size={14} />
+                                <span>{t("hw_market_signed_desc")} (ZKP Applied)</span>
+                            </div>
+                            {pricingResult && (
+                                <div className="mt-2 p-4 bg-black/40 rounded-xl border border-white/5 space-y-3">
+                                    <div className="flex justify-between items-center text-sm">
+                                        <span className="text-gray-400 font-medium tracking-widest uppercase">Est. Market Value</span>
+                                        <div className="text-right">
+                                            <span className="text-lg font-black text-white italic">{pricingResult.totalPriceUSDC.toLocaleString()} USDC</span>
+                                            <p className="text-[10px] text-gray-500">≈ {pricingResult.totalPriceOZC.toLocaleString()} OZC</p>
+                                        </div>
+                                    </div>
+                                    <div className="w-full h-px bg-white/10" />
+                                    <div className="flex justify-between items-center gap-1 text-[10px] uppercase font-bold text-gray-400">
+                                        <div className="flex flex-col flex-1 items-center bg-blue-500/10 p-2 rounded-lg border border-blue-500/20">
+                                            <span className="text-blue-400">Driver (70%)</span>
+                                            <span className="text-white">{pricingResult.revenueShare.driver.toLocaleString()} USDC</span>
+                                        </div>
+                                        <div className="flex flex-col flex-1 items-center bg-gray-800 p-2 rounded-lg">
+                                            <span>Mechanic (15%)</span>
+                                            <span className="text-white">{pricingResult.revenueShare.mechanic.toLocaleString()} USDC</span>
+                                        </div>
+                                        <div className="flex flex-col flex-1 items-center bg-gray-800 p-2 rounded-lg">
+                                            <span>DAO (15%)</span>
+                                            <span className="text-white">{pricingResult.revenueShare.daoTreasury.toLocaleString()} USDC</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 

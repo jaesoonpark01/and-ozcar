@@ -12,6 +12,7 @@ import TripSummary from '@/components/obd/TripSummary';
 import CommunityRanking from '@/components/obd/CommunityRanking';
 import DataCertificate from '@/components/obd/DataCertificate';
 import WeeklyReport from '@/components/obd/WeeklyReport';
+import GovernanceDashboard from '@/components/community/GovernanceDashboard';
 import { Activity, Bluetooth, Power, Send, ShieldCheck, Coins, LayoutDashboard, CalendarDays } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useI18n } from '@/hooks/useI18n';
@@ -42,8 +43,8 @@ export default function SentinelDashboard() {
     // Trip Summary (주행 종료 후 모달)
     const [showTripSummary, setShowTripSummary] = useState(false);
 
-    // 하단 뷰 탭 상태 (실시간 대시보드 | 커뮤니티 랭킹 | 인증서 | 주간 리포트)
-    const [activeView, setActiveView] = useState<'live' | 'community' | 'certificate' | 'weekly'>('live');
+    // 하단 뷰 탭 상태 (실시간 대시보드 | 커뮤니티 랭킹 | 인증서 | 주간 리포트 | 정책 거버넌스)
+    const [activeView, setActiveView] = useState<'live' | 'community' | 'certificate' | 'weekly' | 'governance'>('live');
 
     // 폴링(Polling) 루프
     useEffect(() => {
@@ -276,8 +277,19 @@ export default function SentinelDashboard() {
                     >
                         {t('sentinel_tab_certificate')}
                     </button>
+                    <button
+                        onClick={() => setActiveView('governance')}
+                        className={`text-lg font-bold px-4 py-2 rounded-xl transition-all ${activeView === 'governance' ? 'bg-teal-600 text-white' : 'text-slate-400 hover:bg-slate-800'}`}
+                    >
+                        {t('sentinel_tab_governance')}
+                    </button>
                 </div>
 
+                {activeView === 'governance' && (
+                    <div className="max-w-5xl">
+                        <GovernanceDashboard />
+                    </div>
+                )}
                 {activeView === 'community' && (
                     <div className="h-[600px] max-w-4xl">
                         <CommunityRanking />
