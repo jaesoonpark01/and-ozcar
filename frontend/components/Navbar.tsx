@@ -6,6 +6,7 @@ import { useWeb3 } from "./Web3Provider";
 import { AuthDialog } from "./AuthDialog";
 import { useI18n } from "@/hooks/useI18n";
 import { createClient } from "@supabase/supabase-js";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
     Wallet,
     Globe,
@@ -207,65 +208,114 @@ export default function Navbar() {
 
                         {/* Wallet / Portal Access */}
                         <div className="flex items-center gap-2">
-                            <button
-                                onClick={() => setIsAuthOpen(true)}
-                                className={`
-                                    relative group overflow-hidden flex items-center gap-1.5 sm:gap-3 px-2.5 sm:px-6 py-1.5 sm:py-3 rounded-full 
-                                    font-black text-[8px] sm:text-[11px] uppercase tracking-normal sm:tracking-widest transition-all
-                                    ${(account || session)
-                                        ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.2)]'
-                                        : 'bg-white text-black hover:bg-blue-600 hover:text-white shadow-[0_4px_15px_rgba(59,130,246,0.3)]'}
-                                `}
-                            >
-                                <div className="relative z-10 flex items-center gap-1 sm:gap-3">
-                                    {(account || session) ? (
-                                        session?.user?.email ? (
-                                            <div className="flex items-center gap-2">
-                                                <User size={12} className="text-emerald-400" />
-                                                <span className="truncate max-w-[60px] xs:max-w-[100px] border-r border-emerald-500/20 pr-2">
-                                                    {session.user.email.split('@')[0]}
-                                                </span>
-                                                {account ? (
-                                                    <span className="text-[7px] sm:text-[9px] opacity-70">
-                                                        {account.substring(0, 4)}...
-                                                    </span>
-                                                ) : (
-                                                    <span className="text-[7px] sm:text-[9px] text-blue-400 italic font-black uppercase tracking-tighter">{t('nav_not_connected')}</span>
-                                                )}
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <Wallet size={10} className="text-emerald-400" />
-                                                <span className="truncate max-w-[40px] xs:max-w-[60px] sm:max-w-none">
-                                                    {account ? `${account.substring(0, 4)}...` : t('nav_connected')}
-                                                </span>
-                                            </>
-                                        )
-                                    ) : (
-                                        <>
-                                            <Wallet size={10} />
-                                            <span>{t("nav_connect")}</span>
-                                        </>
-                                    )}
-                                    {account && reputation && (
-                                        <span className="hidden xs:inline-block px-1 py-0.5 bg-emerald-500/20 rounded-md text-[7px] sm:text-[9px]">REP {reputation}</span>
-                                    )}
-                                </div>
-                            </button>
+                            <ConnectButton.Custom>
+                                {({
+                                    account,
+                                    chain,
+                                    openAccountModal,
+                                    openChainModal,
+                                    openConnectModal,
+                                    authenticationStatus,
+                                    mounted,
+                                }) => {
+                                    const ready = mounted && authenticationStatus !== 'loading';
+                                    const connected =
+                                        ready &&
+                                        account &&
+                                        chain &&
+                                        (!authenticationStatus ||
+                                            authenticationStatus === 'authenticated');
 
-                            {(account || session) && (
-                                <button
-                                    onClick={async () => {
-                                        await supabase.auth.signOut();
-                                        // Wagmi logout is tricky with pure vanilla button, usually handled in ConnectButton
-                                        // or via disconnect() from useDisconnect
-                                    }}
-                                    className="p-2 sm:p-3 bg-white/5 rounded-full border border-white/10 text-white/40 hover:text-red-400 transition-colors"
-                                    title="Logout"
-                                >
-                                    <LogOut size={14} />
-                                </button>
-                            )}
+                                    return (
+                                        <div
+                                            {...(!ready && {
+                                                'aria-hidden': true,
+                                                'style': {
+                                                    opacity: 0,
+                                                    pointerEvents: 'none',
+                                                    userSelect: 'none',
+                                                },
+                                            })}
+                                        >
+                                            {(() => {
+                                                if (!connected) {
+                                                    return (
+                                                        <button
+                                                            onClick={openConnectModal}
+                                                            type="button"
+                                                            className="relative group overflow-hidden flex items-center gap-1.5 sm:gap-3 px-2.5 sm:px-6 py-1.5 sm:py-3 rounded-full font-black text-[8px] sm:text-[11px] uppercase tracking-normal sm:tracking-widest transition-all bg-white text-black hover:bg-blue-600 hover:text-white shadow-[0_4px_15px_rgba(59,130,246,0.3)]"
+                                                        >
+                                                            <div className="relative z-10 flex items-center gap-1 sm:gap-3">
+                                                                <Wallet size={10} />
+                                                                <span>{t("nav_connect")}</span>
+                                                            </div>
+                                                        </button>
+                                                    );
+                                                }
+
+                                                if (chain.unsupported) {
+                                                    return (
+                                                        <button onClick={openChainModal} type="button" className="px-4 py-2 bg-red-500 text-white rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">
+                                                            Wrong network
+                                                        </button>
+                                                    );
+                                                }
+
+                                                return (
+                                                    <div className="flex items-center gap-2">
+                                                        <button
+                                                            onClick={openChainModal}
+                                                            style={{ display: 'flex', alignItems: 'center' }}
+                                                            type="button"
+                                                            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-colors"
+                                                        >
+                                                            {chain.hasIcon && (
+                                                                <div
+                                                                    style={{
+                                                                        background: chain.iconBackground,
+                                                                        width: 14,
+                                                                        height: 14,
+                                                                        borderRadius: 999,
+                                                                        overflow: 'hidden',
+                                                                        marginRight: 4,
+                                                                    }}
+                                                                >
+                                                                    {chain.iconUrl && (
+                                                                        <img
+                                                                            alt={chain.name ?? 'Chain icon'}
+                                                                            src={chain.iconUrl}
+                                                                            style={{ width: 14, height: 14 }}
+                                                                        />
+                                                                    )}
+                                                                </div>
+                                                            )}
+                                                            <span className="text-[10px] font-bold text-slate-300">{chain.name}</span>
+                                                        </button>
+
+                                                        <button
+                                                            onClick={openAccountModal}
+                                                            type="button"
+                                                            className="relative group overflow-hidden flex items-center gap-1.5 sm:gap-3 px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-full font-black text-[8px] sm:text-[11px] uppercase tracking-normal sm:tracking-widest transition-all bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:bg-emerald-500/20"
+                                                        >
+                                                            <div className="flex items-center gap-2">
+                                                                <User size={12} className="text-emerald-400" />
+                                                                <span>
+                                                                    {account.displayName}
+                                                                </span>
+                                                                {account.displayBalance && (
+                                                                    <span className="hidden opacity-70 border-l border-emerald-500/20 pl-2 ml-1">
+                                                                        {account.displayBalance}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })()}
+                                        </div>
+                                    );
+                                }}
+                            </ConnectButton.Custom>
                         </div>
 
                         {/* Mobile Menu Toggle */}
