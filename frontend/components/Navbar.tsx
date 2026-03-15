@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -83,51 +84,91 @@ export default function Navbar() {
             href: "/my-garage",
             label: t('nav_my_car'),
             icon: <Car size={14} />,
-            subLinks: [
-                { href: "/my-garage", label: t('nav_garage'), icon: <Car size={14} /> },
-                { href: "/maintenance", label: t('nav_maintenance'), icon: <Wrench size={14} /> },
-                { href: "/technician/pro-check", label: t('nav_pro_check'), icon: <Zap size={14} /> },
-                { href: "/sentinel", label: t('nav_telemetry'), icon: <Activity size={14} /> },
-                { href: "/thermal-guard", label: "Thermal Guard", icon: <Shield size={14} /> },
-                { href: "/vehicle-nft", label: "Vehicle NFT", icon: <IdCard size={14} /> },
+            categories: [
+                {
+                    title: "Vehicle Management",
+                    items: [
+                        { href: "/my-garage", label: t('nav_garage'), desc: t('nav_garage_desc' as any), icon: <Car size={16} /> },
+                        { href: "/maintenance", label: t('nav_maintenance'), desc: t('nav_maintenance_desc' as any), icon: <Wrench size={16} /> },
+                        { href: "/technician/pro-check", label: t('nav_pro_check'), desc: t('nav_pro_check_desc' as any), icon: <Zap size={16} /> },
+                        { href: "/thermal-guard", label: t('nav_thermal_guard' as any), desc: t('nav_thermal_guard_desc' as any), icon: <Shield size={16} /> },
+                    ]
+                },
+                {
+                    title: "Data & Identity",
+                    items: [
+                        { href: "/sentinel", label: t('nav_telemetry'), desc: t('nav_telemetry_desc' as any), icon: <Activity size={16} /> },
+                        { href: "/vehicle-nft", label: t('nav_vehicle_nft' as any), desc: t('nav_vehicle_nft_desc' as any), icon: <IdCard size={16} /> },
+                    ]
+                }
             ]
         },
         {
             href: "/dashboard",
             label: t('nav_dashboard'),
             icon: <LayoutDashboard size={14} />,
-            subLinks: [
-                { href: "/dashboard", label: t('nav_overview'), icon: <LayoutDashboard size={14} /> },
-                { href: "/wallet", label: t('nav_wallet'), icon: <Wallet size={14} /> },
-                { href: "/master-profile", label: t('nav_master_profile'), icon: <IdCard size={14} /> },
-                { href: "/admin/hub", label: t('nav_dev_hub'), icon: <Cpu size={14} /> },
+            categories: [
+                {
+                    title: "Analytics",
+                    items: [
+                        { href: "/dashboard", label: t('nav_overview'), desc: t('nav_overview_desc' as any), icon: <LayoutDashboard size={16} /> },
+                        { href: "/master-profile", label: t('nav_master_profile'), desc: t('nav_master_profile_desc' as any), icon: <User size={16} /> },
+                    ]
+                },
+                {
+                    title: "Assets & Roles",
+                    items: [
+                        { href: "/wallet", label: t('nav_wallet'), desc: t('nav_wallet_desc' as any), icon: <Wallet size={16} /> },
+                        { href: "/admin/hub", label: t('nav_dev_hub' as any), desc: t('nav_dev_hub_desc' as any), icon: <Cpu size={16} /> },
+                    ]
+                }
             ]
         },
         {
             href: "/marketplace",
             label: t('nav_market'),
             icon: <ShoppingBag size={14} />,
-            subLinks: [
-                { href: "/marketplace", label: t('nav_market'), icon: <ShoppingBag size={14} /> },
-                { href: "/sell", label: t('nav_onboarding'), icon: <Car size={14} /> },
-                { href: "/orders", label: t('nav_orders'), icon: <ShoppingBag size={14} /> },
-                { href: "/insight-lab", label: t('nav_insight_lab'), icon: <Activity size={14} /> },
-                { href: "/marketplace/data", label: "Data Market", icon: <Activity size={14} /> },
+            categories: [
+                {
+                    title: "Asset Exchange",
+                    items: [
+                        { href: "/marketplace", label: t('nav_market'), desc: t('nav_market_desc' as any), icon: <ShoppingBag size={16} /> },
+                        { href: "/sell", label: t('nav_onboarding'), desc: t('nav_onboarding_desc' as any), icon: <Car size={16} /> },
+                        { href: "/orders", label: t('nav_orders'), desc: t('nav_orders_desc' as any), icon: <LayoutDashboard size={16} /> },
+                    ]
+                },
+                {
+                    title: "Data Economy",
+                    items: [
+                        { href: "/insight-lab", label: t('nav_insight_lab'), desc: t('nav_insight_lab_desc' as any), icon: <Activity size={16} /> },
+                        { href: "/marketplace/data", label: t('nav_data_market' as any), desc: t('nav_data_market_desc' as any), icon: <Cpu size={16} /> },
+                        { href: "/v2g-market", label: t('nav_v2g_market' as any), desc: t('nav_v2g_market_desc' as any), icon: <Zap size={16} /> },
+                    ]
+                }
             ]
         },
         {
             href: "/governance",
             label: t('nav_dao'),
             icon: <Landmark size={14} />,
-            subLinks: [
-                { href: "/governance", label: t('nav_governance'), icon: <Landmark size={14} /> },
-                { href: "/social-league", label: "Social League", icon: <Trophy size={14} /> },
-                { href: "/eco-lab", label: "Eco Lab", icon: <Leaf size={14} /> },
-                { href: "/v2g-market", label: "V2G Market", icon: <Zap size={14} /> },
-                { href: "/ambassador", label: "Ambassador", icon: <Users size={14} /> },
-                { href: "/lounge", label: t('nav_founders_lounge'), icon: <Users size={14} /> },
-                { href: "/jury", label: t('nav_justice'), icon: <Shield size={14} /> },
-                { href: "/governance/constitution", label: t('nav_constitution'), icon: <Shield size={14} /> },
+            categories: [
+                {
+                    title: "Network Protocols",
+                    items: [
+                        { href: "/governance", label: t('nav_governance'), desc: t('nav_governance_desc' as any), icon: <Landmark size={16} /> },
+                        { href: "/governance/constitution", label: t('nav_constitution' as any), desc: t('nav_constitution_desc' as any), icon: <Shield size={16} /> },
+                        { href: "/jury", label: t('nav_justice'), desc: t('nav_justice' as any), icon: <Shield size={16} /> },
+                    ]
+                },
+                {
+                    title: "Community & Rewards",
+                    items: [
+                        { href: "/social-league", label: t('nav_social_league' as any), desc: t('nav_social_league_desc' as any), icon: <Trophy size={16} /> },
+                        { href: "/eco-lab", label: t('nav_eco_lab' as any), desc: t('nav_eco_lab_desc' as any), icon: <Leaf size={16} /> },
+                        { href: "/ambassador", label: t('nav_ambassador' as any), desc: t('nav_ambassador_desc' as any), icon: <Users size={16} /> },
+                        { href: "/lounge", label: t('nav_founders_lounge'), desc: t('nav_founders_lounge_desc' as any), icon: <User size={16} /> },
+                    ]
+                }
             ]
         },
     ];
@@ -163,41 +204,52 @@ export default function Navbar() {
                         {navLinks.map((link) => (
                             <div
                                 key={link.label}
-                                className="relative"
-                                onMouseEnter={() => link.subLinks && handleMouseEnter(link.label)}
+                                className="relative group"
+                                onMouseEnter={() => link.categories && handleMouseEnter(link.label)}
                                 onMouseLeave={handleMouseLeave}
                             >
                                 <Link
                                     href={link.href}
-                                    className="flex items-center gap-1.5 xl:gap-2 px-4 xl:px-6 py-2.5 rounded-full text-[10px] xl:text-[11px] font-black uppercase tracking-widest text-slate-400 hover:text-white hover:bg-white/10 transition-all italic whitespace-nowrap"
+                                    className={`flex items-center gap-1.5 xl:gap-2 px-4 xl:px-6 py-2.5 rounded-full text-[10px] xl:text-[11px] font-black uppercase tracking-widest transition-all italic whitespace-nowrap ${activeDropdown === link.label ? 'text-blue-400 bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                                 >
                                     {link.icon}
-                                    <span className="ml-1.5">{link.label}</span>
-                                    {link.subLinks && <ChevronDown size={12} className={`ml-1 transition-transform ${activeDropdown === link.label ? 'rotate-180' : ''}`} />}
+                                    <span className="ml-1.5 line-clamp-1">{link.label}</span>
+                                    {link.categories && <ChevronDown size={12} className={`ml-1 transition-transform ${activeDropdown === link.label ? 'rotate-180' : ''}`} />}
                                 </Link>
 
-                                {link.subLinks && activeDropdown === link.label && (
+                                {link.categories && activeDropdown === link.label && (
                                     <motion.div
-                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        initial={{ opacity: 0, y: 15, scale: 0.98 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        transition={{ type: "spring", damping: 20, stiffness: 300 }}
-                                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-black/90 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-4 shadow-[0_30px_60px_rgba(0,0,0,0.8)] z-[3000] overflow-hidden"
+                                        exit={{ opacity: 0, y: 15, scale: 0.98 }}
+                                        transition={{ type: "spring", damping: 25, stiffness: 350 }}
+                                        className="absolute top-full left-1/2 -translate-x-1/2 mt-4 min-w-[500px] w-max max-w-[800px] bg-black/95 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-6 shadow-[0_40px_80px_rgba(0,0,0,0.9)] z-[3000] overflow-hidden"
                                     >
-                                        <div className="grid gap-2">
-                                            {link.subLinks.map((sub) => (
-                                                <Link
-                                                    key={sub.href}
-                                                    href={sub.href}
-                                                    className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/10 text-slate-400 hover:text-white transition-all group"
-                                                >
-                                                    <span className="p-2 bg-white/5 rounded-xl group-hover:bg-blue-600/20 group-hover:text-blue-400 transition-colors">
-                                                        {sub.icon}
-                                                    </span>
-                                                    <span className="text-[10px] font-black uppercase tracking-widest italic">{sub.label}</span>
-                                                </Link>
+                                        <div className="grid grid-cols-2 gap-8 relative z-10">
+                                            {link.categories.map((cat, idx) => (
+                                                <div key={idx} className="space-y-4">
+                                                    <h4 className="text-[9px] font-black italic text-gray-500 uppercase tracking-[0.2em] border-b border-white/5 pb-2">{cat.title}</h4>
+                                                    <div className="grid gap-2">
+                                                        {cat.items.map((sub) => (
+                                                            <Link
+                                                                key={sub.href}
+                                                                href={sub.href}
+                                                                className="flex items-start gap-4 p-3 rounded-2xl hover:bg-white/5 text-slate-400 hover:text-white transition-all group/item"
+                                                            >
+                                                                <div className="mt-0.5 p-2 bg-white/5 rounded-xl group-hover/item:bg-blue-600/20 group-hover/item:text-blue-400 transition-colors shrink-0">
+                                                                    {sub.icon}
+                                                                </div>
+                                                                <div className="flex flex-col gap-0.5 min-w-0">
+                                                                    <span className="text-[11px] font-black uppercase tracking-wider italic text-slate-200 group-hover/item:text-white truncate">{sub.label}</span>
+                                                                    <span className="text-[10px] text-gray-500 line-clamp-1 group-hover/item:text-gray-400 transition-colors">{sub.desc}</span>
+                                                                </div>
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                </div>
                                             ))}
                                         </div>
+                                        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-blue-600/5 to-transparent pointer-events-none" />
                                     </motion.div>
                                 )}
                             </div>
@@ -362,48 +414,61 @@ export default function Navbar() {
                                 <div key={link.label} className="flex flex-col gap-2">
                                     <div
                                         onClick={() => {
-                                            if (link.subLinks) {
+                                            if (link.categories) {
                                                 setActiveDropdown(activeDropdown === link.label ? null : link.label);
                                             } else {
                                                 setIsMobileMenuOpen(false);
                                                 window.location.href = link.href;
                                             }
                                         }}
-                                        className="flex items-center justify-between group p-4 rounded-3xl bg-white/5 border border-white/5"
+                                        className={`flex items-center justify-between group p-4 rounded-3xl border transition-all ${activeDropdown === link.label ? 'bg-white/10 border-white/20' : 'bg-white/5 border-white/5'}`}
                                     >
                                         <div className="flex items-center gap-4">
                                             <div className="w-10 h-10 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 transition-transform group-active:scale-95">
                                                 {link.icon}
                                             </div>
-                                            <span className="text-xl font-black italic uppercase tracking-tighter">{link.label}</span>
+                                            <span className="text-xl font-black italic uppercase tracking-tighter text-white">{link.label}</span>
                                         </div>
-                                        {link.subLinks ? (
-                                            <ChevronDown className={`text-white/20 transition-transform ${activeDropdown === link.label ? 'rotate-180' : ''}`} />
+                                        {link.categories ? (
+                                            <ChevronDown className={`text-white transition-transform duration-300 ${activeDropdown === link.label ? 'rotate-180 text-blue-400' : 'opacity-40'}`} />
                                         ) : (
                                             <ChevronRight className="text-white/20 group-hover:text-blue-400 transition-colors" />
                                         )}
                                     </div>
 
-                                    {link.subLinks && activeDropdown === link.label && (
+                                    {link.categories && activeDropdown === link.label && (
                                         <motion.div
                                             initial={{ height: 0, opacity: 0 }}
                                             animate={{ height: "auto", opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
-                                            className="grid gap-2 pl-6 overflow-hidden"
+                                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                                            className="overflow-hidden bg-black/40 rounded-3xl border border-white/5 mt-1"
                                         >
-                                            {link.subLinks.map((sub) => (
-                                                <Link
-                                                    key={sub.href}
-                                                    href={sub.href}
-                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                    className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5"
-                                                >
-                                                    <div className="w-8 h-8 bg-white/5 rounded-xl flex items-center justify-center text-slate-400">
-                                                        {sub.icon}
+                                            <div className="p-3 space-y-4">
+                                                {link.categories.map((cat, idx) => (
+                                                    <div key={idx} className="space-y-2">
+                                                        <h4 className="text-[9px] font-black italic text-blue-400/80 uppercase tracking-widest px-3">{cat.title}</h4>
+                                                        <div className="grid gap-1">
+                                                            {cat.items.map((sub) => (
+                                                                <Link
+                                                                    key={sub.href}
+                                                                    href={sub.href}
+                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                    className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 active:bg-blue-600/20 transition-colors relative overflow-hidden"
+                                                                >
+                                                                    <div className="w-8 h-8 shrink-0 bg-black/40 rounded-xl flex items-center justify-center text-slate-400">
+                                                                        {React.cloneElement(sub.icon as React.ReactElement, { size: 14 } as any)}
+                                                                    </div>
+                                                                    <div className="flex flex-col justify-center">
+                                                                        <span className="text-sm font-black italic uppercase text-slate-200 line-clamp-1">{sub.label}</span>
+                                                                        <span className="text-[10px] text-gray-500 line-clamp-1 mt-0.5">{sub.desc}</span>
+                                                                    </div>
+                                                                </Link>
+                                                            ))}
+                                                        </div>
                                                     </div>
-                                                    <span className="text-sm font-black italic uppercase text-slate-300">{sub.label}</span>
-                                                </Link>
-                                            ))}
+                                                ))}
+                                            </div>
                                         </motion.div>
                                     )}
                                 </div>
