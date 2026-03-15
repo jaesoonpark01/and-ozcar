@@ -8,7 +8,7 @@ interface DataAsset {
     verified: boolean;
     valueOZC: number;
     period: string;
-    packets: number;
+    packets?: number;
 }
 
 const ASSET_GRADES = {
@@ -49,7 +49,7 @@ export function DataAssetInventory({ asset, onSellClick }: { asset: DataAsset, o
 
                 <h3 className="text-2xl font-black italic uppercase tracking-tighter text-white mb-2 leading-none">{asset.title}</h3>
                 <div className="flex items-center gap-4 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
-                    <span className="flex items-center gap-1.5"><TrendingUp size={12} /> {asset.packets.toLocaleString()} Pkts</span>
+                    <span className="flex items-center gap-1.5"><TrendingUp size={12} /> {(asset.packets ?? 0).toLocaleString()} Pkts</span>
                     <span className="text-slate-800">|</span>
                     <span>{asset.period}</span>
                 </div>
