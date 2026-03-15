@@ -32,8 +32,8 @@ export async function checkSubscriptionAccess(requiredTier: SubscriptionTier): P
         // Free tier is always allowed if required is free
         if (requiredTier === 'free') return true;
 
-        // Premium tiers require active status
-        if (profile.subscription_status !== 'premium' && profile.subscription_status !== 'active') {
+        // Premium tiers require 'active' status
+        if (profile.subscription_status !== 'active') {
             return false;
         }
 
@@ -54,26 +54,33 @@ export async function checkSubscriptionAccess(requiredTier: SubscriptionTier): P
 }
 
 /**
- * Applies the 'Loyalty Multiplier' for points.
- * 2개월 이상 구독 유지 시 (혹은 특정 조건 만족 시) 포인트 2~3배 부스팅 로직.
+ * Applies the 'Loyalty Multiplier' (포인트 부스팅)
+ * 2개월 이상 구독 유지 시 추가 가중치 부여.
  */
 export function calculateBoostedPoints(basePoints: number, tier: SubscriptionTier, monthsSubscribed: number): number {
     if (tier === 'free') return basePoints;
 
     let multiplier = 1.0;
 
-    // ozcar Blue: 기본 1.5배, 2개월 이상 유지 시 2배, 6개월 이상 3배
+    // ozcar Blue: 기본 1.5배, 2개월 이상 유지 시 2.0배, 6개월 이상 3.0배
     if (tier === 'blue') {
         if (monthsSubscribed >= 6) multiplier = 3.0;
         else if (monthsSubscribed >= 2) multiplier = 2.0;
         else multiplier = 1.5;
     }
 
-    // ozcar Gold: 기본 2배, 2개월 이상 유지 시 3배
+    // ozcar Gold: 기본 2.0배, 2개월 이상 유지 시 3.0배 (황금 등급 특전)
     if (tier === 'gold') {
         if (monthsSubscribed >= 2) multiplier = 3.0;
         else multiplier = 2.0;
     }
 
     return Math.floor(basePoints * multiplier);
+}
+
+/**
+ * PDF 리포트 다운로드 가능 여부 확인 (Gold 등급 전용)
+ */
+export function canDownloadPremiumPDF(tier: SubscriptionTier): boolean {
+    return tier === 'gold';
 }

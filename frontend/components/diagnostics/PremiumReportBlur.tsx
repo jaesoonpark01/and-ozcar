@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Lock, Zap } from 'lucide-react';
+import { Lock, Zap, Download } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
+import { generateTrustReportPDF } from '@/lib/pdfGenerator';
 
 interface PremiumReportBlurProps {
     isSubscribed: boolean;
@@ -11,6 +12,10 @@ interface PremiumReportBlurProps {
 export default function PremiumReportBlur({ isSubscribed, onSubscribeClick }: PremiumReportBlurProps) {
     const { t } = useI18n();
 
+    const handleDownloadPDF = async () => {
+        await generateTrustReportPDF("IONIQ 6", "KR-VIN-777", 88, {});
+    };
+
     return (
         <div className="relative w-full max-w-4xl p-6 mx-auto bg-slate-900 rounded-3xl overflow-hidden border border-slate-800">
             {/* 1. 공개 영역 (안전 점수) */}
@@ -19,8 +24,19 @@ export default function PremiumReportBlur({ isSubscribed, onSubscribeClick }: Pr
                     <h3 className="text-slate-400 text-sm font-medium">{t('blur_report_title')}</h3>
                     <p className="text-4xl font-bold text-white mt-1">88<span className="text-lg text-slate-500 ml-1">점</span></p>
                 </div>
-                <div className="px-4 py-2 bg-green-500/10 rounded-full border border-green-500/20">
-                    <span className="text-green-500 text-sm font-semibold">{t('blur_report_good')}</span>
+                <div className="flex items-center gap-3">
+                    {isSubscribed && (
+                        <button 
+                            onClick={handleDownloadPDF}
+                            className="p-2.5 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 rounded-xl transition-all border border-blue-500/20 flex items-center gap-2 group"
+                        >
+                            <Download size={14} className="group-hover:translate-y-0.5 transition-transform" />
+                            <span className="text-[10px] font-black uppercase tracking-widest">PDF</span>
+                        </button>
+                    )}
+                    <div className="px-4 py-2 bg-green-500/10 rounded-full border border-green-500/20">
+                        <span className="text-green-500 text-sm font-semibold">{t('blur_report_good')}</span>
+                    </div>
                 </div>
             </div>
 
@@ -50,22 +66,24 @@ export default function PremiumReportBlur({ isSubscribed, onSubscribeClick }: Pr
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="absolute inset-0 flex flex-col items-center justify-center z-10 bg-slate-900/40 backdrop-blur-sm rounded-xl"
+                        className="absolute inset-0 flex flex-col items-center justify-center z-10 bg-slate-950/40 backdrop-blur-[8px] rounded-xl border border-white/5"
                     >
                         <motion.div
-                            whileHover={{ scale: 1.1, rotate: [0, -10, 10, -10, 10, 0] }}
-                            className="p-4 bg-blue-600 rounded-full mb-4 shadow-lg shadow-blue-500/30 cursor-pointer"
+                            whileHover={{ scale: 1.1, rotate: [0, -5, 5, -5, 5, 0] }}
+                            className="p-5 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mb-6 shadow-[0_0_30px_rgba(59,130,246,0.5)] cursor-pointer"
                             onClick={onSubscribeClick}
                         >
                             <Lock className="text-white w-8 h-8" />
                         </motion.div>
-                        <h4 className="text-white text-xl font-bold mb-2">{t('blur_report_lock_title')}</h4>
-                        <p className="text-slate-300 text-center text-sm mb-6 max-w-xs">
+                        <h4 className="text-white text-2xl font-black italic uppercase tracking-tighter mb-2">
+                           {t('blur_report_lock_title')}
+                        </h4>
+                        <p className="text-slate-300 text-center text-sm mb-8 max-w-xs leading-relaxed opacity-80">
                             {t('blur_report_lock_desc')}
                         </p>
                         <button
                             onClick={onSubscribeClick}
-                            className="px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-blue-50 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
+                            className="px-10 py-4 bg-white text-black font-black italic uppercase tracking-widest rounded-full hover:bg-blue-50 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.4)]"
                         >
                             {t('blur_report_cta_btn')} <Zap className="w-4 h-4 fill-black" />
                         </button>

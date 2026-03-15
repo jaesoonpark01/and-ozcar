@@ -38,19 +38,14 @@ export default function ChurnPreventionModal({ isOpen, userStats, onKeep, onConf
                             <div className="w-20 h-20 mx-auto bg-amber-500/20 rounded-full flex items-center justify-center mb-6 border border-amber-500/30">
                                 <span className="text-3xl">⚠️</span>
                             </div>
-                            <h2 className="text-2xl font-bold text-white mb-2">{t('churn_modal_title_step1')}</h2>
-                            <p className="text-slate-400 mb-6 leading-relaxed">
-                                {t('churn_modal_desc_step1')
-                                    .replace('{months}', userStats.months.toString())
-                                    .replace('{dataCount}', userStats.dataCount)
-                                    .replace('{points}', userStats.points)
-                                    .split(userStats.dataCount).reduce((prev, current, i) => [
-                                        ...prev,
-                                        <span key={`data-${i}`} className="text-blue-400 font-bold">{userStats.dataCount}</span>,
-                                        <span key={`current-${i}`}>{current}</span>
-                                    ], [] as any[])
-                                    // Notice: simple replace doesn't style the dynamic parts perfectly. Let's do a better replace logic below.
-                                }
+                            <h2 className="text-2xl font-black italic uppercase tracking-tighter text-white mb-2">{t('churn_modal_title_step1')}</h2>
+                            <p className="text-slate-400 mb-8 leading-relaxed text-sm">
+                                {t('churn_modal_desc_step1').split(/({months}|{dataCount}|{points})/).map((part, i) => {
+                                    if (part === '{months}') return <span key={i} className="text-white font-bold">{userStats.months}</span>;
+                                    if (part === '{dataCount}') return <span key={i} className="text-blue-400 font-bold">{userStats.dataCount}</span>;
+                                    if (part === '{points}') return <span key={i} className="text-amber-400 font-bold">{userStats.points}</span>;
+                                    return part;
+                                })}
                             </p>
                             <button
                                 onClick={() => {
