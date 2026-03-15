@@ -88,6 +88,8 @@ export default function Navbar() {
                 { href: "/maintenance", label: t('nav_maintenance'), icon: <Wrench size={14} /> },
                 { href: "/technician/pro-check", label: t('nav_pro_check'), icon: <Zap size={14} /> },
                 { href: "/sentinel", label: t('nav_telemetry'), icon: <Activity size={14} /> },
+                { href: "/thermal-guard", label: "Thermal Guard", icon: <Shield size={14} /> },
+                { href: "/vehicle-nft", label: "Vehicle NFT", icon: <IdCard size={14} /> },
             ]
         },
         {
@@ -110,6 +112,7 @@ export default function Navbar() {
                 { href: "/sell", label: t('nav_onboarding'), icon: <Car size={14} /> },
                 { href: "/orders", label: t('nav_orders'), icon: <ShoppingBag size={14} /> },
                 { href: "/insight-lab", label: t('nav_insight_lab'), icon: <Activity size={14} /> },
+                { href: "/marketplace/data", label: "Data Market", icon: <Activity size={14} /> },
             ]
         },
         {
@@ -120,6 +123,7 @@ export default function Navbar() {
                 { href: "/governance", label: t('nav_governance'), icon: <Landmark size={14} /> },
                 { href: "/social-league", label: "Social League", icon: <Trophy size={14} /> },
                 { href: "/eco-lab", label: "Eco Lab", icon: <Leaf size={14} /> },
+                { href: "/v2g-market", label: "V2G Market", icon: <Zap size={14} /> },
                 { href: "/lounge", label: t('nav_founders_lounge'), icon: <Users size={14} /> },
                 { href: "/jury", label: t('nav_justice'), icon: <Shield size={14} /> },
                 { href: "/governance/constitution", label: t('nav_constitution'), icon: <Shield size={14} /> },
