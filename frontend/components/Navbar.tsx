@@ -82,7 +82,7 @@ export default function Navbar() {
     const navLinks = [
         {
             href: "/my-garage",
-            label: t('nav_my_car'),
+            label: t('nav_workspace' as any) || "Workspace",
             icon: <Car size={14} />,
             categories: [
                 {
@@ -91,32 +91,32 @@ export default function Navbar() {
                         { href: "/my-garage", label: t('nav_garage'), desc: t('nav_garage_desc' as any), icon: <Car size={16} /> },
                         { href: "/maintenance", label: t('nav_maintenance'), desc: t('nav_maintenance_desc' as any), icon: <Wrench size={16} /> },
                         { href: "/technician/pro-check", label: t('nav_pro_check'), desc: t('nav_pro_check_desc' as any), icon: <Zap size={16} /> },
-                        { href: "/thermal-guard", label: t('nav_thermal_guard' as any), desc: t('nav_thermal_guard_desc' as any), icon: <Shield size={16} /> },
                     ]
                 },
                 {
-                    title: "Data & Identity",
+                    title: "Live Tracking",
                     items: [
                         { href: "/sentinel", label: t('nav_telemetry'), desc: t('nav_telemetry_desc' as any), icon: <Activity size={16} /> },
-                        { href: "/vehicle-nft", label: t('nav_vehicle_nft' as any), desc: t('nav_vehicle_nft_desc' as any), icon: <IdCard size={16} /> },
+                        { href: "/thermal-guard", label: t('nav_thermal_guard' as any), desc: t('nav_thermal_guard_desc' as any), icon: <Shield size={16} /> },
                     ]
                 }
             ]
         },
         {
             href: "/dashboard",
-            label: t('nav_dashboard'),
+            label: t('nav_analytics' as any) || "Analytics",
             icon: <LayoutDashboard size={14} />,
             categories: [
                 {
-                    title: "Analytics",
+                    title: "Overview & Identity",
                     items: [
                         { href: "/dashboard", label: t('nav_overview'), desc: t('nav_overview_desc' as any), icon: <LayoutDashboard size={16} /> },
                         { href: "/master-profile", label: t('nav_master_profile'), desc: t('nav_master_profile_desc' as any), icon: <User size={16} /> },
+                        { href: "/vehicle-nft", label: t('nav_vehicle_nft' as any), desc: t('nav_vehicle_nft_desc' as any), icon: <IdCard size={16} /> },
                     ]
                 },
                 {
-                    title: "Assets & Roles",
+                    title: "Finance & Admin",
                     items: [
                         { href: "/wallet", label: t('nav_wallet'), desc: t('nav_wallet_desc' as any), icon: <Wallet size={16} /> },
                         { href: "/admin/hub", label: t('nav_dev_hub' as any), desc: t('nav_dev_hub_desc' as any), icon: <Cpu size={16} /> },
@@ -130,9 +130,9 @@ export default function Navbar() {
             icon: <ShoppingBag size={14} />,
             categories: [
                 {
-                    title: "Asset Exchange",
+                    title: "Trading",
                     items: [
-                        { href: "/marketplace", label: t('nav_market'), desc: t('nav_market_desc' as any), icon: <ShoppingBag size={16} /> },
+                        { href: "/marketplace", label: t('nav_data_nft_trade' as any), desc: t('nav_data_nft_trade_desc' as any), icon: <ShoppingBag size={16} /> },
                         { href: "/sell", label: t('nav_onboarding'), desc: t('nav_onboarding_desc' as any), icon: <Car size={16} /> },
                         { href: "/orders", label: t('nav_orders'), desc: t('nav_orders_desc' as any), icon: <LayoutDashboard size={16} /> },
                     ]
@@ -141,8 +141,8 @@ export default function Navbar() {
                     title: "Data Economy",
                     items: [
                         { href: "/insight-lab", label: t('nav_insight_lab'), desc: t('nav_insight_lab_desc' as any), icon: <Activity size={16} /> },
-                        { href: "/marketplace/data", label: t('nav_data_market' as any), desc: t('nav_data_market_desc' as any), icon: <Cpu size={16} /> },
                         { href: "/v2g-market", label: t('nav_v2g_market' as any), desc: t('nav_v2g_market_desc' as any), icon: <Zap size={16} /> },
+                        { href: "/marketplace/data", label: t('nav_data_market' as any), desc: t('nav_data_market_desc' as any), icon: <Cpu size={16} /> },
                     ]
                 }
             ]
@@ -153,7 +153,7 @@ export default function Navbar() {
             icon: <Landmark size={14} />,
             categories: [
                 {
-                    title: "Network Protocols",
+                    title: "Governance",
                     items: [
                         { href: "/governance", label: t('nav_governance'), desc: t('nav_governance_desc' as any), icon: <Landmark size={16} /> },
                         { href: "/governance/constitution", label: t('nav_constitution' as any), desc: t('nav_constitution_desc' as any), icon: <Shield size={16} /> },
@@ -161,7 +161,7 @@ export default function Navbar() {
                     ]
                 },
                 {
-                    title: "Community & Rewards",
+                    title: "Community",
                     items: [
                         { href: "/social-league", label: t('nav_social_league' as any), desc: t('nav_social_league_desc' as any), icon: <Trophy size={16} /> },
                         { href: "/eco-lab", label: t('nav_eco_lab' as any), desc: t('nav_eco_lab_desc' as any), icon: <Leaf size={16} /> },
