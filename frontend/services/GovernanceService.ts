@@ -17,7 +17,8 @@ export enum CaseType {
     WARRANTY_DISPUTE = 3,
     PRICE_MANIPULATION = 4,
     VEHICLE_CONDITION_DISPUTE = 5,
-    OIP = 6 // Ozcar Improvement Proposal
+    OIP = 6, // Ozcar Improvement Proposal
+    STRATEGIC = 7 // Private Founders-only Proposal
 }
 
 export enum CaseStatus {
@@ -254,9 +255,40 @@ export class GovernanceService {
                 return "차량 상태 분쟁";
             case CaseType.OIP:
                 return "Ozcar 개선 제안 (OIP)";
+            case CaseType.STRATEGIC:
+                return "전략 협력 안건 (Secret)";
             default:
                 return "기타";
         }
+    }
+
+    /**
+     * Get private strategic proposals for Founders
+     */
+    async getStrategicProposals(): Promise<Case[]> {
+        // Mock data for Phase 13 demo
+        return [
+            {
+                id: "STRATEGIC_1",
+                caseType: CaseType.STRATEGIC,
+                submitter: "0xAdmin",
+                ipfsHash: "Qm...",
+                createdAt: Date.now() - 86400000,
+                deadline: Date.now() + 86400000 * 3,
+                status: CaseStatus.PENDING,
+                finalized: false
+            },
+            {
+                id: "STRATEGIC_2",
+                caseType: CaseType.STRATEGIC,
+                submitter: "0xFoundation",
+                ipfsHash: "Qm...",
+                createdAt: Date.now() - 43200000,
+                deadline: Date.now() + 86400000 * 5,
+                status: CaseStatus.PENDING,
+                finalized: false
+            }
+        ];
     }
 
     /**

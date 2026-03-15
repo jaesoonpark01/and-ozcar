@@ -26,7 +26,9 @@ import {
     Cpu,
     Zap,
     IdCard,
-    Users
+    Users,
+    Trophy,
+    Leaf
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -116,6 +118,8 @@ export default function Navbar() {
             icon: <Landmark size={14} />,
             subLinks: [
                 { href: "/governance", label: t('nav_governance'), icon: <Landmark size={14} /> },
+                { href: "/social-league", label: "Social League", icon: <Trophy size={14} /> },
+                { href: "/eco-lab", label: "Eco Lab", icon: <Leaf size={14} /> },
                 { href: "/lounge", label: t('nav_founders_lounge'), icon: <Users size={14} /> },
                 { href: "/jury", label: t('nav_justice'), icon: <Shield size={14} /> },
                 { href: "/governance/constitution", label: t('nav_constitution'), icon: <Shield size={14} /> },

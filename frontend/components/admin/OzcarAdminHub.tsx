@@ -26,7 +26,7 @@ import RealtimeTelemetryDashboard from './RealtimeTelemetryDashboard';
 import SecurityDashboard from './SecurityDashboard';
 import Link from 'next/link';
 
-type ViewMode = 'telemetry' | 'simulator' | 'security' | 'technician';
+type ViewMode = 'telemetry' | 'simulator' | 'security' | 'technician' | 'assetization';
 
 export default function OzcarAdminHub() {
     const { t } = useI18n();
@@ -37,6 +37,7 @@ export default function OzcarAdminHub() {
         { id: 'simulator', label: t('hub_sidemenu_simulator'), icon: Cpu, color: 'text-emerald-400' },
         { id: 'telemetry', label: t('hub_sidemenu_telemetry'), icon: Zap, color: 'text-yellow-400' },
         { id: 'security', label: t('hub_sidemenu_security'), icon: ShieldAlert, color: 'text-red-400' },
+        { id: 'assetization', label: '자산 토큰화', icon: ShoppingBag, color: 'text-purple-400' },
         { id: 'technician', label: t('nav_technician'), icon: Wrench, color: 'text-amber-400' },
     ];
 
@@ -45,6 +46,48 @@ export default function OzcarAdminHub() {
             case 'simulator': return <HardwareSimulatorUI />;
             case 'telemetry': return <RealtimeTelemetryDashboard />;
             case 'security': return <SecurityDashboard />;
+            case 'assetization': return (
+                <div className="space-y-8">
+                    <header>
+                        <h2 className="text-3xl font-black italic tracking-tighter uppercase mb-2">Vehicle Assetization Engine</h2>
+                        <p className="text-slate-500 font-medium">Verify vehicle metadata and mint Decentralized History NFTs.</p>
+                    </header>
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                        <div className="bg-slate-900/50 p-8 rounded-[2.5rem] border border-white/5">
+                            <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
+                                <FileText className="text-purple-400" />
+                                Pending Mint Queue
+                            </h3>
+                            <div className="space-y-4">
+                                {[
+                                    { vin: 'WVWRB7AN...', model: 'CyberSedan S', status: 'Ready' },
+                                    { vin: 'KLNA391B...', model: 'Ozcar Pulse', status: 'Verifying' }
+                                ].map((car, i) => (
+                                    <div key={i} className="flex items-center justify-between p-4 bg-black/40 rounded-2xl border border-white/5">
+                                        <div>
+                                            <p className="text-xs font-black text-white">{car.model}</p>
+                                            <p className="text-[10px] text-slate-500 font-mono">{car.vin}</p>
+                                        </div>
+                                        <Badge className={car.status === 'Ready' ? 'bg-emerald-500/20 text-emerald-500' : 'bg-amber-500/20 text-amber-500'}>
+                                            {car.status}
+                                        </Badge>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 p-10 rounded-[2.5rem] border border-purple-500/20 flex flex-col items-center justify-center text-center">
+                            <div className="w-20 h-20 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400 mb-6 animate-pulse">
+                                <ShoppingBag size={32} />
+                            </div>
+                            <h4 className="text-lg font-black italic text-white uppercase mb-2">Metadata Integrity Verified</h4>
+                            <p className="text-xs text-slate-400 mb-8 max-w-xs">All 14 maintenance proofs and ZKP safety hashes synchronized for the selected vehicle.</p>
+                            <button className="px-12 py-5 bg-purple-600 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-2xl shadow-purple-600/30 hover:bg-purple-500 transition-all active:scale-95">
+                                Mint Decentralized History NFT
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
             case 'technician': return (
                 <div className="flex flex-col items-center justify-center h-[60vh] text-center space-y-6">
                     <Wrench className="w-16 h-16 text-amber-500 animate-bounce" />
