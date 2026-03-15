@@ -83,7 +83,7 @@ export default function DataMarketplace() {
                             <div>
                                 <span className="text-[9px] text-gray-500 font-black uppercase tracking-[0.3em] mb-3 block">{t("hw_market_asset_diamond")}</span>
                                 <h3 className="text-5xl font-black italic text-white flex items-baseline gap-2">
-                                    428.5 <span className="text-sm font-black text-gray-600 italic uppercase">Megabytes</span>
+                                    428.5 <span className="text-sm font-black text-gray-600 italic uppercase">{t('market_megabytes')}</span>
                                 </h3>
                             </div>
                             <div className="p-5 bg-blue-500/10 rounded-2xl border border-blue-500/30 shadow-2xl shadow-blue-500/20">

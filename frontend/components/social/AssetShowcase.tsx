@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, LayoutGrid, Maximize2, Trophy, Leaf, Zap, Crown } from 'lucide-react';
+import { LayoutGrid, Maximize2, Trophy, Leaf, Zap, Crown } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 interface Asset {
   id: string;
@@ -13,6 +14,7 @@ interface Asset {
 }
 
 export default function AssetShowcase() {
+  const { t } = useI18n();
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
@@ -22,6 +24,14 @@ export default function AssetShowcase() {
     { id: '3', type: 'ENERGY', name: 'Grid Stabilizer', tier: 'Omega', rarity: 'RARE' },
     { id: '4', type: 'LICENSE', name: 'Master License', tier: 'Platinum', rarity: 'EPIC' },
     { id: '5', type: 'HISTORY', name: 'Alpha Chassis', tier: 'A-Tier', rarity: 'RARE' },
+  ];
+
+  const categories = [
+    { id: 'ALL', label: t('showcase_category_all') },
+    { id: 'HISTORY', label: t('showcase_category_history') },
+    { id: 'ECO', label: t('showcase_category_eco') },
+    { id: 'ENERGY', label: t('showcase_category_energy') },
+    { id: 'LICENSE', label: t('showcase_category_license') },
   ];
 
   const filteredAssets = selectedCategory === 'ALL' 
@@ -45,26 +55,26 @@ export default function AssetShowcase() {
               <div className="p-2 bg-purple-500/10 rounded-xl border border-purple-500/20 text-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)]">
                  <LayoutGrid size={18} />
               </div>
-              <span className="text-[10px] font-black italic text-slate-500 uppercase tracking-[0.4em]">Asset Metaverse Gallery</span>
+              <span className="text-[10px] font-black italic text-slate-500 uppercase tracking-[0.4em]">{t('showcase_metaverse_gallery')}</span>
            </div>
            <h2 className="text-4xl md:text-5xl font-black italic text-white uppercase tracking-tighter leading-none mb-2">
-             Digital <span className="text-purple-500">Showcase</span>
+             {t('showcase_digital_title').split(' ')[0]} <span className="text-purple-500">{t('showcase_digital_title').split(' ')[1]}</span>
            </h2>
            <p className="text-xs text-slate-500 font-medium uppercase tracking-widest mt-4">
-              Exhibit your <span className="text-white italic">Verified Mobility Assets</span> in the metaverse.
+              {t('showcase_digital_desc')}
            </p>
         </div>
 
         <div className="flex items-center gap-6 bg-white/5 p-3 rounded-3xl border border-white/5">
-           {['ALL', 'HISTORY', 'ECO', 'ENERGY', 'LICENSE'].map(cat => (
+           {categories.map(cat => (
              <button 
-               key={cat}
-               onClick={() => setSelectedCategory(cat)}
+               key={cat.id}
+               onClick={() => setSelectedCategory(cat.id)}
                className={`px-6 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${
-                 selectedCategory === cat ? 'bg-white text-black' : 'text-slate-500 hover:text-white'
+                 selectedCategory === cat.id ? 'bg-white text-black' : 'text-slate-500 hover:text-white'
                }`}
              >
-                {cat}
+                {cat.label}
              </button>
            ))}
         </div>
@@ -91,7 +101,7 @@ export default function AssetShowcase() {
                     <header className="w-full flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-500">
                        <div className="flex items-center gap-2">
                           <Crown size={12} className="text-blue-500" />
-                          <span>{asset.type}</span>
+                          <span>{t(`showcase_category_${asset.type.toLowerCase()}` as any)}</span>
                        </div>
                        <div className={`px-4 py-1 rounded-full border ${getRarityColor(asset.rarity)}`}>
                           {asset.rarity}
@@ -122,11 +132,11 @@ export default function AssetShowcase() {
                           {asset.name}
                        </h4>
                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-8">
-                          Tier: <span className="text-white">{asset.tier}</span>
+                          {t('showcase_tier')}: <span className="text-white">{asset.tier}</span>
                        </p>
                        <button className="w-full py-5 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center gap-3 group/btn hover:bg-white hover:text-black transition-all">
                           <Maximize2 size={16} className="group-hover/btn:scale-125 transition-transform" />
-                          <span className="text-[10px] font-black uppercase tracking-widest italic">Inspect Asset</span>
+                          <span className="text-[10px] font-black uppercase tracking-widest italic">{t('showcase_inspect_asset')}</span>
                        </button>
                     </div>
                  </div>
@@ -139,10 +149,10 @@ export default function AssetShowcase() {
                      className="absolute inset-0 bg-black/60 backdrop-blur-md p-10 flex flex-col justify-center pointer-events-none"
                    >
                       <div className="space-y-4">
-                         <DetailRow label="Asset ID" value={`#OZ-${asset.id}002`} />
-                         <DetailRow label="Ownership" value="OZC_Foundation" />
-                         <DetailRow label="Staked OZC" value="1,240 OZC" />
-                         <DetailRow label="Last Trade" value="7 Days Ago" />
+                         <DetailRow label={t('showcase_asset_id')} value={`#OZ-${asset.id}002`} />
+                         <DetailRow label={t('showcase_ownership')} value="OZC_Foundation" />
+                         <DetailRow label={t('showcase_staked_ozc')} value="1,240 OZC" />
+                         <DetailRow label={t('showcase_last_trade')} value="7 Days Ago" />
                       </div>
                    </motion.div>
                  )}
@@ -157,19 +167,18 @@ export default function AssetShowcase() {
                <Crown size={36} />
             </div>
             <div>
-               <h4 className="text-xl font-black italic text-white uppercase tracking-tight mb-2">Collector's Status</h4>
+               <h4 className="text-xl font-black italic text-white uppercase tracking-tight mb-2">{t('showcase_collector_status')}</h4>
                <p className="text-xs text-slate-500 font-medium uppercase tracking-[0.2em] leading-relaxed">
-                  You hold <span className="text-purple-500 font-black">5 Premium Assets</span>. <br />
-                  Ranking <span className="text-white">#28</span> in the Global Gallery Leaderboard.
+                  {t('showcase_collector_desc', { count: "5", rank: "28" })}
                </p>
             </div>
          </div>
          <div className="flex gap-4 w-full xl:w-auto">
             <button className="flex-1 xl:flex-none px-12 py-6 bg-white text-black rounded-3xl font-black italic tracking-[0.2em] text-[11px] hover:bg-slate-200 transition-all uppercase shadow-2xl shadow-blue-500/10">
-               Enter Virtual Gallery
+               {t('showcase_enter_virtual')}
             </button>
             <button className="flex-1 xl:flex-none px-12 py-6 bg-purple-600 text-white rounded-3xl font-black italic tracking-[0.2em] text-[11px] hover:bg-purple-500 transition-all uppercase shadow-2xl shadow-purple-600/20">
-               Mint Collection Hub
+               {t('showcase_mint_collection')}
             </button>
          </div>
       </footer>

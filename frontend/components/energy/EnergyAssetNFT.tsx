@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Globe, ShieldCheck, Share2, Award, Info, Database, BarChart3 } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 interface EnergyMetadata {
   totalDischarged: number; // kWh
@@ -14,6 +15,7 @@ interface EnergyMetadata {
 }
 
 export default function EnergyAssetNFT({ metadata }: { metadata: EnergyMetadata }) {
+  const { t } = useI18n();
   const [isFlipped, setIsFlipped] = useState(false);
 
   // 티어별 테마 색상 (에너지 테마: Blue/Cyan/Violet)
@@ -61,10 +63,12 @@ export default function EnergyAssetNFT({ metadata }: { metadata: EnergyMetadata 
                    <div>
                       <div className="flex items-center gap-2 mb-2">
                          <Zap size={14} className="text-blue-500" />
-                         <span className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-500">Grid Asset</span>
+                         <span className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-500">
+                           {t('energy_nft_grid_asset')}
+                         </span>
                       </div>
                       <h3 className="text-2xl font-black italic text-white tracking-tighter uppercase line-clamp-1">
-                         Energy Provision
+                         {t('energy_nft_provision')}
                       </h3>
                    </div>
                    <div className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full">
@@ -101,7 +105,9 @@ export default function EnergyAssetNFT({ metadata }: { metadata: EnergyMetadata 
                             <p className="text-5xl font-black italic text-white tracking-tighter">
                                {metadata.gridContributionScore}
                             </p>
-                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Impact Factor</p>
+                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">
+                              {t('energy_nft_impact_factor')}
+                            </p>
                          </div>
                       </div>
                    </div>
@@ -110,17 +116,21 @@ export default function EnergyAssetNFT({ metadata }: { metadata: EnergyMetadata 
                 <footer className="space-y-6">
                    <div className="grid grid-cols-2 gap-4">
                       <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
-                         <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Provision</p>
+                         <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">
+                           {t('energy_nft_provision')}
+                         </p>
                          <p className="text-xl font-black italic text-white tracking-tighter">{metadata.totalDischarged} <span className="text-[10px]">kWh</span></p>
                       </div>
                       <div className="bg-white/5 p-4 rounded-2xl border border-white/5 text-right">
-                         <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Grid Sessions</p>
+                         <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">
+                           {t('energy_nft_sessions')}
+                         </p>
                          <p className="text-xl font-black italic text-white tracking-tighter">{metadata.activeSessions}</p>
                       </div>
                    </div>
 
                    <div className="flex justify-between items-center text-[9px] font-black text-slate-600 uppercase tracking-widest border-t border-white/5 pt-6">
-                      <span>Verified On-Chain</span>
+                      <span>{t('energy_nft_verified_chain')}</span>
                       <span>OZCAR v1.9</span>
                    </div>
                 </footer>
@@ -132,7 +142,7 @@ export default function EnergyAssetNFT({ metadata }: { metadata: EnergyMetadata 
              <header className="mb-10 flex justify-between items-center">
                 <div className="flex items-center gap-3">
                    <Database size={16} className="text-blue-500" />
-                   <h4 className="text-xs font-black italic text-white uppercase tracking-widest">Provenance Registry</h4>
+                   <h4 className="text-xs font-black italic text-white uppercase tracking-widest">{t('energy_nft_registry')}</h4>
                 </div>
                 <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500">
                    <Info size={14} />
@@ -140,13 +150,13 @@ export default function EnergyAssetNFT({ metadata }: { metadata: EnergyMetadata 
              </header>
 
              <div className="space-y-8 flex-1">
-                <RegistryItem label="Certificate ID" value={metadata.certId} />
-                <RegistryItem label="Smart Contract" value="0x72a...ff91" />
-                <RegistryItem label="Total Carbon Offset" value={`${metadata.carbonOffset} kg CO2`} />
-                <RegistryItem label="Market Participation" value="Premium (Level 4)" />
+                <RegistryItem label={t('energy_nft_cert_id')} value={metadata.certId} />
+                <RegistryItem label={t('energy_nft_contract')} value="0x72a...ff91" />
+                <RegistryItem label={t('energy_nft_carbon_offset')} value={`${metadata.carbonOffset} kg CO2`} />
+                <RegistryItem label={t('energy_nft_participation')} value="Premium (Level 4)" />
                 
                 <div className="pt-6 border-t border-white/5">
-                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Historical Yield</p>
+                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">{t('energy_nft_historical_yield')}</p>
                    <div className="h-24 flex items-end gap-1 px-1">
                       {[...Array(12)].map((_, i) => (
                         <div key={i} className="flex-1 bg-blue-500/20 rounded-t-sm" style={{ height: `${20 + Math.random() * 80}%` }} />
@@ -159,12 +169,12 @@ export default function EnergyAssetNFT({ metadata }: { metadata: EnergyMetadata 
                 <div className="p-5 bg-white/5 rounded-2xl border border-white/5 flex items-center gap-4">
                    <Award size={24} className="text-blue-400" />
                    <div>
-                      <p className="text-[10px] font-black text-white uppercase tracking-tight">Governance Multiplier</p>
-                      <p className="text-[8px] text-slate-500 font-bold uppercase tracking-widest">Participation reward: 1.15x OZC</p>
+                      <p className="text-[10px] font-black text-white uppercase tracking-tight">{t('energy_nft_governance_mult')}</p>
+                      <p className="text-[8px] text-slate-500 font-bold uppercase tracking-widest">{t('energy_nft_reward_bonus')}</p>
                    </div>
                 </div>
                 <p className="text-[8px] text-center text-slate-600 font-bold uppercase tracking-[0.2em]">
-                   Click to flip and view certificate visual
+                   {t('energy_nft_registry').includes('Registry') ? 'Click to flip and view certificate visual' : '클릭하여 인증서 비주얼을 확인하세요'}
                 </p>
              </div>
           </div>
@@ -179,11 +189,11 @@ export default function EnergyAssetNFT({ metadata }: { metadata: EnergyMetadata 
       <div className="flex gap-4">
          <button className="flex items-center gap-3 px-10 py-5 bg-white/5 border border-white/10 rounded-2xl text-[11px] font-black text-slate-400 uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all shadow-xl">
             <BarChart3 size={16} />
-            Marketplace Analysis
+            {t('v2g_view_marketplace_proof').includes('Market') ? 'Marketplace Analysis' : '마켓플레이스 분석'}
          </button>
          <button className="flex items-center gap-3 px-10 py-5 bg-blue-600 text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-blue-600/30 hover:bg-blue-500 transition-all">
             <Share2 size={16} />
-            List Asset for Sale
+            {t('energy_nft_list_sale')}
          </button>
       </div>
     </div>

@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Box, Cpu, Activity, ShieldCircle, Zap, Layers, Globe, MousePointer2 } from 'lucide-react';
+import { Box, Cpu, Activity, Shield, Zap, Layers, Globe, MousePointer2 } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 export default function VehicleDigitalTwin() {
+  const { t } = useI18n();
   const [rotation, setRotation] = useState(0);
   const [viewMode, setViewMode] = useState<'SHELL' | 'INTERNAL' | 'DATA'>('SHELL');
   const [pulse, setPulse] = useState(false);
@@ -30,23 +32,23 @@ export default function VehicleDigitalTwin() {
               <div className="p-2.5 bg-blue-500/10 rounded-xl border border-blue-500/20 text-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
                  <Cpu size={20} />
               </div>
-              <span className="text-[10px] font-black italic text-slate-500 uppercase tracking-[0.5em]">Neural Digital Twin v2.0</span>
+              <span className="text-[10px] font-black italic text-slate-500 uppercase tracking-[0.5em]">{t('twin_neural_avatar')}</span>
            </div>
            <h2 className="text-4xl md:text-5xl font-black italic text-white uppercase tracking-tighter leading-none">
-             Vehicle <span className="text-blue-500">Avatar</span>
+             {t('twin_avatar_title')}
            </h2>
         </div>
 
         <div className="flex gap-3 bg-white/5 p-2 rounded-2xl border border-white/5">
-           {['SHELL', 'INTERNAL', 'DATA'].map((mode) => (
+           {(['SHELL', 'INTERNAL', 'DATA'] as const).map((mode) => (
              <button
                key={mode}
-               onClick={() => setViewMode(mode as any)}
+               onClick={() => setViewMode(mode)}
                className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                  viewMode === mode ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'
                }`}
              >
-               {mode}
+               {t(`twin_mode_${mode.toLowerCase()}` as any)}
              </button>
            ))}
         </div>
@@ -103,7 +105,7 @@ export default function VehicleDigitalTwin() {
                       {[...Array(5)].map((_, i) => (
                         <div key={i} className="w-full h-px bg-blue-500/20 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }}></div>
                       ))}
-                      <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Neural Stream Active</span>
+                      <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">{t('twin_neural_stream')}</span>
                    </motion.div>
                 )}
              </AnimatePresence>
@@ -116,7 +118,7 @@ export default function VehicleDigitalTwin() {
           {/* Data Callouts */}
           <div className="absolute -top-32 left-0 flex flex-col items-start gap-4">
              <div className="bg-white/5 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10">
-                <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Engine SOH</p>
+                <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">{t('twin_engine_soh')}</p>
                 <div className="flex items-center gap-3">
                    <div className="w-16 h-1 bg-white/5 rounded-full overflow-hidden">
                       <div className="w-[98%] h-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,1)]"></div>
@@ -140,9 +142,9 @@ export default function VehicleDigitalTwin() {
       </div>
 
       <footer className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 mt-10">
-        <StatusCard icon={<Activity size={18} />} label="Live Bio-Sync" value="CONNECTED" sub="Latency 14ms" active />
-        <StatusCard icon={<Globe size={18} />} label="Metaverse Node" value="SEOUL_ID_41" sub="Cluster G-04" />
-        <StatusCard icon={<ShieldCircle size={18} />} label="ZKP Security" value="VERIFIED" sub="Proof #99A1" />
+        <StatusCard icon={<Activity size={18} />} label={t('twin_bio_sync')} value={t('twin_status_connected')} sub="Latency 14ms" active />
+        <StatusCard icon={<Globe size={18} />} label={t('twin_metaverse_node')} value="SEOUL_ID_41" sub="Cluster G-04" />
+        <StatusCard icon={<Shield size={18} />} label={t('twin_zkp_security')} value={t('twin_status_verified')} sub="Proof #99A1" />
       </footer>
 
       {/* Interactive Controls */}

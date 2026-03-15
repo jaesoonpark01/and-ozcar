@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Leaf, Zap, ShieldCheck, Share2, Award, Info, Globe, TreePine } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 interface EcoMetadata {
   ecoScore: number;
@@ -14,6 +15,7 @@ interface EcoMetadata {
 }
 
 export default function EcoDrivingNFT({ metadata }: { metadata: EcoMetadata }) {
+  const { t } = useI18n();
   const [isHovered, setIsHovered] = useState(false);
 
   // 점수에 따른 테마 색상 결정
@@ -65,7 +67,7 @@ export default function EcoDrivingNFT({ metadata }: { metadata: EcoMetadata }) {
                 <div className="p-2 bg-emerald-500/10 rounded-lg border border-emerald-500/20 text-emerald-500">
                   <Leaf size={14} />
                 </div>
-                <span className="text-[9px] font-black uppercase tracking-[0.3em] text-emerald-500/60">Eco-Guardian Proof</span>
+                <span className="text-[9px] font-black uppercase tracking-[0.3em] text-emerald-500/60">{t('eco_guardian_proof')}</span>
               </div>
               <Badge content={metadata.tier} />
             </header>
@@ -88,7 +90,7 @@ export default function EcoDrivingNFT({ metadata }: { metadata: EcoMetadata }) {
                     <span className={`text-6xl font-black italic tracking-tighter ${getThemeColor()}`}>
                       {metadata.ecoScore}
                     </span>
-                    <p className="text-[10px] font-black text-emerald-500/40 uppercase tracking-widest mt-1">Eco Score</p>
+                    <p className="text-[10px] font-black text-emerald-500/40 uppercase tracking-widest mt-1">{t('eco_score')}</p>
                   </div>
 
                   {/* Dynamic Particles simulation */}
@@ -108,24 +110,26 @@ export default function EcoDrivingNFT({ metadata }: { metadata: EcoMetadata }) {
 
               <div className="text-center">
                 <h3 className="text-2xl font-black italic text-white tracking-tighter uppercase mb-1">
-                  Climate Resistor
+                  {t('climate_resistor')}
                 </h3>
-                <p className="text-[9px] text-emerald-500/40 font-bold uppercase tracking-[0.3em]">Dynamic Soulbound NFT</p>
+                <p className="text-[9px] text-emerald-500/40 font-bold uppercase tracking-[0.3em]">{t('dynamic_soulbound')}</p>
               </div>
             </div>
 
             <footer className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
-                <StatItem label="CO2 Reduced" value={`${metadata.carbonSaved}kg`} sub="Carbon Credit" />
-                <StatItem label="Energy Regen" value={`${metadata.energyRecovered}kWh`} sub="V2G Ready" />
+                <StatItem label={t('co2_reduced')} value={`${metadata.carbonSaved}kg`} sub="Carbon Credit" />
+                <StatItem label={t('energy_regen')} value={`${metadata.energyRecovered}kWh`} sub={t('v2g_ready')} />
               </div>
 
               <div className="bg-white/[0.03] p-5 rounded-[2rem] border border-white/[0.05] flex items-center justify-between">
                 <div className="flex items-center gap-4">
                    <TierIcon />
                    <div>
-                     <p className="text-[10px] font-black text-white uppercase tracking-tight">Tier Transition</p>
-                     <p className="text-[8px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">{(metadata.ecoScore / 10).toFixed(0)} Points to {metadata.tier === 'FOREST' ? 'GODLIKE' : 'NEXT TIER'}</p>
+                     <p className="text-[10px] font-black text-white uppercase tracking-tight">{t('tier_transition')}</p>
+                     <p className="text-[8px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">
+                       {t('next_tier_pts', { pts: (metadata.ecoScore / 10).toFixed(0), nextTier: metadata.tier === 'FOREST' ? 'GODLIKE' : 'NEXT TIER' })}
+                     </p>
                    </div>
                 </div>
                 <div className="w-12 h-12 bg-emerald-500/10 rounded-full flex items-center justify-center text-emerald-500 border border-emerald-500/20">
@@ -140,11 +144,11 @@ export default function EcoDrivingNFT({ metadata }: { metadata: EcoMetadata }) {
       <div className="flex gap-4">
          <button className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all">
             <Globe size={14} />
-            Global Registry
+            {t('global_registry')}
          </button>
          <button className="flex items-center gap-3 px-8 py-4 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-emerald-600/20 hover:bg-emerald-500 transition-all">
             <Share2 size={14} />
-            Share Proof
+            {t('share_proof')}
          </button>
       </div>
     </div>

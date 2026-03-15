@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Fingerprint, ShieldCheck, Key, Handshake, CheckCircle2, AlertTriangle, ArrowRight, FileText } from 'lucide-react';
+import { Fingerprint as FingerprintIcon, ShieldCheck, Key, Handshake, CheckCircle2, AlertTriangle, ArrowRight, FileText } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 export default function DigitalHandshake() {
+  const { t } = useI18n();
   const [step, setStep] = useState<'IDLE' | 'AUTH' | 'SIGN' | 'COMPLETE'>('IDLE');
   const [scanned, setScanned] = useState(false);
 
@@ -66,7 +68,7 @@ export default function DigitalHandshake() {
                     animate={{ opacity: 1, scale: 1 }}
                     className={`absolute inset-0 rounded-full border-4 flex items-center justify-center ${scanned ? 'border-emerald-500/40 text-emerald-500' : 'border-blue-500/20 text-blue-500'}`}
                   >
-                     <Fingerprint size={80} className={`${!scanned && 'animate-pulse'}`} />
+                     <FingerprintIcon size={80} className={`${!scanned && 'animate-pulse'}`} />
                   </motion.div>
                   {!scanned && (
                     <motion.div 
@@ -102,10 +104,10 @@ export default function DigitalHandshake() {
                      <FileText className="text-blue-500" size={24} />
                   </header>
                   <div className="space-y-6">
-                    <ContractRow label="From" value="CyberNeo (0x72...a1)" />
-                    <ContractRow label="To" value="CryptoBuyer (0x81...f2)" />
-                    <ContractRow label="Asset" value="Tesla Model S NFT Cert" />
-                    <ContractRow label="Price" value="48,200 OZC" />
+                    <ContractRow label={t('handshake_from')} value="CyberNeo (0x72...a1)" />
+                    <ContractRow label={t('handshake_to')} value="CryptoBuyer (0x81...f2)" />
+                    <ContractRow label={t('handshake_asset')} value="Tesla Model S NFT Cert" />
+                    <ContractRow label={t('handshake_price')} value="48,200 OZC" />
                   </div>
                   <div className="mt-8 flex items-center gap-4 p-5 bg-amber-500/10 border border-amber-500/20 rounded-2xl">
                      <AlertTriangle className="text-amber-500 shrink-0" size={20} />
@@ -140,11 +142,11 @@ export default function DigitalHandshake() {
                </h2>
                <p className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] mb-12 leading-relaxed">
                  The smart contract has been broadcasted to the network. <br />
-                 Asset transfer will complete in <span className="text-white italic">~12 seconds</span>.
+                 {t('handshake_time_remaining')}
                </p>
                <div className="flex gap-4 w-full">
                   <button className="flex-1 py-6 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-white transition-all">
-                     View On Explorer
+                     {t('handshake_view_on_explorer')}
                   </button>
                   <button 
                     onClick={() => setStep('IDLE')}
@@ -172,38 +174,4 @@ function ContractRow({ label, value }: { label: string, value: string }) {
        <span className="text-xs font-black italic text-white uppercase tracking-widest">{value}</span>
     </div>
   );
-}
-
-function Fingerprint({ className, size }: { className?: string, size?: number }) {
-    return (
-        <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width={size} 
-            height={size} 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            className={className}
-        >
-            <path d="M12 10a2 2 0 0 0-2 2" />
-            <path d="M17.67 15a2 2 0 0 1-1.24 1.78l-1.43.71l-1.43.71" />
-            <path d="M11 11.5v2" />
-            <path d="M9 11v4" />
-            <path d="M7 11v6" />
-            <path d="M3 11v8" />
-            <path d="M13 11v1" />
-            <path d="M15 11v3" />
-            <path d="M17 11v5" />
-            <path d="M19 11v7" />
-            <path d="M21 11v9" />
-            <path d="M9 4.31v1.69" />
-            <path d="M12 4v2" />
-            <path d="M15 4.31v1.69" />
-            <path d="M18 5.61v1.39" />
-            <path d="M6 5.61v1.39" />
-        </svg>
-    );
 }

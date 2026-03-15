@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Leaf, Shield, CheckCircle2, Zap, ArrowRight, Settings2 } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 export default function SmartChargingOptimizer() {
+  const { t } = useI18n();
   const [isOptimizerActive, setIsOptimizerActive] = useState(true);
   const [targetSOC, setTargetSOC] = useState(100);
   const [departureTime, setDepartureTime] = useState("08:30");
@@ -18,13 +20,13 @@ export default function SmartChargingOptimizer() {
                 <div className="p-2.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20 text-emerald-500">
                    <Shield size={20} />
                 </div>
-                <span className="text-[10px] font-black italic text-slate-500 uppercase tracking-[0.4em]">Grid-Aware Intelligence</span>
+                <span className="text-[10px] font-black italic text-slate-500 uppercase tracking-[0.4em]">{t('charging_grid_aware')}</span>
              </div>
              <h2 className="text-4xl md:text-5xl font-black italic text-white uppercase tracking-tighter leading-none mb-2">
-               Smart <span className="text-emerald-500">Charging</span>
+               {t('charging_smart_title')}
              </h2>
              <p className="text-xs text-slate-500 font-medium uppercase tracking-widest mt-6 max-w-md leading-relaxed">
-                Automated charging algorithms that minimize <span className="text-white">CO2</span> and maximize <span className="text-emerald-500 font-bold">Grid Stability</span>.
+                {t('charging_optimizer_desc_detail')}
              </p>
           </div>
 
@@ -33,13 +35,13 @@ export default function SmartChargingOptimizer() {
                onClick={() => setIsOptimizerActive(true)}
                className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${isOptimizerActive ? 'bg-emerald-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
              >
-                Optimized
+                {t('charging_mode_optimized')}
              </button>
              <button 
                onClick={() => setIsOptimizerActive(false)}
                className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${!isOptimizerActive ? 'bg-rose-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
              >
-                Manual
+                {t('charging_mode_manual')}
              </button>
           </div>
         </header>
@@ -58,7 +60,7 @@ export default function SmartChargingOptimizer() {
 
               <div className="relative z-10 space-y-8">
                  <div className="flex justify-between items-center">
-                    <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Schedule Setup</h4>
+                    <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t('charging_schedule_setup')}</h4>
                     <Settings2 size={14} className="text-slate-500 cursor-pointer hover:text-white" />
                  </div>
 
@@ -66,7 +68,7 @@ export default function SmartChargingOptimizer() {
                     <div className="bg-black/40 p-6 rounded-2xl border border-white/5 flex items-center justify-between group cursor-pointer hover:border-emerald-500/30 transition-all">
                        <div className="flex items-center gap-4">
                           <Calendar size={18} className="text-emerald-400" />
-                          <span className="text-xs font-black italic text-white uppercase tracking-widest">Departure Time</span>
+                          <span className="text-xs font-black italic text-white uppercase tracking-widest">{t('charging_departure_time')}</span>
                        </div>
                        <div className="flex items-center gap-2">
                           <span className="text-xl font-black text-white italic">{departureTime}</span>
@@ -76,7 +78,7 @@ export default function SmartChargingOptimizer() {
 
                     <div className="bg-black/40 p-6 rounded-2xl border border-white/5">
                        <div className="flex justify-between items-baseline mb-6">
-                          <span className="text-xs font-black italic text-slate-500 uppercase tracking-widest">Target SOC</span>
+                          <span className="text-xs font-black italic text-slate-500 uppercase tracking-widest">{t('charging_target_soc')}</span>
                           <span className="text-2xl font-black italic text-white tracking-tighter">{targetSOC}%</span>
                        </div>
                        <input 
@@ -88,8 +90,8 @@ export default function SmartChargingOptimizer() {
                          className="w-full accent-emerald-500 bg-black/40 h-1.5 rounded-lg border-none"
                        />
                        <div className="flex justify-between mt-3 px-1 text-[8px] font-bold text-slate-600 uppercase tracking-widest">
-                          <span>Battery Health Mode</span>
-                          <span>Max Range</span>
+                          <span>{t('charging_health_mode')}</span>
+                          <span>{t('charging_max_range')}</span>
                        </div>
                     </div>
                  </div>
@@ -101,18 +103,18 @@ export default function SmartChargingOptimizer() {
                  <div className="flex justify-between items-start">
                     <Leaf size={32} className="text-emerald-500" />
                     <div className="text-right">
-                       <p className="text-[9px] font-black text-emerald-500/60 uppercase tracking-widest mb-1">CO2 Avoided</p>
+                       <p className="text-[9px] font-black text-emerald-500/60 uppercase tracking-widest mb-1">{t('charging_co2_avoided')}</p>
                        <p className="text-3xl font-black italic text-white tracking-tighter">142.5 kg</p>
                     </div>
                  </div>
                  <div className="space-y-4">
                     <div className="flex items-center gap-3">
                        <CheckCircle2 size={14} className="text-emerald-500" />
-                       <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest leading-none">Grid Load Balancing Participation</span>
+                       <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest leading-none">{t('charging_balancing_participation')}</span>
                     </div>
                     <div className="flex items-center gap-3">
                        <CheckCircle2 size={14} className="text-emerald-500" />
-                       <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest leading-none">Off-Peak Charging Optimization</span>
+                       <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest leading-none">{t('charging_offpeak_optimization')}</span>
                     </div>
                  </div>
               </div>
@@ -123,12 +125,12 @@ export default function SmartChargingOptimizer() {
                        <Zap size={24} />
                     </div>
                     <div>
-                       <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Saving Status</p>
-                       <p className="text-xl font-black italic text-white tracking-tighter">-$42.80 <span className="text-[10px] text-emerald-500">this month</span></p>
+                       <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{t('charging_saving_status')}</p>
+                       <p className="text-xl font-black italic text-white tracking-tighter">-$42.80 <span className="text-[10px] text-emerald-500">{t('charging_this_month')}</span></p>
                     </div>
                  </div>
                  <div className="flex flex-col items-center">
-                    <div className="text-[10px] font-black text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 uppercase tracking-widest">Active</div>
+                    <div className="text-[10px] font-black text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 uppercase tracking-widest">{t('charging_status_active')}</div>
                  </div>
               </div>
            </div>
@@ -138,9 +140,9 @@ export default function SmartChargingOptimizer() {
            <header className="flex justify-between items-center mb-10">
               <h4 className="text-xs font-black italic text-white uppercase tracking-[0.2em] flex items-center gap-3">
                  <Clock size={16} className="text-blue-400" />
-                 Optimization Timeline
+                 {t('charging_optimization_timeline')}
               </h4>
-              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Next 24 Hours</span>
+              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{t('charging_next_24h')}</span>
            </header>
 
            {/* Timeline visualization */}
@@ -161,7 +163,7 @@ export default function SmartChargingOptimizer() {
               
               {/* Tooltip Simulation */}
               <div className="absolute top-0 left-[15%] bg-emerald-600 px-4 py-2 rounded-xl text-[8px] font-black text-white uppercase tracking-widest shadow-xl">
-                 Peak Saving Slot
+                 {t('charging_peak_saving')}
               </div>
            </div>
         </section>

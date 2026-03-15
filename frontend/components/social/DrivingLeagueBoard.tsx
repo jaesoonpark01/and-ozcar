@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, Medal, Zap, Users, MapPin, ArrowUpRight, Crown, Sparkles } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 interface Driver {
   id: string;
@@ -14,6 +15,7 @@ interface Driver {
 }
 
 export default function DrivingLeagueBoard() {
+  const { t } = useI18n();
   const [drivers, setDrivers] = useState<Driver[]>([
     { id: '1', name: 'CyberNeo', score: 2840, efficiency: 98.2, rank: 1, isMVP: true },
     { id: '2', name: 'EcoQueen', score: 2710, efficiency: 96.5, rank: 2 },
@@ -58,10 +60,12 @@ export default function DrivingLeagueBoard() {
                <div className="p-2.5 bg-amber-500/10 rounded-xl border border-amber-500/20 text-amber-500">
                   <Trophy size={20} />
                </div>
-               <span className="text-[10px] font-black italic text-slate-500 uppercase tracking-[0.4em]">Decentralized Social League</span>
+               <span className="text-[10px] font-black italic text-slate-500 uppercase tracking-[0.4em]">
+                 {t('league_decentralized_social')}
+               </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black italic text-white uppercase tracking-tighter leading-none mb-2">
-              Driving <span className="text-blue-500">MVP</span>
+              {t('social_league_title').split(' ')[0]} <span className="text-blue-500">{t('social_league_title').split(' ').slice(1).join(' ')}</span>
             </h2>
             <div className="flex items-center gap-3 mt-4">
                 <MapPin size={14} className="text-slate-500" />
@@ -70,9 +74,9 @@ export default function DrivingLeagueBoard() {
                     onChange={(e) => setRegion(e.target.value)}
                     className="bg-transparent text-[10px] font-black text-slate-400 uppercase tracking-widest border-none focus:ring-0 cursor-pointer hover:text-white transition-colors"
                 >
-                    <option value="Seoul Central">Seoul Central</option>
-                    <option value="Tokyo Bay">Tokyo Bay</option>
-                    <option value="Neo Vegas">Neo Vegas</option>
+                    <option value="Seoul Central">{t('league_region_seoul')}</option>
+                    <option value="Tokyo Bay">{t('league_region_tokyo')}</option>
+                    <option value="Neo Vegas">{t('league_region_vegas')}</option>
                 </select>
             </div>
           </div>
@@ -80,9 +84,13 @@ export default function DrivingLeagueBoard() {
           <div className="flex flex-col items-end gap-4">
              <div className="flex items-center gap-4 bg-white/5 px-6 py-3 rounded-2xl border border-white/5">
                 <Users size={16} className="text-blue-400" />
-                <span className="text-[10px] font-black text-white uppercase tracking-widest">1,204 Active Pilots</span>
+                <span className="text-[10px] font-black text-white uppercase tracking-widest">
+                  1,204 {t('social_active_pilots')}
+                </span>
              </div>
-             <p className="text-[9px] font-black text-slate-600 uppercase tracking-widest">League ends in: <span className="text-rose-500">02D 14H 21M</span></p>
+             <p className="text-[9px] font-black text-slate-600 uppercase tracking-widest">
+               {t('social_league_ends')}: <span className="text-rose-500">02D 14H 21M</span>
+             </p>
           </div>
         </header>
 
@@ -126,7 +134,7 @@ export default function DrivingLeagueBoard() {
                             {driver.isMVP && <Sparkles size={14} className="text-blue-400" />}
                           </h4>
                           <div className="flex items-center gap-4 mt-1">
-                            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Efficiency</span>
+                            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{t('league_efficiency')}</span>
                             <div className="w-24 h-1 bg-white/5 rounded-full overflow-hidden">
                                 <div 
                                   className="h-full bg-blue-500" 
@@ -141,7 +149,7 @@ export default function DrivingLeagueBoard() {
 
                   <div className="flex items-center gap-10">
                      <div className="hidden md:block text-right">
-                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Impact Score</p>
+                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">{t('social_impact_score')}</p>
                         <p className="text-xl font-black italic text-white tracking-tighter">{driver.score} pts</p>
                      </div>
                      <div className="bg-black/40 px-5 py-3 rounded-xl border border-white/5 flex flex-col items-center">
@@ -172,9 +180,9 @@ export default function DrivingLeagueBoard() {
                  <Medal size={32} />
               </div>
               <div>
-                 <h4 className="text-lg font-black italic text-white uppercase tracking-tight mb-1">Your Current Standing</h4>
+                 <h4 className="text-lg font-black italic text-white uppercase tracking-tight mb-1">{t('social_current_standing')}</h4>
                  <p className="text-xs text-slate-500 font-medium uppercase tracking-widest">
-                    You are in <span className="text-white">Top 8%</span>. Drive efficiently to reach <span className="text-blue-500">MVP League</span>.
+                    {t('social_top_percent', { percent: '8' })}. {t('social_reach_mvp')}.
                  </p>
               </div>
            </div>
@@ -182,7 +190,7 @@ export default function DrivingLeagueBoard() {
              onClick={claimLeagueReward}
              className="w-full xl:w-auto px-12 py-6 bg-blue-600 text-white rounded-3xl font-black italic tracking-[0.2em] text-[11px] shadow-2xl shadow-blue-600/20 hover:bg-blue-500 transition-all flex items-center justify-center gap-3 active:scale-95"
            >
-              Claim Weekly Reward
+              {t('social_claim_reward')}
            </button>
         </footer>
       </div>
@@ -202,12 +210,12 @@ export default function DrivingLeagueBoard() {
                     <Zap size={48} />
                 </div>
              </div>
-             <h3 className="text-3xl font-black italic text-white uppercase tracking-tighter mb-2">Reward Issued</h3>
-             <p className="text-[11px] text-slate-500 font-black uppercase tracking-[0.3em] mb-10">Governance Proof Confirmed</p>
+             <h3 className="text-3xl font-black italic text-white uppercase tracking-tighter mb-2">{t('social_reward_issued')}</h3>
+             <p className="text-[11px] text-slate-500 font-black uppercase tracking-[0.3em] mb-10">{t('social_gov_proof_confirmed')}</p>
              <div className="text-5xl font-black italic text-white tracking-tighter mb-4">
                 +24.5 <span className="text-blue-500">OZC</span>
              </div>
-             <p className="text-[10px] text-slate-600 uppercase font-bold tracking-widest">Added to Ozcar Hub Wallet</p>
+             <p className="text-[10px] text-slate-600 uppercase font-bold tracking-widest">{t('social_added_to_wallet')}</p>
           </motion.div>
         )}
       </AnimatePresence>
