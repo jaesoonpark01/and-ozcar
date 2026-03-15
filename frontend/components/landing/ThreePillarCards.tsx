@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, MapPin, Wallet, ArrowUpRight, Shield, Zap, Sparkles, Fingerprint, Layers, MoveRight } from 'lucide-react';
+import { Activity, ArrowUpRight, Zap, Sparkles, Fingerprint, Layers, MoveRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useI18n } from '@/hooks/useI18n';
 

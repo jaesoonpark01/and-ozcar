@@ -21,7 +21,6 @@ import {
     TrendingDown,
     Gavel
 } from 'lucide-react';
-import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import GovernanceService, { JuryTier, Case, Juror } from '@/services/GovernanceService';
 import { JurySection, GenesisSection, PromotionSection, ConstitutionSection } from '@/components/governance/DAOSections';
@@ -29,7 +28,7 @@ import { JurySection, GenesisSection, PromotionSection, ConstitutionSection } fr
 type TabType = 'constitution' | 'jury' | 'genesis' | 'promotion';
 
 export default function GovernancePage() {
-    const { t, lang } = useI18n();
+    const { t } = useI18n();
     const { account, signer } = useWeb3(); // Retaining 'signer' as per original logic, 'governanceService' would conflict with useState
     const [activeTab, setActiveTab] = useState<TabType>('constitution');
     const [governanceService, setGovernanceService] = useState<GovernanceService | null>(null);
@@ -40,8 +39,8 @@ export default function GovernancePage() {
     const [hasGenesisNFT] = useState(true); // Mocking Genesis NFT ownership for demo
     const [previewMode, setPreviewMode] = useState(false);
 
-    const votingPowerBonus = hasGenesisNFT ? 1.1 : 1.0;
-    const adjustedVotingPower = (juror?.votingPower || 1) * votingPowerBonus;
+    const _votingPowerBonus = hasGenesisNFT ? 1.1 : 1.0;
+    const _adjustedVotingPower = (juror?.votingPower || 1) * _votingPowerBonus;
 
     // Initialize service
     useEffect(() => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Smartphone, Zap, ShieldCheck, ChevronRight, Activity, Cpu, Bell, Shield, Gauge } from 'lucide-react';
+import { ShieldCheck, ChevronRight, Activity, Cpu, Shield, Gauge } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
