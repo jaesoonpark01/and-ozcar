@@ -11,11 +11,15 @@ CREATE TABLE IF NOT EXISTS public.market_campaigns (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
+-- 기존 테이블이 존재할 경우 대비하여 컬럼 추가
+ALTER TABLE public.market_campaigns ADD COLUMN IF NOT EXISTS target_description TEXT;
+ALTER TABLE public.market_campaigns ADD COLUMN IF NOT EXISTS multiplier NUMERIC DEFAULT 1.0;
+
 -- Mock Data: 마켓 캠페인 초기값 삽입
-INSERT INTO public.market_campaigns (buyer_name, target_description, multiplier)
+INSERT INTO public.market_campaigns (title, buyer_name, target_description, multiplier, reward_per_km)
 VALUES 
-  ('AIG 안심화재', '안전 운전 데이터 90점 이상 유저', 1.5),
-  ('EV Battery Research Lab', '전기차 겨울철 전비 데이터 수집 (영하 5도 이하)', 2.0)
+  ('AIG 안심화재 보험연계 데이터 수집', 'AIG 안심화재', '안전 운전 데이터 90점 이상 유저', 1.5, 0.05),
+  ('EV Battery 겨울 효율 캠페인', 'EV Battery Research Lab', '전기차 겨울철 전비 데이터 수집 (영하 5도 이하)', 2.0, 0.08)
 ON CONFLICT DO NOTHING;
 
 -- 2. 가치 산정 함수 생성 (Pricing Engine)

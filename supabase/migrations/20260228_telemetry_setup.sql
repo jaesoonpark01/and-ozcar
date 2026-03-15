@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS raw_telemetry (
 
 -- 02. Reward Logs for Assetization
 CREATE TABLE IF NOT EXISTS reward_logs (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES auth.users,
     car_id UUID NOT NULL,
     amount NUMERIC(20, 8) NOT NULL,
     reason TEXT NOT NULL,
@@ -43,7 +44,7 @@ $$ LANGUAGE plpgsql;
 
 -- 04. Anomaly Alerts Table
 CREATE TABLE IF NOT EXISTS anomaly_alerts (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     car_id UUID NOT NULL,
     severity TEXT CHECK (severity IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL')),
     alert_type TEXT NOT NULL,

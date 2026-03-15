@@ -1,3 +1,22 @@
+CREATE TABLE IF NOT EXISTS public.telemetry (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    vin TEXT,
+    car_id UUID,
+    speed FLOAT,
+    regen_kwh FLOAT,
+    hvac_kwh FLOAT,
+    temp_max FLOAT,
+    soc FLOAT,
+    odometer FLOAT,
+    current_power FLOAT,
+    soh FLOAT,
+    is_charging BOOLEAN,
+    current FLOAT,
+    battery_temp_max FLOAT,
+    recorded_at TIMESTAMPTZ DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- 월간 차량 리포트 (통계) 생성 함수
 -- OBD2 주행 로그(telemetry 테이블)를 분석하여 주행 거리, 평균 전비, 급속 충전 횟수, 배터리 최고 온도 등을 산출.
 create or replace function get_monthly_car_report(p_vin text, p_year int, p_month int)

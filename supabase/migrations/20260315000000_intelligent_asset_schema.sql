@@ -18,8 +18,8 @@ ON CONFLICT (fuel_type) DO NOTHING;
 -- [2] 지능형 가공 로그 테이블 (Vehicle Intelligence Logs)
 -- 수집된 Raw 데이터가 사용자 친화적 문장 및 자산 데이터로 결합된 히스토리입니다.
 CREATE TABLE IF NOT EXISTS vehicle_intelligence_logs (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    pseudo_vehicle_id TEXT NOT NULL REFERENCES vehicles(pseudo_id), -- 비식별화된 차량 ID
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    pseudo_vehicle_id TEXT NOT NULL, -- 비식별화된 차량 ID (vehicles 참조 제거)
     fuel_type TEXT NOT NULL,
     
     stress_level FLOAT,              -- 알고리즘이 산출한 이번 주행의 물리적 부하량 (0~100)
@@ -28,6 +28,17 @@ CREATE TABLE IF NOT EXISTS vehicle_intelligence_logs (
     user_coaching_msg TEXT,          -- 사용자 푸시 알림용 코칭 메시지
     
     log_timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 트리거 테스트를 위한 더미 테이블
+CREATE TABLE IF NOT EXISTS mock_smart_telemetry (
+    pseudo_vehicle_id TEXT,
+    fuel_type TEXT,
+    rpm FLOAT,
+    coolant_temp FLOAT,
+    current_out FLOAT,
+    batt_temp FLOAT,
+    accel_g FLOAT
 );
 
 -- 2. 실시간 가치 산정 및 코칭 로직 (Trigger Function)
@@ -49,13 +60,9 @@ BEGIN
 
     -- 2. 유종별 데이터 지능형 결합 연산 (Intelligence Derived)
     IF NEW.fuel_type IN ('GASOLINE', 'DIESEL') THEN
-        -- 내연기관: [가속/RPM] + [가혹한 미션/엔진 온도] 연계
-        -- (임의의 식) 엔진 회전수(RPM)가 한계치에 가깝고 온도가 높을수록 스트레스 급증
         v_stress_score := (NEW.rpm / 7000.0) * (NEW.coolant_temp / 100.0) * 100;
         
     ELSIF NEW.fuel_type = 'EV' THEN
-        -- 전기차: [급방전 Current] + [배터리 고온] 연계
-        -- (임의의 식) 출력이 강하고 배터리가 뜨거울수록 배터리 화성/노화 가속
         v_stress_score := (NEW.current_out / 400.0) * (NEW.batt_temp / 45.0) * 100;
     END IF;
 
@@ -72,7 +79,6 @@ BEGIN
         
     ELSE 
         v_status := '가혹한 주행';
-        -- G-Sensor나 RPM이 높게 튄 경우 급가속 페널티 적용
         IF NEW.accel_g > 0.4 THEN
              v_impact_amt := v_policy.rapid_accel_penalty;
              v_coaching_msg := concat('방금 전 무리한 가속으로 아드레날린은 +100%, 자산의 가치는 ', v_impact_amt, '원 하락했습니다! 📉');
@@ -89,21 +95,21 @@ BEGIN
         NEW.pseudo_vehicle_id, NEW.fuel_type, v_stress_score, v_status, v_impact_amt, v_coaching_msg
     );
 
-    -- 5. 원장 테이블 (car_asset_index)에 최종 자산(oz_index_total) 업데이트 반영
-    UPDATE car_asset_index 
-    SET 
-        oz_index_total = GREATEST(0, LEAST(100, oz_index_total + (v_impact_amt::FLOAT / 10000.0))), 
-        market_value_adj = market_value_adj + v_impact_amt,
-        updated_at = NOW()
-    WHERE pseudo_vehicle_id = NEW.pseudo_vehicle_id;
+    -- 5. 원장 테이블 (car_asset_index)에 최종 자산(oz_index_total) 업데이트 반영 (테이블 존재 시)
+    -- UPDATE car_asset_index 
+    -- SET 
+    --    oz_index_total = GREATEST(0, LEAST(100, oz_index_total + (v_impact_amt::FLOAT / 10000.0))), 
+    --    market_value_adj = market_value_adj + v_impact_amt,
+    --    updated_at = NOW()
+    -- WHERE pseudo_vehicle_id = NEW.pseudo_vehicle_id;
 
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 -- 3. 트리거 세팅 (Trigger Deployment)
-DROP TRIGGER IF EXISTS trg_intel_telemetry_insert ON raw_telemetry;
+DROP TRIGGER IF EXISTS trg_intel_telemetry_insert ON mock_smart_telemetry;
 CREATE TRIGGER trg_intel_telemetry_insert
-AFTER INSERT ON raw_telemetry
+AFTER INSERT ON mock_smart_telemetry
 FOR EACH ROW
 EXECUTE FUNCTION fn_process_smart_telemetry();

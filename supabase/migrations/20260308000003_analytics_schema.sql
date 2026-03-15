@@ -1,7 +1,27 @@
+-- 0. 더미 telemetry 테이블 생성
+CREATE TABLE IF NOT EXISTS public.telemetry (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    vin TEXT,
+    car_id UUID,
+    speed FLOAT,
+    regen_kwh FLOAT,
+    hvac_kwh FLOAT,
+    temp_max FLOAT,
+    soc FLOAT,
+    odometer FLOAT,
+    current_power FLOAT,
+    soh FLOAT,
+    is_charging BOOLEAN,
+    current FLOAT,
+    battery_temp_max FLOAT,
+    recorded_at TIMESTAMPTZ DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- 1. 통합 주행 분석 테이블 (비식별/가명화 데이터 축적용)
 CREATE TABLE analytics_driving_sessions (
     -- [기본 정보]
-    session_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    session_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     pseudo_vehicle_id TEXT NOT NULL, -- 해시화된 차량 식별자(VIN 대체)
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
 
@@ -79,7 +99,7 @@ BEGIN
         6.5,              -- mock efficiency  
         NEW.regen_kwh,
         NEW.hvac_kwh,
-        NEW.temp_max > 35 ? (NEW.temp_max * 2) : 10, -- aggressiveness mock
+        CASE WHEN NEW.temp_max > 35 THEN (NEW.temp_max * 2) ELSE 10 END, -- aggressiveness mock
         1, -- 급가속 기본값
         NEW.speed,
         NEW.soc, -- delta

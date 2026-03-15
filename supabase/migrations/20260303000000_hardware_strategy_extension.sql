@@ -1,7 +1,7 @@
 -- 01. Drive Sessions (Management Layer)
 CREATE TABLE IF NOT EXISTS drive_sessions (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    car_id UUID NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    car_id UUID NOT NULL,
     started_at TIMESTAMPTZ DEFAULT NOW(),
     ended_at TIMESTAMPTZ,
     total_distance_km NUMERIC(10, 2) DEFAULT 0,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS drive_sessions (
 
 -- 02. OZP Token Wallets
 CREATE TABLE IF NOT EXISTS ozp_wallets (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL UNIQUE REFERENCES profiles(id) ON DELETE CASCADE,
     balance NUMERIC(20, 8) DEFAULT 0,
     staked_amount NUMERIC(20, 8) DEFAULT 0,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS ozp_wallets (
 
 -- 03. Data Marketplace Campaigns
 CREATE TABLE IF NOT EXISTS market_campaigns (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title TEXT NOT NULL,
     buyer_name TEXT NOT NULL,
     reward_per_km NUMERIC(20, 8) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS market_campaigns (
 
 -- 04. Enhanced SUA Evidence Log
 CREATE TABLE IF NOT EXISTS sua_evidence_logs (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     session_id UUID NOT NULL REFERENCES drive_sessions(id) ON DELETE CASCADE,
     triggered_at TIMESTAMPTZ DEFAULT NOW(),
     rpm_value INT NOT NULL,

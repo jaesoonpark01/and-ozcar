@@ -1,9 +1,12 @@
--- 1. profiles 테이블 확장
+-- 1. profiles 테이블 확장 및 reward_logs 컬럼 추가
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS total_score INT DEFAULT 0;
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS ambassador_status TEXT DEFAULT 'none';
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS nickname TEXT UNIQUE;
 
--- 2. vehicles 테이블 생성
+ALTER TABLE public.reward_logs ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users;
+
+-- 2. vehicles 테이블 생성 (기존 호환성 없는 구버전 테이블 삭제)
+DROP TABLE IF EXISTS public.vehicles CASCADE;
 CREATE TABLE IF NOT EXISTS public.vehicles (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   owner_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,

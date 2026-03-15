@@ -1,4 +1,7 @@
 -- 리더보드용 reward_logs 더미 테이블 (존재하지 않을 경우를 대비)
+-- Ensure user_id column exists if table was already created
+ALTER TABLE IF EXISTS public.reward_logs ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users;
+
 CREATE TABLE IF NOT EXISTS public.reward_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID REFERENCES auth.users NOT NULL,
