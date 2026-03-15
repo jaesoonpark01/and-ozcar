@@ -99,7 +99,7 @@ export default function GovernancePage() {
         try {
             // Attempt blockchain registration
             await governanceService.registerAsJuror(1);
-            alert('커뮤니티 검증단 활동 시작! 이제 데이터 검증에 참여할 수 있습니다.');
+            alert(t('success'));
             window.location.reload();
         } catch (error) {
             console.error('Registration failed:', error);
@@ -140,7 +140,7 @@ export default function GovernancePage() {
 
     // Tabs configuration
     const tabs = [
-        { id: 'constitution', label: '주권 헌장', icon: <Landmark size={16} /> },
+        { id: 'constitution', label: t('gov_tab_constitution'), icon: <Landmark size={16} /> },
         { id: 'jury', label: t('gov_tab_jury'), icon: <Shield size={16} /> },
         { id: 'genesis', label: t('nav_genesis'), icon: <Flame size={16} /> },
         { id: 'promotion', label: t('nav_promotion'), icon: <Share2 size={16} /> },
@@ -221,8 +221,8 @@ export default function GovernancePage() {
                         <div className="relative bg-[#121212] border border-white/5 rounded-[3.5rem] p-10 shadow-2xl overflow-hidden">
                             <div className="flex justify-between items-start mb-12">
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Global Status</p>
-                                    <p className="text-xl font-black text-white italic tracking-tighter uppercase">DAO ACTIVE</p>
+                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t('gov_global_status')}</p>
+                                    <p className="text-xl font-black text-white italic tracking-tighter uppercase">{t('gov_dao_active')}</p>
                                 </div>
                                 <div className="p-3 bg-blue-500 text-white rounded-2xl shadow-lg shadow-blue-500/30">
                                     <Zap size={24} className="fill-current" />
@@ -232,18 +232,18 @@ export default function GovernancePage() {
                             <div className="space-y-6">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="bg-white/5 p-5 rounded-3xl border border-white/5">
-                                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Active Juries</p>
+                                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">{t('gov_active_juries')}</p>
                                         <p className="text-3xl font-black text-white italic tracking-tighter">1,204+</p>
                                     </div>
                                     <div className="bg-white/5 p-5 rounded-3xl border border-white/5">
-                                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Total Rewards</p>
+                                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">{t('gov_total_rewards')}</p>
                                         <p className="text-3xl font-black text-blue-500 italic tracking-tighter">482K</p>
                                     </div>
                                 </div>
                                 <div className="p-6 bg-blue-500/10 rounded-[2.5rem] border border-blue-500/20">
                                     <div className="flex items-center gap-3 mb-2">
                                         <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping"></div>
-                                        <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Real-time Node</p>
+                                        <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest">{t('gov_realtime_node')}</p>
                                     </div>
                                     <p className="text-xs text-slate-300 font-medium leading-relaxed">
                                         {t('gov_onboard_node_desc')}
@@ -265,18 +265,18 @@ export default function GovernancePage() {
                     <div className="space-y-4">
                         <div className="flex items-center gap-3">
                             <h1 className="text-6xl font-black text-white tracking-tighter uppercase italic">
-                                DAO <span className="text-[#00ffc2] glow-text">Portal</span>
+                                DAO <span className="text-[#00ffc2] glow-text">{t('gov_portal')}</span>
                             </h1>
                             <div className="flex gap-2">
                                 <span className="bg-[#00ffc2]/10 text-[#00ffc2] px-4 py-1.5 rounded-full text-[10px] font-black uppercase border border-[#00ffc2]/30 flex items-center gap-2">
-                                    <Star size={12} className="fill-current" /> {t('gov_founder_prestige')}: DIAMOND
+                                    <Star size={12} className="fill-current" /> {t('gov_founder_prestige')}: {t('gov_tier_diamond')}
                                 </span>
                                 <span className="bg-blue-500/10 text-blue-400 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border border-blue-500/30 flex items-center gap-2">
-                                    <Shield size={12} /> {t('gov_jury_honor')}: MASTER
+                                    <Shield size={12} /> {t('gov_jury_honor')}: {t('gov_tier_master')}
                                 </span>
                             </div>
                         </div>
-                        <p className="text-slate-500 font-black uppercase tracking-[0.2em] text-xs">Decentralized Autonomous Organization Hub</p>
+                        <p className="text-slate-500 font-black uppercase tracking-[0.2em] text-xs">{t('gov_dao_hub_desc')}</p>
                     </div>
 
                     {/* OIP-1 Spotlight Alert */}

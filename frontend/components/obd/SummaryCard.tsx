@@ -51,7 +51,7 @@ export default function SummaryCard() {
                 <div className="grid grid-cols-2 gap-4 mt-auto">
                     {/* 주행 가능 거리 */}
                     <div className="bg-white/10 rounded-3xl p-5 border border-white/10 backdrop-blur-sm">
-                        <p className="text-xs text-white/70 font-semibold mb-2 uppercase tracking-widest">Estimated Range</p>
+                        <p className="text-xs text-white/70 font-semibold mb-2 uppercase tracking-widest">{t('summary_card_est_range')}</p>
                         <div className="flex items-baseline gap-1.5">
                             <span className="text-4xl font-black tracking-tighter shadow-sm">{mockData.distanceLeftKm}</span>
                             <span className="text-white/80 font-bold">km</span>
@@ -65,7 +65,7 @@ export default function SummaryCard() {
                     {/* 배터리 잔량 & 온도 */}
                     <div className="bg-white/10 rounded-3xl p-5 border border-white/10 backdrop-blur-sm flex flex-col justify-between">
                         <div>
-                            <p className="text-xs text-white/70 font-semibold mb-2 uppercase tracking-widest">Battery SoC</p>
+                            <p className="text-xs text-white/70 font-semibold mb-2 uppercase tracking-widest">{t('summary_card_battery_soc')}</p>
                             <div className="flex items-baseline gap-1.5">
                                 <span className={`text-4xl font-black tracking-tighter shadow-sm ${mockData.soc > 20 ? 'text-emerald-300' : 'text-rose-400'}`}>
                                     {mockData.soc}

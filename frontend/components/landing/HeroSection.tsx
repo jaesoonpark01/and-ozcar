@@ -65,7 +65,7 @@ export default function HeroSection() {
                             className="inline-flex items-center gap-3 px-6 py-2 bg-blue-600/10 border border-blue-500/20 rounded-full"
                         >
                             <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
-                            <span className="text-[10px] font-black tracking-[0.4em] text-blue-400 uppercase font-mono">Invisible Certainty v3.0</span>
+                            <span className="text-[10px] font-black tracking-[0.4em] text-blue-400 uppercase font-mono">{t('hero_invisible_certainty')}</span>
                         </motion.div>
 
                         <h1 className="text-6xl md:text-[110px] font-black leading-[1.1] tracking-tight">
@@ -121,14 +121,14 @@ export default function HeroSection() {
                                 <Shield size={28} className="text-white" />
                             </div>
                             <div className="text-right">
-                                <p className="text-[10px] font-black opacity-30 uppercase tracking-[0.3em]">Protocol Auth</p>
-                                <p className="text-xs font-black text-emerald-400 font-mono tracking-tighter">SUCCESS_STAKE_ACTIVE</p>
+                                <p className="text-[10px] font-black opacity-30 uppercase tracking-[0.3em]">{t('hero_protocol_auth')}</p>
+                                <p className="text-xs font-black text-emerald-400 font-mono tracking-tighter">{t('hero_success_stake_active')}</p>
                             </div>
                         </div>
                         <div>
                             <p className="text-lg font-black mb-3 italic">{t('hero_card_integrity')}</p>
                             <p className="text-[10px] text-slate-500 font-bold leading-relaxed uppercase tracking-widest">
-                                Immutable node synchronization confirmed via Polygon Layer-2.
+                                {t('hero_node_sync_desc')}
                             </p>
                         </div>
                     </motion.div>
@@ -139,12 +139,12 @@ export default function HeroSection() {
                     >
                         <div className="flex items-center gap-4 mb-6">
                             <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-ping" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-400">Yield Prediction Index</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-400">{t('hero_yield_prediction')}</span>
                         </div>
                         <div className="flex justify-between items-end">
                             <div>
                                 <h4 className="text-4xl font-black tabular-nums tracking-tighter text-white">+₩3,420,000</h4>
-                                <p className="text-[10px] font-bold text-slate-500 uppercase mt-2 tracking-widest">Projected Resale Alpha</p>
+                                <p className="text-[10px] font-bold text-slate-500 uppercase mt-2 tracking-widest">{t('hero_projected_resale')}</p>
                             </div>
                             <div className="p-4 bg-white/5 rounded-2xl">
                                 <Gauge className="text-blue-500" size={32} />
@@ -201,7 +201,7 @@ export default function HeroSection() {
                                                         <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-slate-900" />
                                                     </div>
                                                     <div className="text-left flex-1">
-                                                        <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">Predictive Outreach</p>
+                                                        <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">{t('hero_island_outreach_badge')}</p>
                                                         <p className="text-[11px] font-black text-white leading-tight">{t('hero_island_outreach')}</p>
                                                     </div>
                                                 </motion.div>
@@ -211,7 +211,7 @@ export default function HeroSection() {
                                                         <ShieldCheck size={24} className="text-white" />
                                                     </div>
                                                     <div className="text-left">
-                                                        <p className="text-[10px] font-black text-white/40 uppercase tracking-widest leading-none mb-1">AI Guardian v3</p>
+                                                        <p className="text-[10px] font-black text-white/40 uppercase tracking-widest leading-none mb-1">{t('hero_ai_guardian_v3')}</p>
                                                         <p className="text-sm font-black text-white tracking-tight">{t('hero_island_guardian')}</p>
                                                     </div>
                                                 </motion.div>
@@ -252,8 +252,8 @@ export default function HeroSection() {
                                     <div className="flex justify-between items-end">
                                         <h3 className="text-4xl font-black italic tracking-tighter">MODEL S</h3>
                                         <div className="text-right">
-                                            <p className="text-[9px] font-black text-slate-500 uppercase">Status</p>
-                                            <p className="text-xs font-black text-emerald-400">OPTIMIZED</p>
+                                            <p className="text-[9px] font-black text-slate-500 uppercase">{t('hero_status_label')}</p>
+                                            <p className="text-xs font-black text-emerald-400">{t('hero_optimized_label')}</p>
                                         </div>
                                     </div>
 
@@ -261,7 +261,7 @@ export default function HeroSection() {
                                     <div className="h-44 bg-gradient-to-br from-white/[0.05] to-transparent rounded-[3rem] border border-white/5 p-8 relative group/heartbeat">
                                         <div className="absolute top-6 left-6 flex items-center gap-3">
                                             <Activity size={16} className="text-blue-500" />
-                                            <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Live Health</span>
+                                            <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">{t('hero_live_health_label')}</span>
                                         </div>
                                         <div className="mt-10 flex items-end gap-1">
                                             {[50, 80, 40, 90, 60, 100, 70, 85, 45, 95].map((h, i) => (
@@ -282,14 +282,14 @@ export default function HeroSection() {
                                     <div className="bg-white/[0.03] border border-white/10 p-6 rounded-[2.5rem] flex flex-col justify-between aspect-square hover:bg-white/[0.08] transition-colors">
                                         <Cpu size={20} className="text-blue-400" />
                                         <div>
-                                            <p className="text-[9px] font-black text-slate-500 uppercase mb-1">Rewards</p>
+                                            <p className="text-[9px] font-black text-slate-500 uppercase mb-1">{t('hero_rewards_label')}</p>
                                             <p className="text-lg font-black italic">2.8K OZC</p>
                                         </div>
                                     </div>
                                     <div className="bg-blue-600 p-6 rounded-[2.5rem] shadow-2xl flex flex-col justify-between aspect-square">
                                         <ShieldCheck size={20} className="text-white" />
                                         <div>
-                                            <p className="text-[9px] font-black text-white/50 uppercase mb-1">Trust</p>
+                                            <p className="text-[9px] font-black text-white/50 uppercase mb-1">{t('hero_trust_label')}</p>
                                             <p className="text-lg font-black italic">S-GRADE</p>
                                         </div>
                                     </div>
@@ -304,7 +304,7 @@ export default function HeroSection() {
                                     >
                                         <div className="bg-slate-950 rounded-[1.8rem] py-5 px-8 flex justify-between items-center transition-colors group-hover/cta:bg-blue-600">
                                             <div className="text-left">
-                                                <p className="text-[12px] font-bold text-slate-500 group-hover/cta:text-white/50 uppercase tracking-widest mb-1">Asset Orchestration</p>
+                                                <p className="text-[12px] font-bold text-slate-500 group-hover/cta:text-white/50 uppercase tracking-widest mb-1">{t('hero_asset_orchestration_label')}</p>
                                                 <p className="text-[22px] font-black text-white">{t('hero_cta_orchestration')}</p>
                                             </div>
                                             <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-black">

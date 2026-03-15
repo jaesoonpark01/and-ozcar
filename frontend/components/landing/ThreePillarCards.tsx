@@ -49,7 +49,7 @@ export default function ThreePillarCards() {
                                     <Fingerprint size={40} className="text-blue-600" />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-black tracking-[0.4em] text-blue-600 uppercase mb-1">Standard 01 / Identity</p>
+                                    <p className="text-[10px] font-black tracking-[0.4em] text-blue-600 uppercase mb-1">{t('pillar_standard_identity')}</p>
                                     <h3 className="text-4xl md:text-6xl font-black text-slate-950 tracking-tight italic">{t('feat_1_title')}</h3>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@ export default function ThreePillarCards() {
                                 onClick={() => document.getElementById('trust')?.scrollIntoView({ behavior: 'smooth' })}
                                 className="flex items-center gap-4 text-blue-600 font-black text-sm uppercase italic tracking-widest cursor-pointer"
                             >
-                                Verify Now <MoveRight />
+                                {t('pillar_verify_now')} <MoveRight />
                             </motion.div>
                         </div>
 
@@ -100,7 +100,7 @@ export default function ThreePillarCards() {
                                     <ArrowUpRight className="text-white/20 group-hover:text-blue-500 group-hover:rotate-45 transition-all" />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-black tracking-[0.4em] text-blue-500 uppercase mb-4">Focus 02 / Asset</p>
+                                    <p className="text-[10px] font-black tracking-[0.4em] text-blue-500 uppercase mb-4">{t('pillar_focus_asset')}</p>
                                     <h4 className="text-3xl font-black mb-4 tracking-tighter">{t('feat_2_title')}<br /><span className="italic text-white/40">Value.</span></h4>
                                     <p className="text-base text-slate-400 font-medium leading-relaxed">{t('feat_2_desc')}</p>
                                 </div>
@@ -121,7 +121,7 @@ export default function ThreePillarCards() {
                                     </div>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-black tracking-[0.4em] text-white/50 uppercase mb-4 font-mono">Focus 03 / Preservation</p>
+                                    <p className="text-[10px] font-black tracking-[0.4em] text-white/50 uppercase mb-4 font-mono">{t('pillar_focus_preservation')}</p>
                                     <h4 className="text-3xl font-black mb-4 tracking-tighter font-mono italic">{t('feat_3_title')}</h4>
                                     <p className="text-base text-white/80 font-medium leading-relaxed">{t('feat_3_desc')}</p>
                                 </div>
