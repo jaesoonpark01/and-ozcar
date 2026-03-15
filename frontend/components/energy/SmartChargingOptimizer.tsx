@@ -9,7 +9,7 @@ export default function SmartChargingOptimizer() {
   const { t } = useI18n();
   const [isOptimizerActive, setIsOptimizerActive] = useState(true);
   const [targetSOC, setTargetSOC] = useState(100);
-  const [departureTime, setDepartureTime] = useState("08:30");
+  const [departureTime] = useState("08:30");
 
   return (
     <div className="bg-[#0c0c0e] rounded-[3.5rem] border border-white/5 overflow-hidden shadow-2xl p-10 md:p-14 min-h-[700px]">

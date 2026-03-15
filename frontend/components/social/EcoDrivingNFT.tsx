@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Leaf, Zap, ShieldCheck, Share2, Award, Info, Globe, TreePine } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Leaf, Share2, Award, Globe, TreePine } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 
 interface EcoMetadata {
@@ -16,7 +16,6 @@ interface EcoMetadata {
 
 export default function EcoDrivingNFT({ metadata }: { metadata: EcoMetadata }) {
   const { t } = useI18n();
-  const [isHovered, setIsHovered] = useState(false);
 
   // 점수에 따른 테마 색상 결정
   const getThemeColor = () => {
@@ -45,8 +44,6 @@ export default function EcoDrivingNFT({ metadata }: { metadata: EcoMetadata }) {
   return (
     <div className="flex flex-col items-center gap-10">
       <motion.div 
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         className="relative w-[340px] h-[520px] group/eco cursor-pointer"
         whileHover={{ y: -10 }}
       >

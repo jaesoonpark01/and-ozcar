@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Fingerprint as FingerprintIcon, ShieldCheck, Key, Handshake, CheckCircle2, AlertTriangle, ArrowRight, FileText } from 'lucide-react';
+import { Fingerprint as FingerprintIcon, Key, Handshake, CheckCircle2, AlertTriangle, ArrowRight, FileText } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 
 export default function DigitalHandshake() {

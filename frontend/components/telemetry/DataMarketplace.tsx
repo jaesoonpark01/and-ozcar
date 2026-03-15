@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useI18n } from "@/hooks/useI18n";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
     Diamond,
-    Coins,
     TrendingUp,
     ShieldCheck,
     ExternalLink,
@@ -30,7 +29,6 @@ export default function DataMarketplace() {
     const { t } = useI18n();
     const [sellingId, setSellingId] = useState<number | null>(null);
     const [pricingResult, setPricingResult] = useState<PricingResult | null>(null);
-    const [hoveredOffer, setHoveredOffer] = useState<number | null>(null);
 
     useEffect(() => {
         // 프리싱 엔진 시뮬레이션: 428.5 MB 데이터, 하드웨어 서명+ZKP 적용
@@ -178,8 +176,8 @@ export default function DataMarketplace() {
                         {OFFERS.map((offer) => (
                             <motion.div
                                 key={offer.id}
-                                onHoverStart={() => setHoveredOffer(offer.id)}
-                                onHoverEnd={() => setHoveredOffer(null)}
+                                onHoverStart={() => {}}
+                                onHoverEnd={() => {}}
                                 whileHover={{ x: 5 }}
                                 className={`p-6 bg-gradient-to-r from-black/60 to-transparent border border-white/5 rounded-[2rem] flex flex-col md:flex-row items-center justify-between group hover:border-blue-500/30 transition-all relative overflow-hidden ${sellingId === offer.id ? 'opacity-50 grayscale' : ''}`}
                             >
