@@ -1,0 +1,1 @@
+-- Dummy file to resolve Supabase remote history mismatch

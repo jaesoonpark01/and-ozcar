@@ -29,7 +29,10 @@ import {
     IdCard,
     Users,
     Trophy,
-    Leaf
+    Leaf,
+    MonitorSmartphone,
+    BookOpen,
+    BatteryCharging
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -98,6 +101,7 @@ export default function Navbar() {
                     items: [
                         { href: "/sentinel", label: t('nav_telemetry'), desc: t('nav_telemetry_desc' as any), icon: <Activity size={16} /> },
                         { href: "/thermal-guard", label: t('nav_thermal_guard' as any), desc: t('nav_thermal_guard_desc' as any), icon: <Shield size={16} /> },
+                        { href: "/digital-twin", label: t('nav_digital_twin' as any), desc: t('nav_digital_twin_desc' as any), icon: <MonitorSmartphone size={16} /> },
                     ]
                 }
             ]
@@ -111,6 +115,7 @@ export default function Navbar() {
                     title: "Overview & Identity",
                     items: [
                         { href: "/dashboard", label: t('nav_overview'), desc: t('nav_overview_desc' as any), icon: <LayoutDashboard size={16} /> },
+                        { href: "/passport", label: t('nav_passport' as any), desc: t('nav_passport_desc' as any), icon: <BookOpen size={16} /> },
                         { href: "/master-profile", label: t('nav_master_profile'), desc: t('nav_master_profile_desc' as any), icon: <User size={16} /> },
                         { href: "/vehicle-nft", label: t('nav_vehicle_nft' as any), desc: t('nav_vehicle_nft_desc' as any), icon: <IdCard size={16} /> },
                     ]
@@ -141,6 +146,7 @@ export default function Navbar() {
                     title: "Data Economy",
                     items: [
                         { href: "/insight-lab", label: t('nav_insight_lab'), desc: t('nav_insight_lab_desc' as any), icon: <Activity size={16} /> },
+                        { href: "/smart-charging", label: t('nav_smart_charging' as any), desc: t('nav_smart_charging_desc' as any), icon: <BatteryCharging size={16} /> },
                         { href: "/v2g-market", label: t('nav_v2g_market' as any), desc: t('nav_v2g_market_desc' as any), icon: <Zap size={16} /> },
                         { href: "/marketplace/data", label: t('nav_data_market' as any), desc: t('nav_data_market_desc' as any), icon: <Cpu size={16} /> },
                     ]
@@ -166,6 +172,7 @@ export default function Navbar() {
                         { href: "/social-league", label: t('nav_social_league' as any), desc: t('nav_social_league_desc' as any), icon: <Trophy size={16} /> },
                         { href: "/eco-lab", label: t('nav_eco_lab' as any), desc: t('nav_eco_lab_desc' as any), icon: <Leaf size={16} /> },
                         { href: "/ambassador", label: t('nav_ambassador' as any), desc: t('nav_ambassador_desc' as any), icon: <Users size={16} /> },
+                        { href: "/metaverse", label: t('nav_metaverse' as any), desc: t('nav_metaverse_desc' as any), icon: <Globe size={16} /> },
                         { href: "/lounge", label: t('nav_founders_lounge'), desc: t('nav_founders_lounge_desc' as any), icon: <User size={16} /> },
                     ]
                 }

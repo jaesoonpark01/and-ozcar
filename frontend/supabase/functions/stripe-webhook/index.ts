@@ -29,15 +29,22 @@ serve(async (request) => {
 
         switch (event.type) {
             case 'checkout.session.completed': {
-                const session = event.data.object;
-                const userId = session.metadata.userId;
+                const session = event.data.object as Stripe.Checkout.Session;
+                const userId = session.metadata?.userId;
 
-                // Update user profile to premium
+                if (!userId) {
+                    console.error('No userId in metadata');
+                    break;
+                }
+
+                // Update user profile
                 const { error } = await supabaseClient
                     .from('profiles')
                     .update({
-                        subscription_status: 'premium',
-                        subscription_tier: 'blue',
+                        stripe_customer_id: session.customer as string,
+                        stripe_subscription_id: session.subscription as string,
+                        subscription_status: 'active',
+                        subscription_tier: 'premium',
                         updated_at: new Date().toISOString()
                     })
                     .eq('id', userId);
@@ -45,26 +52,43 @@ serve(async (request) => {
                 if (error) throw error;
                 break;
             }
-            case 'customer.subscription.deleted': {
-                const subscription = event.data.object;
-                const customerId = subscription.customer;
+            case 'customer.subscription.updated': {
+                const subscription = event.data.object as Stripe.Subscription;
+                const customerId = subscription.customer as string;
 
-                // Retrieve user by stripe customer ID (pseudo-code depending on your schema)
-                // const userId = await getUserIdByStripeCustomerId(customerId);
+                const { error } = await supabaseClient
+                    .from('profiles')
+                    .update({
+                        subscription_status: subscription.status,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('stripe_customer_id', customerId);
 
-                // await supabaseClient
-                //   .from('profiles')
-                //   .update({ subscription_status: 'free' })
-                //   .eq('id', userId);
+                if (error) throw error;
                 break;
             }
-            // Handle other events as needed
+            case 'customer.subscription.deleted': {
+                const subscription = event.data.object as Stripe.Subscription;
+                const customerId = subscription.customer as string;
+
+                const { error } = await supabaseClient
+                    .from('profiles')
+                    .update({ 
+                        subscription_status: 'canceled',
+                        subscription_tier: 'free',
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('stripe_customer_id', customerId);
+                
+                if (error) throw error;
+                break;
+            }
         }
 
         return new Response(JSON.stringify({ received: true }), { status: 200 });
     } catch (err) {
         return new Response(
-            `Webhook Error: ${err.message}`,
+            `Webhook Error: ${(err as Error).message}`,
             { status: 400 }
         );
     }

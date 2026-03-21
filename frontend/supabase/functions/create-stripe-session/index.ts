@@ -33,8 +33,16 @@ serve(async (req) => {
 
         const { price_id } = await req.json();
 
-        const session = await stripe.checkout.sessions.create({
-            customer_email: user.email,
+        // Retrieve existing customer ID from profiles table
+        const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('stripe_customer_id')
+            .eq('id', user.id)
+            .single();
+
+        const customerId = profile?.stripe_customer_id;
+
+        const sessionConfig: Stripe.Checkout.SessionCreateParams = {
             payment_method_types: ['card'],
             line_items: [{ price: price_id, quantity: 1 }],
             mode: 'subscription',
@@ -43,14 +51,22 @@ serve(async (req) => {
             metadata: {
                 userId: user.id
             }
-        });
+        };
+
+        if (customerId) {
+            sessionConfig.customer = customerId;
+        } else {
+            sessionConfig.customer_email = user.email;
+        }
+
+        const session = await stripe.checkout.sessions.create(sessionConfig);
 
         return new Response(JSON.stringify({ url: session.url, sessionId: session.id }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 200,
         });
     } catch (error) {
-        return new Response(JSON.stringify({ error: error.message }), {
+        return new Response(JSON.stringify({ error: (error as Error).message }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 400,
         });
