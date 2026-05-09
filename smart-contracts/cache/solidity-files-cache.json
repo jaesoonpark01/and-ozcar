@@ -1504,6 +1504,86 @@
       "artifacts": [
         "Pausable"
       ]
+    },
+    "C:\\Users\\anioz\\OneDrive\\문서\\ozcar\\ozcar-app\\smart-contracts\\contracts\\OzcarSovereignNFT.sol": {
+      "lastModificationDate": 1774162094329,
+      "contentHash": "50a42501d19e75130b95fd29a24c4e63",
+      "sourceName": "contracts/OzcarSovereignNFT.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        "@openzeppelin/contracts/access/Ownable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "OzcarSovereignNFT"
+      ]
+    },
+    "C:\\Users\\anioz\\OneDrive\\문서\\ozcar\\ozcar-app\\smart-contracts\\contracts\\OzcarJurySlashing.sol": {
+      "lastModificationDate": 1774162131253,
+      "contentHash": "e11bbe772c479a786081477fb27e6c92",
+      "sourceName": "contracts/OzcarJurySlashing.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "./OzcarEscrow.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IOzcarGovernance",
+        "OzcarJurySlashing"
+      ]
     }
   }
 }

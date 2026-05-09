@@ -7,7 +7,7 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { createClient } from "@supabase/supabase-js";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useSignMessage } from "wagmi";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 // You should define these in .env.local
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
@@ -22,6 +22,47 @@ interface AuthDialogProps {
 export function AuthDialog({ isOpen, onOpenChange }: AuthDialogProps) {
     const [session, setSession] = useState<any>(null);
     const { address, isConnected } = useAccount();
+    const { signMessageAsync } = useSignMessage();
+    const [isMerging, setIsMerging] = useState(false);
+    const [mergeStatus, setMergeStatus] = useState<string | null>(null);
+
+    const handleMergeIdentity = async () => {
+        if (!session || !address) return;
+        setIsMerging(true);
+        setMergeStatus("지갑 소유권 증명 서명 요청 중...");
+        
+        try {
+            // SIWE Message Simulation
+            const message = `Ozcar Unified Identity Linked\n\nI confirm ownership of this wallet and agree to bind it with my Ozcar Web2 Profile.\nWallet: ${address}\nTimestamp: ${new Date().toISOString()}`;
+            const signature = await signMessageAsync({ message });
+            
+            if (signature) {
+                setMergeStatus("Supabase 프로필 병합 처리 중...");
+                
+                // Update profile
+                const { error } = await supabase
+                    .from("profiles")
+                    .update({ wallet_address: address })
+                    .eq("id", session.user.id);
+                    
+                if (error) {
+                    console.error("Profile update error:", error);
+                    setMergeStatus("병합 실패. 고객센터에 문의하세요.");
+                } else {
+                    setMergeStatus("병합 성공! OUI 연동 완료.");
+                    setTimeout(() => {
+                        onOpenChange(false);
+                        window.location.href = "/vehicle-nft/mint"; // Proceed to Genesis Journey
+                    }, 2000);
+                }
+            }
+        } catch (error) {
+            console.error("Signature failed:", error);
+            setMergeStatus("서명을 취소했거나 오류가 발생했습니다.");
+        } finally {
+            setIsMerging(false);
+        }
+    };
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -82,10 +123,29 @@ export function AuthDialog({ isOpen, onOpenChange }: AuthDialogProps) {
                         <div className="flex justify-center flex-col items-center gap-4">
                             <ConnectButton />
                             {isConnected && session && (
-                                <div className="text-xs text-blue-400 mt-2 text-center">
-                                    Web2 계정과 Web3 지갑 연동이 준비되었습니다.<br />
-                                    (프로필 병합 로직 자동 실행 대기 중)
-                                </div>
+                                <AnimatePresence>
+                                    <motion.div 
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        className="flex flex-col items-center gap-3 w-full"
+                                    >
+                                        <div className="text-xs text-blue-400 text-center">
+                                            Web2 계정과 Web3 지갑 연동이 준비되었습니다.
+                                        </div>
+                                        <button 
+                                            onClick={handleMergeIdentity}
+                                            disabled={isMerging || mergeStatus?.includes("성공")}
+                                            className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-400 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-blue-900/20"
+                                        >
+                                            {isMerging ? '처리 중...' : 'OUI 지갑 연동 (서명)'}
+                                        </button>
+                                        {mergeStatus && (
+                                            <div className="text-sm text-emerald-400 text-center font-bold">
+                                                {mergeStatus}
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                </AnimatePresence>
                             )}
                         </div>
                     </motion.div>

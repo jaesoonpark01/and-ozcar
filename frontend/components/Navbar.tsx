@@ -94,6 +94,7 @@ export default function Navbar() {
                         { href: "/my-garage", label: t('nav_garage'), desc: t('nav_garage_desc' as any), icon: <Car size={16} /> },
                         { href: "/maintenance", label: t('nav_maintenance'), desc: t('nav_maintenance_desc' as any), icon: <Wrench size={16} /> },
                         { href: "/technician/pro-check", label: t('nav_pro_check'), desc: t('nav_pro_check_desc' as any), icon: <Zap size={16} /> },
+                        { href: "/co-driver", label: t('nav_co_driver' as any) || "AI Co-Driver", desc: "Agentic Assistant", icon: <Cpu size={16} /> },
                     ]
                 },
                 {

@@ -118,6 +118,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OzcarGovernance__factory>;
     getContractFactory(
+      name: "IOzcarGovernance",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IOzcarGovernance__factory>;
+    getContractFactory(
+      name: "OzcarJurySlashing",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OzcarJurySlashing__factory>;
+    getContractFactory(
       name: "IOzcarEscrow",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IOzcarEscrow__factory>;
@@ -137,6 +145,10 @@ declare module "hardhat/types/runtime" {
       name: "OzcarRewardCalculator",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OzcarRewardCalculator__factory>;
+    getContractFactory(
+      name: "OzcarSovereignNFT",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OzcarSovereignNFT__factory>;
     getContractFactory(
       name: "OzcarToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -289,6 +301,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.OzcarGovernance>;
     getContractAt(
+      name: "IOzcarGovernance",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IOzcarGovernance>;
+    getContractAt(
+      name: "OzcarJurySlashing",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OzcarJurySlashing>;
+    getContractAt(
       name: "IOzcarEscrow",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -313,6 +335,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.OzcarRewardCalculator>;
+    getContractAt(
+      name: "OzcarSovereignNFT",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OzcarSovereignNFT>;
     getContractAt(
       name: "OzcarToken",
       address: string | ethers.Addressable,
@@ -444,6 +471,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.OzcarGovernance>;
     deployContract(
+      name: "IOzcarGovernance",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IOzcarGovernance>;
+    deployContract(
+      name: "OzcarJurySlashing",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.OzcarJurySlashing>;
+    deployContract(
       name: "IOzcarEscrow",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IOzcarEscrow>;
@@ -463,6 +498,10 @@ declare module "hardhat/types/runtime" {
       name: "OzcarRewardCalculator",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.OzcarRewardCalculator>;
+    deployContract(
+      name: "OzcarSovereignNFT",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.OzcarSovereignNFT>;
     deployContract(
       name: "OzcarToken",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -615,6 +654,16 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.OzcarGovernance>;
     deployContract(
+      name: "IOzcarGovernance",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IOzcarGovernance>;
+    deployContract(
+      name: "OzcarJurySlashing",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.OzcarJurySlashing>;
+    deployContract(
       name: "IOzcarEscrow",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -639,6 +688,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.OzcarRewardCalculator>;
+    deployContract(
+      name: "OzcarSovereignNFT",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.OzcarSovereignNFT>;
     deployContract(
       name: "OzcarToken",
       args: any[],

@@ -20,6 +20,7 @@ import DataCertificate from '@/components/obd/DataCertificate';
 import WeeklyReport from '@/components/obd/WeeklyReport';
 import GovernanceDashboard from '@/components/community/GovernanceDashboard';
 import { useI18n } from '@/hooks/useI18n';
+import ZkTelemetryNode from '@/components/obd/ZkTelemetryNode';
 
 export default function SentinelDashboard() {
     const { t, lang } = useI18n();
@@ -245,7 +246,7 @@ export default function SentinelDashboard() {
                                     <div className="text-right">
                                         <p className="text-[9px] font-black text-slate-600 uppercase mb-1">Health Score</p>
                                         <p className={`text-2xl font-black italic ${aiReport.score > 50 ? 'text-rose-500' : 'text-emerald-500'}`}>
-                                            {100 - aiReport.score}%
+                                            {100 - aiReport?.score || '--'}% 
                                         </p>
                                     </div>
                                     <div className="w-px h-8 bg-white/10 hidden md:block"></div>
@@ -364,8 +365,8 @@ export default function SentinelDashboard() {
                     </div>
                 )}
                 {activeView === 'live' && (
-                    <div className="text-center py-10 bg-slate-900/50 rounded-2xl border border-slate-800 text-slate-400">
-                        <p>{t('sentinel_live_placeholder')}</p>
+                    <div className="w-full">
+                        <ZkTelemetryNode />
                     </div>
                 )}
                 {activeView === 'weekly' && (
