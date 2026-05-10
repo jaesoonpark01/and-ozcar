@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useWeb3 } from "./Web3Provider";
 import { AuthDialog } from "./AuthDialog";
+import { CommandPalette } from "./CommandPalette";
 import { useI18n } from "@/hooks/useI18n";
 import { createClient } from "@supabase/supabase-js";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -32,7 +33,8 @@ import {
     Leaf,
     MonitorSmartphone,
     BookOpen,
-    BatteryCharging
+    BatteryCharging,
+    Search
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -48,6 +50,8 @@ export default function Navbar() {
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
 
+    const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+
     const handleMouseEnter = (label: string) => {
         if (dropdownTimeout) clearTimeout(dropdownTimeout);
         setActiveDropdown(label);
@@ -56,11 +60,19 @@ export default function Navbar() {
     const handleMouseLeave = () => {
         const timeout = setTimeout(() => {
             setActiveDropdown(null);
-        }, 200); // Optimized for UX (200ms)
+        }, 350); // Optimized for UX (350ms)
         setDropdownTimeout(timeout);
     };
 
     useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                setIsCommandPaletteOpen(true);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+
         const handleScroll = () => setIsScrolled(window.scrollY > 50);
         window.addEventListener("scroll", handleScroll);
 
@@ -75,6 +87,7 @@ export default function Navbar() {
 
         return () => {
             window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("keydown", handleKeyDown);
             subscription.unsubscribe();
         };
     }, []);
@@ -266,6 +279,17 @@ export default function Navbar() {
 
                     {/* Action Area */}
                     <div className="flex items-center gap-4">
+                        {/* Command Palette Trigger */}
+                        <button
+                            onClick={() => setIsCommandPaletteOpen(true)}
+                            className="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/15 transition-all group"
+                        >
+                            <Search size={14} className="group-hover:text-blue-400 transition-colors" />
+                            <span className="text-[10px] font-black tracking-widest flex items-center gap-1.5">
+                                SEARCH <span className="opacity-50 px-1.5 py-0.5 bg-white/10 rounded group-hover:bg-blue-500/20 group-hover:text-blue-300 transition-colors">⌘K</span>
+                            </span>
+                        </button>
+
                         {/* Language Selector */}
                         <button
                             onClick={toggleLanguage}
@@ -418,6 +442,30 @@ export default function Navbar() {
                             <X size={22} />
                         </button>
                         <div className="flex flex-col gap-3 overflow-y-auto max-h-[70vh] no-scrollbar">
+                            {/* Mobile Quick Action Grid */}
+                            <div className="grid grid-cols-4 gap-2 mb-2">
+                                {[
+                                    { icon: <Search size={18} />, label: "Search", action: () => { setIsMobileMenuOpen(false); setIsCommandPaletteOpen(true); } },
+                                    { icon: <Car size={18} />, label: "Garage", href: "/my-garage" },
+                                    { icon: <Wallet size={18} />, label: "Wallet", href: "/wallet" },
+                                    { icon: <ShoppingBag size={18} />, label: "Market", href: "/marketplace" }
+                                ].map((item, idx) => (
+                                    <div key={idx} 
+                                        onClick={() => {
+                                            if (item.action) item.action();
+                                            else if (item.href) {
+                                                setIsMobileMenuOpen(false);
+                                                window.location.href = item.href;
+                                            }
+                                        }}
+                                        className="flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl bg-white/5 border border-white/5 active:bg-blue-600/20 active:border-blue-500/30 transition-colors cursor-pointer"
+                                    >
+                                        <div className="text-slate-400">{item.icon}</div>
+                                        <span className="text-[9px] font-bold text-slate-300">{item.label}</span>
+                                    </div>
+                                ))}
+                            </div>
+
                             {navLinks.map((link) => (
                                 <div key={link.label} className="flex flex-col gap-2">
                                     <div
@@ -540,6 +588,8 @@ export default function Navbar() {
                     {isBottomNavVisible ? <X size={24} /> : <Activity size={24} className="animate-pulse" />}
                 </button>
             </div>
+            
+            <CommandPalette isOpen={isCommandPaletteOpen} onClose={() => setIsCommandPaletteOpen(false)} />
         </>
     );
 }

@@ -5,9 +5,9 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogHeader } f
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { createClient } from "@supabase/supabase-js";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useSignMessage } from "wagmi";
 import { motion, AnimatePresence } from "framer-motion";
+import { Car, Wrench, Building2, ShieldAlert } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // You should define these in .env.local
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
@@ -19,50 +19,13 @@ interface AuthDialogProps {
     onOpenChange: (open: boolean) => void;
 }
 
+type Role = "DRIVER" | "MECHANIC" | "EXPORT" | "MUNICIPALITY";
+
 export function AuthDialog({ isOpen, onOpenChange }: AuthDialogProps) {
     const [session, setSession] = useState<any>(null);
-    const { address, isConnected } = useAccount();
-    const { signMessageAsync } = useSignMessage();
-    const [isMerging, setIsMerging] = useState(false);
-    const [mergeStatus, setMergeStatus] = useState<string | null>(null);
-
-    const handleMergeIdentity = async () => {
-        if (!session || !address) return;
-        setIsMerging(true);
-        setMergeStatus("지갑 소유권 증명 서명 요청 중...");
-        
-        try {
-            // SIWE Message Simulation
-            const message = `Ozcar Unified Identity Linked\n\nI confirm ownership of this wallet and agree to bind it with my Ozcar Web2 Profile.\nWallet: ${address}\nTimestamp: ${new Date().toISOString()}`;
-            const signature = await signMessageAsync({ message });
-            
-            if (signature) {
-                setMergeStatus("Supabase 프로필 병합 처리 중...");
-                
-                // Update profile
-                const { error } = await supabase
-                    .from("profiles")
-                    .update({ wallet_address: address })
-                    .eq("id", session.user.id);
-                    
-                if (error) {
-                    console.error("Profile update error:", error);
-                    setMergeStatus("병합 실패. 고객센터에 문의하세요.");
-                } else {
-                    setMergeStatus("병합 성공! OUI 연동 완료.");
-                    setTimeout(() => {
-                        onOpenChange(false);
-                        window.location.href = "/vehicle-nft/mint"; // Proceed to Genesis Journey
-                    }, 2000);
-                }
-            }
-        } catch (error) {
-            console.error("Signature failed:", error);
-            setMergeStatus("서명을 취소했거나 오류가 발생했습니다.");
-        } finally {
-            setIsMerging(false);
-        }
-    };
+    const [isGeneratingWallet, setIsGeneratingWallet] = useState(false);
+    const [walletReady, setWalletReady] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -78,25 +41,55 @@ export function AuthDialog({ isOpen, onOpenChange }: AuthDialogProps) {
         return () => subscription.unsubscribe();
     }, []);
 
+    // Zero-Touch Wallet Generation Simulation
+    useEffect(() => {
+        if (session && !walletReady && !isGeneratingWallet) {
+            setIsGeneratingWallet(true);
+            // Simulate AA embedded wallet generation delay
+            const timer = setTimeout(() => {
+                setIsGeneratingWallet(false);
+                setWalletReady(true);
+            }, 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [session, walletReady, isGeneratingWallet]);
+
+    const handleRoleRouting = (role: Role) => {
+        onOpenChange(false);
+        switch (role) {
+            case "DRIVER":
+                router.push("/my-garage");
+                break;
+            case "MECHANIC":
+                router.push("/oz-master");
+                break;
+            case "EXPORT":
+                router.push("/corporate/export");
+                break;
+            case "MUNICIPALITY":
+                router.push("/government/disaster");
+                break;
+        }
+    };
+
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-md bg-[#0a0f1d] border-blue-900/50 text-white backdrop-blur-xl">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-black italic tracking-tighter text-blue-400">OZCAR UNIVERSAL LOGIN</DialogTitle>
+                    <DialogTitle className="text-2xl font-black italic tracking-tighter text-blue-400">OZCAR UNIVERSAL</DialogTitle>
                     <DialogDescription className="text-slate-400 text-sm">
                         한국 특화 소셜 로그인과 Web3 지갑을 연결하여 완전한 플랫폼 권한을 획득하세요.
                     </DialogDescription>
                 </DialogHeader>
 
                 <div className="flex flex-col gap-6 mt-4">
-                    {/* Step 1: Social Login */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="p-4 rounded-2xl bg-white/5 border border-white/10"
-                    >
-                        <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-widest">1. Web2 Identity</h3>
-                        {!session ? (
+                    {!session ? (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="p-4 rounded-2xl bg-white/5 border border-white/10"
+                        >
+                            <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-widest text-center">소셜 계정으로 1초 만에 시작하기</h3>
                             <Auth
                                 supabaseClient={supabase}
                                 appearance={{ theme: ThemeSupa }}
@@ -105,50 +98,69 @@ export function AuthDialog({ isOpen, onOpenChange }: AuthDialogProps) {
                                 onlyThirdPartyProviders
                                 redirectTo={typeof window !== "undefined" ? window.location.origin : undefined}
                             />
-                        ) : (
-                            <div className="text-emerald-400 text-sm font-bold bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20 text-center">
-                                ✓ 소셜 로그인 완료 ({session.user?.email})
-                            </div>
-                        )}
-                    </motion.div>
-
-                    {/* Step 2: Web3 Wallet */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="p-4 rounded-2xl bg-white/5 border border-white/10"
-                    >
-                        <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-widest">2. Web3 Identity (SIWE)</h3>
-                        <div className="flex justify-center flex-col items-center gap-4">
-                            <ConnectButton />
-                            {isConnected && session && (
-                                <AnimatePresence>
-                                    <motion.div 
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: "auto" }}
-                                        className="flex flex-col items-center gap-3 w-full"
-                                    >
-                                        <div className="text-xs text-blue-400 text-center">
-                                            Web2 계정과 Web3 지갑 연동이 준비되었습니다.
+                        </motion.div>
+                    ) : (
+                        <AnimatePresence mode="wait">
+                            {!walletReady ? (
+                                <motion.div
+                                    key="generating"
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20 }}
+                                    className="p-8 flex flex-col items-center justify-center gap-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20"
+                                >
+                                    <div className="w-12 h-12 border-4 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin" />
+                                    <h3 className="text-lg font-bold text-emerald-400">OUI 지갑 자동 생성 중...</h3>
+                                    <p className="text-xs text-slate-400 text-center">
+                                        카카오 계정 기반으로 가스비 없는<br/>안전한 Web3 지갑을 보이지 않게 생성하고 있습니다.
+                                    </p>
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    key="roles"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="flex flex-col gap-3"
+                                >
+                                    <div className="text-emerald-400 text-sm font-bold bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20 text-center mb-2">
+                                        ✓ 지갑 생성 완료! 로그인할 역할을 선택하세요.
+                                    </div>
+                                    
+                                    <button onClick={() => handleRoleRouting("DRIVER")} className="flex items-center gap-3 p-4 rounded-xl bg-white/5 hover:bg-blue-600/20 border border-white/10 hover:border-blue-500/50 transition-all text-left">
+                                        <Car className="text-blue-400 w-6 h-6" />
+                                        <div>
+                                            <div className="font-bold text-white">일반 운전자 (Driver)</div>
+                                            <div className="text-xs text-slate-400">데이터 기본소득 현황 및 차량 SOH 확인</div>
                                         </div>
-                                        <button 
-                                            onClick={handleMergeIdentity}
-                                            disabled={isMerging || mergeStatus?.includes("성공")}
-                                            className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-400 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-blue-900/20"
-                                        >
-                                            {isMerging ? '처리 중...' : 'OUI 지갑 연동 (서명)'}
-                                        </button>
-                                        {mergeStatus && (
-                                            <div className="text-sm text-emerald-400 text-center font-bold">
-                                                {mergeStatus}
-                                            </div>
-                                        )}
-                                    </motion.div>
-                                </AnimatePresence>
+                                    </button>
+
+                                    <button onClick={() => handleRoleRouting("MECHANIC")} className="flex items-center gap-3 p-4 rounded-xl bg-white/5 hover:bg-amber-600/20 border border-white/10 hover:border-amber-500/50 transition-all text-left">
+                                        <Wrench className="text-amber-400 w-6 h-6" />
+                                        <div>
+                                            <div className="font-bold text-white">oz-Master 정비사</div>
+                                            <div className="text-xs text-slate-400">OBD-II 단말기 관리 및 지역화폐 정산</div>
+                                        </div>
+                                    </button>
+
+                                    <button onClick={() => handleRoleRouting("EXPORT")} className="flex items-center gap-3 p-4 rounded-xl bg-white/5 hover:bg-emerald-600/20 border border-white/10 hover:border-emerald-500/50 transition-all text-left">
+                                        <Building2 className="text-emerald-400 w-6 h-6" />
+                                        <div>
+                                            <div className="font-bold text-white">수출 기업 (Corporate)</div>
+                                            <div className="text-xs text-slate-400">CBAM 대응 B2B 탄소 인증서 관제실</div>
+                                        </div>
+                                    </button>
+
+                                    <button onClick={() => handleRoleRouting("MUNICIPALITY")} className="flex items-center gap-3 p-4 rounded-xl bg-white/5 hover:bg-red-600/20 border border-white/10 hover:border-red-500/50 transition-all text-left">
+                                        <ShieldAlert className="text-red-400 w-6 h-6" />
+                                        <div>
+                                            <div className="font-bold text-white">지자체 방재망 (Municipality)</div>
+                                            <div className="text-xs text-slate-400">전기차 화재 재난 방재망 시스템</div>
+                                        </div>
+                                    </button>
+                                </motion.div>
                             )}
-                        </div>
-                    </motion.div>
+                        </AnimatePresence>
+                    )}
                 </div>
             </DialogContent>
         </Dialog>
