@@ -334,7 +334,7 @@ export default function Navbar() {
                                                 if (!connected) {
                                                     return (
                                                         <button
-                                                            onClick={openConnectModal}
+                                                            onClick={() => setIsAuthOpen(true)}
                                                             type="button"
                                                             className="relative group overflow-hidden flex items-center gap-1.5 sm:gap-3 px-2.5 sm:px-6 py-1.5 sm:py-3 rounded-full font-black text-[8px] sm:text-[11px] uppercase tracking-normal sm:tracking-widest transition-all bg-white text-black hover:bg-blue-600 hover:text-white shadow-[0_4px_15px_rgba(59,130,246,0.3)]"
                                                         >
