@@ -222,7 +222,7 @@ export default function Navbar() {
                                     </clipPath>
                                 </defs>
                                 {/* Outer circle */}
-                                <circle cx="50" cy="50" r="40" stroke="black" strokeWidth="12" fill="white" />
+                                <circle cx="50" cy="50" r="40" stroke="black" strokeWidth="12" fill="transparent" />
                                 {/* Z Shape perfectly merged into outer circle */}
                                 <g clipPath="url(#inner-circle-clip)">
                                     <path d="M 50 55 L 90 55 L 68 76 L 90 76" stroke="black" strokeWidth="10" fill="none" strokeLinecap="butt" strokeLinejoin="round" />
