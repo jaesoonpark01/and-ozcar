@@ -214,12 +214,8 @@ export default function Navbar() {
                 `}>
                     {/* Logo Area */}
                     <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 relative flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-md">
-                                <circle cx="50" cy="50" r="45" stroke="black" strokeWidth="10" fill="white" />
-                                <circle cx="42" cy="50" r="22" fill="#e60050" stroke="black" strokeWidth="2" />
-                                <path d="M 64 42 L 88 42 L 72 62 L 92 62" stroke="black" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 relative flex items-center justify-center group-hover:scale-110 transition-transform bg-white rounded-full overflow-hidden shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/20">
+                            <img src="/ozcar-logo.png" alt="Ozcar Logo" className="w-[90%] h-[90%] object-contain" />
                         </div>
                         <span className="text-lg sm:text-2xl font-black tracking-tighter italic text-white group-hover:text-blue-400 transition-colors">OZCAR</span>
                     </Link>
