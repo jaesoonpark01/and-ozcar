@@ -215,21 +215,7 @@ export default function Navbar() {
                     {/* Logo Area */}
                     <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
                         <div className="w-8 h-8 sm:w-10 sm:h-10 relative flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-md">
-                                <defs>
-                                    <clipPath id="inner-circle-clip">
-                                        <circle cx="50" cy="50" r="34" />
-                                    </clipPath>
-                                </defs>
-                                {/* Outer circle */}
-                                <circle cx="50" cy="50" r="40" stroke="black" strokeWidth="12" fill="transparent" />
-                                {/* Z Shape perfectly merged into outer circle */}
-                                <g clipPath="url(#inner-circle-clip)">
-                                    <path d="M 50 55 L 90 55 L 68 76 L 90 76" stroke="black" strokeWidth="10" fill="none" strokeLinecap="butt" strokeLinejoin="round" />
-                                </g>
-                                {/* Inner Magenta circle */}
-                                <circle cx="42" cy="50" r="20" fill="#e60050" stroke="black" strokeWidth="2" />
-                            </svg>
+                            <img src="/ozcarlogo.svg" alt="Ozcar Logo" className="w-[95%] h-[95%] object-contain drop-shadow-md" />
                         </div>
                         <span className="text-lg sm:text-2xl font-black tracking-tighter italic text-white group-hover:text-blue-400 transition-colors">OZCAR</span>
                     </Link>
