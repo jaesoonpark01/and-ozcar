@@ -25,7 +25,23 @@ export function AuthDialog({ isOpen, onOpenChange }: AuthDialogProps) {
     const [session, setSession] = useState<any>(null);
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(false);
     const [walletReady, setWalletReady] = useState(false);
+    const [isInAppBrowser, setIsInAppBrowser] = useState(false);
+    const [isIOS, setIsIOS] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        const ua = navigator.userAgent.toLowerCase();
+        // Detect common in-app browsers in Korea
+        const inApp = /kakaotalk|naver|instagram|facebook|line|inapp|snapchat|threads/i.test(ua);
+        setIsInAppBrowser(inApp);
+        setIsIOS(/iphone|ipad|ipod/i.test(ua));
+
+        // Auto-redirect Android KakaoTalk to external browser (Chrome)
+        if (inApp && /android/i.test(ua) && /kakaotalk/i.test(ua)) {
+            const currentUrl = window.location.href;
+            location.href = `intent://${currentUrl.replace(/https?:\/\//i, '')}#Intent;scheme=https;package=com.android.chrome;end`;
+        }
+    }, []);
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -90,6 +106,17 @@ export function AuthDialog({ isOpen, onOpenChange }: AuthDialogProps) {
                             className="p-4 rounded-2xl bg-white/5 border border-white/10"
                         >
                             <h3 className="text-sm font-bold text-white mb-4 uppercase tracking-widest text-center">소셜 계정으로 1초 만에 시작하기</h3>
+                            
+                            {isInAppBrowser && (
+                                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-4 text-xs text-red-400">
+                                    <div className="font-bold flex items-center gap-1.5 mb-2 text-sm text-red-400">
+                                        <ShieldAlert size={16} /> 구글 로그인 접속 차단 주의
+                                    </div>
+                                    구글 보안 정책(403 disallowed_useragent)으로 인해 카카오톡 등 앱 내장 브라우저에서는 구글 로그인이 불가능합니다.<br/><br/>
+                                    정상적인 로그인을 위해 {isIOS ? "우측 하단 아이콘을 눌러 'Safari로 열기'를" : "우측 상단 메뉴(⋮)를 눌러 '다른 브라우저로 열기'를"} 선택해주세요.
+                                </div>
+                            )}
+
                             <Auth
                                 supabaseClient={supabase}
                                 appearance={{ theme: ThemeSupa }}
