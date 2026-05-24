@@ -1,11 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Database, Search, Code, CheckCircle2, Key, Zap, Shield } from "lucide-react";
+import { Database, Search, Code, CheckCircle2, Key, Zap, Shield, Loader2 } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function DataMarketplacePage() {
     const [activeTab, setActiveTab] = useState<"pricing" | "dashboard">("pricing");
+    const [isLoading, setIsLoading] = useState<string | null>(null);
+    const router = useRouter();
+
+    const handleCheckout = async (planType: string) => {
+        try {
+            setIsLoading(planType);
+            const res = await fetch("/api/checkout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    planType,
+                    userId: "demo_user_123", // In a real app, get from Supabase Auth
+                    vin: planType === "B2C_SINGLE" ? "KNA" + Math.floor(Math.random() * 100000000) : undefined
+                }),
+            });
+            const data = await res.json();
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                console.error("Checkout failed:", data.error);
+                alert("결제 초기화에 실패했습니다.");
+                setIsLoading(null);
+            }
+        } catch (error) {
+            console.error("Error connecting to checkout:", error);
+            setIsLoading(null);
+        }
+    };
 
     return (
         <div className="min-h-screen bg-[#0a0f1d] text-white pt-28 pb-20 px-4 sm:px-8">
@@ -65,7 +94,12 @@ export default function DataMarketplacePage() {
                                 <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 사고 상세 내역 리포트</li>
                                 <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> NXP S32K3 무결성 검증 포함</li>
                             </ul>
-                            <button className="w-full py-3 rounded-xl bg-white/10 text-white font-bold hover:bg-white/20 transition-colors">
+                            <button 
+                                onClick={() => handleCheckout("B2C_SINGLE")}
+                                disabled={isLoading === "B2C_SINGLE"}
+                                className="w-full py-3 rounded-xl bg-white/10 text-white font-bold hover:bg-white/20 transition-colors flex justify-center items-center gap-2 disabled:opacity-50"
+                            >
+                                {isLoading === "B2C_SINGLE" ? <Loader2 size={18} className="animate-spin" /> : null}
                                 조회 시작하기
                             </button>
                         </div>
@@ -88,7 +122,12 @@ export default function DataMarketplacePage() {
                                 <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 전용 API 발급 및 Webhook 지원</li>
                                 <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 잔여 쿼리 익월 이월 불가</li>
                             </ul>
-                            <button className="w-full py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/20">
+                            <button 
+                                onClick={() => handleCheckout("B2B_STARTER")}
+                                disabled={isLoading === "B2B_STARTER"}
+                                className="w-full py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/20 flex justify-center items-center gap-2 disabled:opacity-50 disabled:bg-blue-800"
+                            >
+                                {isLoading === "B2B_STARTER" ? <Loader2 size={18} className="animate-spin" /> : null}
                                 구독 시작하기
                             </button>
                         </div>

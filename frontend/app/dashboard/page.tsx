@@ -1,9 +1,13 @@
 "use client";
 
+import { PlusCircle, ShoppingBag, Sparkles, Car, Shield, Activity, Cpu, Wallet, Award, TrendingUp } from "lucide-react";
 import { useWeb3 } from "@/components/Web3Provider";
 import { useI18n } from "@/hooks/useI18n";
 import Link from "next/link";
-import { PlusCircle, ShoppingBag, Sparkles, Car, Shield, Activity, Cpu, Wallet, Award, TrendingUp } from "lucide-react";
+import SubscriptionBanner from '@/components/SubscriptionBanner';
+
+<SubscriptionBanner />
+
 import AIReservationCard from "@/components/user/AIReservationCard";
 import AssetOptimizationAlert from "@/components/user/AssetOptimizationAlert";
 import WarrantySubscriptionCard from "@/components/user/WarrantySubscriptionCard";
@@ -39,7 +43,8 @@ export default function Dashboard() {
         <div className="py-10 pb-32">
             <div className="flex items-center justify-between mb-12">
                 <h1 className="text-4xl font-black tracking-tighter text-blue-900">{t("dash_title")}</h1>
-                <div className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2.5 rounded-full shadow-lg shadow-blue-500/20">
+                <SubscriptionBanner />
+<div className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2.5 rounded-full shadow-lg shadow-blue-500/20">
                     <Sparkles className="w-4 h-4 fill-current" />
                     <span className="text-[10px] font-black uppercase tracking-widest">{t("dash_ai_guardian_active")}</span>
                 </div>
