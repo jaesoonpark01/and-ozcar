@@ -3,10 +3,10 @@
 
 import React from 'react'; // Trigger Build
 
-import VehicleCard from '../../components/marketplace/VehicleCard';
+import VehicleCard from '@/components/marketplace/VehicleCard';
 import { motion, AnimatePresence } from 'framer-motion';
-import AIAuctionBidding from '../../components/marketplace/AIAuctionBidding';
-import { useI18n } from '../../hooks/useI18n';
+import AIAuctionBidding from '@/components/marketplace/AIAuctionBidding';
+import { useI18n } from '@/hooks/useI18n';
 
 // Mock Data for MVP
 const MOCK_VEHICLES = [
@@ -60,7 +60,7 @@ const MOCK_VEHICLES = [
     }
 ];
 
-import DataMarketplace from '../../components/telemetry/DataMarketplace';
+import DataMarketplace from '@/components/telemetry/DataMarketplace';
 
 export default function MarketplacePage() {
     const { t } = useI18n();
@@ -127,7 +127,7 @@ export default function MarketplacePage() {
                         <div className="mb-20">
                             <div className="flex items-center gap-4 mb-8">
                                 <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center shadow-inner">
-                                    <span className="text-2xl">?”¥</span>
+                                    <span className="text-2xl">ðŸ”¥</span>
                                 </div>
                                 <div>
                                     <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-none">{t('market_hot_auction')}</h2>

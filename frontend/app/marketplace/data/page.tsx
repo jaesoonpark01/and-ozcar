@@ -27,7 +27,7 @@ export default function DataMarketplacePage() {
                 window.location.href = data.url;
             } else {
                 console.error("Checkout failed:", data.error);
-                alert("결제 초기?�에 ?�패?�습?�다.");
+                alert("결제 초기화에 실패했습니다.");
                 setIsLoading(null);
             }
         } catch (error) {
@@ -50,7 +50,7 @@ export default function DataMarketplacePage() {
                         Data Marketplace
                     </h1>
                     <p className="text-slate-400">
-                        ?�즈�?Ozcar) 중고�?마켓?�레?�스??'무결???�이??�?가??빠르�??�전?�게 ?�근?�세?? ?�이?�의 ?�뢰?��? ?�소?�에 기반??구독??API ?�비?��? ?�공?�니??
+                        오즈카(Ozcar) 중고차 마켓플레이스의 '무결성 데이터'를 가장 빠르고 안전하게 접근하세요. 데이터의 신뢰도와 희소성에 기반한 구독형 API 서비스를 제공합니다.
                     </p>
                 </div>
 
@@ -61,12 +61,14 @@ export default function DataMarketplacePage() {
                             onClick={() => setActiveTab("pricing")}
                             className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all ${activeTab === 'pricing' ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                         >
-                            ?�랜 �??�금??                        </button>
+                            플랜 및 요금제
+                        </button>
                         <button 
                             onClick={() => setActiveTab("dashboard")}
                             className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all ${activeTab === 'dashboard' ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                         >
-                            API ?�?�보??                        </button>
+                            API 대시보드
+                        </button>
                     </div>
                 </div>
 
@@ -81,16 +83,16 @@ export default function DataMarketplacePage() {
                         <div className="flex flex-col p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-blue-500/30 transition-colors">
                             <div className="mb-6">
                                 <h3 className="text-xl font-bold text-white mb-2">B2C Single Query</h3>
-                                <p className="text-sm text-slate-400">개인 구매?�용 ?�건 조회</p>
+                                <p className="text-sm text-slate-400">개인 구매자용 단건 조회</p>
                             </div>
                             <div className="mb-6">
                                 <span className="text-4xl font-black italic">$10</span>
-                                <span className="text-slate-500 text-sm"> / �?/span>
+                                <span className="text-slate-500 text-sm"> / 건</span>
                             </div>
                             <ul className="space-y-3 mb-8 flex-1">
-                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> ?�정 차량(VIN) ?��? 복원 기록</li>
-                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> ?�고 ?�세 ?�역 리포??/li>
-                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> NXP S32K3 무결??검�??�함</li>
+                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 특정 차량(VIN) 정밀 복원 기록</li>
+                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 사고 상세 내역 리포트</li>
+                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> NXP S32K3 무결성 검증 포함</li>
                             </ul>
                             <button 
                                 onClick={() => handleCheckout("B2C_SINGLE")}
@@ -98,27 +100,27 @@ export default function DataMarketplacePage() {
                                 className="w-full py-3 rounded-xl bg-white/10 text-white font-bold hover:bg-white/20 transition-colors flex justify-center items-center gap-2 disabled:opacity-50"
                             >
                                 {isLoading === "B2C_SINGLE" ? <Loader2 size={18} className="animate-spin" /> : null}
-                                조회 ?�작?�기
+                                조회 시작하기
                             </button>
                         </div>
 
                         {/* B2B Starter Plan */}
                         <div className="flex flex-col p-8 rounded-3xl bg-gradient-to-b from-blue-900/40 to-black border border-blue-500/50 relative shadow-[0_0_40px_rgba(59,130,246,0.15)] transform md:-translate-y-4">
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 bg-blue-600 text-white text-xs font-bold rounded-full">
-                                MOST POPULAR (?�러 ?�용)
+                                MOST POPULAR (딜러 전용)
                             </div>
                             <div className="mb-6 mt-2">
                                 <h3 className="text-xl font-bold text-blue-400 mb-2">B2B Starter</h3>
-                                <p className="text-sm text-blue-200/60">중소???�러??�??�터�??�체</p>
+                                <p className="text-sm text-blue-200/60">중소형 딜러사 및 렌터카 업체</p>
                             </div>
                             <div className="mb-6">
                                 <span className="text-4xl font-black italic text-white">$450</span>
-                                <span className="text-blue-200/50 text-sm"> / ??/span>
+                                <span className="text-blue-200/50 text-sm"> / 월</span>
                             </div>
                             <ul className="space-y-3 mb-8 flex-1">
-                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> ??50??API 쿼리 ?�공</li>
-                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> ?�용 API 발급 �?Webhook 지??/li>
-                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> ?�여 쿼리 ?�월 ?�월 불�?</li>
+                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 월 50회 API 쿼리 제공</li>
+                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 전용 API 발급 및 Webhook 지원</li>
+                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 잔여 쿼리 익월 이월 불가</li>
                             </ul>
                             <button 
                                 onClick={() => handleCheckout("B2B_STARTER")}
@@ -126,7 +128,7 @@ export default function DataMarketplacePage() {
                                 className="w-full py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/20 flex justify-center items-center gap-2 disabled:opacity-50 disabled:bg-blue-800"
                             >
                                 {isLoading === "B2B_STARTER" ? <Loader2 size={18} className="animate-spin" /> : null}
-                                구독 ?�작?�기
+                                구독 시작하기
                             </button>
                         </div>
 
@@ -134,18 +136,18 @@ export default function DataMarketplacePage() {
                         <div className="flex flex-col p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-blue-500/30 transition-colors">
                             <div className="mb-6">
                                 <h3 className="text-xl font-bold text-white mb-2">Enterprise</h3>
-                                <p className="text-sm text-slate-400">금융???��??�사), 보험??보험�??�정)</p>
+                                <p className="text-sm text-slate-400">금융사(대출 심사), 보험사(보험료 산정)</p>
                             </div>
                             <div className="mb-6">
                                 <span className="text-4xl font-black italic">Custom</span>
                             </div>
                             <ul className="space-y-3 mb-8 flex-1">
-                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 무제??API 쿼리 (SLA 99.9%)</li>
-                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> ?�리미엄 쿼리 (SOH/극한 ?�경) ?�근</li>
-                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> ?�담 기술 지??�?맞춤???�프??/li>
+                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 무제한 API 쿼리 (SLA 99.9%)</li>
+                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 프리미엄 쿼리 (SOH/극한 환경) 접근</li>
+                                <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={18} className="text-blue-400 shrink-0" /> 전담 기술 지원 및 맞춤형 인프라</li>
                             </ul>
                             <button className="w-full py-3 rounded-xl bg-white/10 text-white font-bold hover:bg-white/20 transition-colors">
-                                ?�업?� 문의
+                                영업팀 문의
                             </button>
                         </div>
                     </motion.div>
@@ -165,7 +167,7 @@ export default function DataMarketplacePage() {
                                     <Zap size={24} />
                                 </div>
                                 <div>
-                                    <div className="text-sm text-slate-400">?�재 구독 ?�랜</div>
+                                    <div className="text-sm text-slate-400">현재 구독 플랜</div>
                                     <div className="font-bold text-lg">B2B Starter</div>
                                 </div>
                             </div>
@@ -175,7 +177,7 @@ export default function DataMarketplacePage() {
                                 </div>
                                 <div className="flex-1">
                                     <div className="flex justify-between text-sm mb-1">
-                                        <span className="text-slate-400">?�번 ??API ?�용??/span>
+                                        <span className="text-slate-400">이번 달 API 사용량</span>
                                         <span className="font-bold">12 / 50</span>
                                     </div>
                                     <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
@@ -188,7 +190,7 @@ export default function DataMarketplacePage() {
                                     <Shield size={24} />
                                 </div>
                                 <div>
-                                    <div className="text-sm text-slate-400">API ?�태</div>
+                                    <div className="text-sm text-slate-400">API 상태</div>
                                     <div className="font-bold text-lg text-emerald-400">Active (Healthy)</div>
                                 </div>
                             </div>

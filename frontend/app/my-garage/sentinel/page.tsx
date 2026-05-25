@@ -35,32 +35,32 @@ export default function SentinelDashboard() {
         clearBufferPayloads
     } = useBluetoothOBD();
 
-    // AI 진단 ?�태 관�?
+    // AI 진단 상태 관리
     const [aiReport, setAiReport] = useState<any>(null);
     const [isPolling, setIsPolling] = useState(false);
     const [graphData, setGraphData] = useState<any[]>([]);
 
-    // ?�라?�싱 ?�진 ?�동 (?�라?�언???�이??모의 ?�작)
+    // 프라이싱 엔진 연동 (클라이언트 사이드 모의 동작)
     const [minedOzp, setMinedOzp] = useState(0);
     const [totalPackets, setTotalPackets] = useState(0);
 
-    // UI ?�태
+    // UI 상태
     const [showHUD, setShowHUD] = useState(false);
     const [showTripSummary, setShowTripSummary] = useState(false);
     const [activeView, setActiveView] = useState<'live' | 'community' | 'certificate' | 'weekly' | 'governance'>('live');
 
-    // ?�링(Polling) 루프 + AI 분석 로직 ?�합
+    // 폴링(Polling) 루프 + AI 분석 로직 통합
     useEffect(() => {
         let interval: NodeJS.Timeout;
         if (isConnected && isPolling) {
             interval = setInterval(() => {
                 pollData();
-            }, 1000); // 1�?간격
+            }, 1000); // 1초 간격
         }
         return () => clearInterval(interval);
     }, [isConnected, isPolling, pollData]);
 
-    // ?�시�??�이??변??감�? �?AI 분석 ?�진 ?�출
+    // 실시간 데이터 변화 감지 및 AI 분석 엔진 호출
     useEffect(() => {
         if (carData?.voltage) {
             const report = SentinelAIService.analyzeVoltageStability(carData.voltage);
@@ -68,12 +68,12 @@ export default function SentinelDashboard() {
         }
     }, [carData?.voltage]);
 
-    // 버퍼 배열 모니?�링 �?Supabase ?�송
+    // 버퍼 배열 모니터링 및 Supabase 전송
     useEffect(() => {
         if (bufferPayloads.length > 0) {
             const addedCount = bufferPayloads.length;
 
-            // Supabase�??�송 (Mock VIN ?�용)
+            // Supabase로 전송 (Mock VIN 활용)
             flushObdDataToSupabase('KR-HKMC-TEST1', bufferPayloads).then(res => {
                 if (res.success) {
                     setGraphData((prev: any[]) => [...prev.slice(-30), ...bufferPayloads.filter(b => b.pid === 'SOC')]);
@@ -124,7 +124,7 @@ export default function SentinelDashboard() {
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative z-10">
-                {/* ?�어 ?�널 */}
+                {/* 제어 패널 */}
                 <div className="lg:col-span-1 flex flex-col gap-6">
                     <div className="bg-[#0f1115] border border-white/5 rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden group">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/10 transition-colors" />
@@ -197,10 +197,10 @@ export default function SentinelDashboard() {
                     </div>
                 </div>
 
-                {/* ?�레메트�??�?�보??*/}
+                {/* 텔레메트리 대시보드 */}
                 <div className="lg:col-span-3 flex flex-col gap-6">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        {/* Summary Card + AI Insight ?�합 */}
+                        {/* Summary Card + AI Insight 통합 */}
                         <div className="md:col-span-3">
                             <SummaryCard />
                         </div>
@@ -314,7 +314,7 @@ export default function SentinelDashboard() {
                 </div>
             </div>
 
-            {/* ?�단 ?�장 뷰포???�역 (Phase 5) */}
+            {/* 하단 확장 뷰포트 영역 (Phase 5) */}
             <div className="mt-12">
                 <div className="flex gap-4 border-b border-slate-800 pb-4 mb-8">
                     <button
@@ -376,7 +376,7 @@ export default function SentinelDashboard() {
                 )}
             </div>
 
-            {/* Trip Summary ?�버?�이 (조건부 모달) */}
+            {/* Trip Summary 오버레이 (조건부 모달) */}
             {showTripSummary && (
                 <TripSummary
                     score={91} // Mock Data
@@ -387,14 +387,14 @@ export default function SentinelDashboard() {
                 />
             )}
 
-            {/* HUD 모드 ?�버?�이 (조건부 ?�더�? */}
+            {/* HUD 모드 오버레이 (조건부 렌더링) */}
             {showHUD && (
                 <HUDMode
                     speed={carData?.speed || 0}
                     soc={carData?.socDisplay || 0}
                     temp={carData?.tempMax || 0}
                     powerKw={carData?.current ? (carData.current * carData.voltage) / 1000 : 0}
-                    dtcWarning={false} // ?�동 ?�정
+                    dtcWarning={false} // 연동 예정
                     onClose={() => setShowHUD(false)}
                 />
             )}

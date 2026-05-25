@@ -12,17 +12,17 @@ import DigitalHandshake from '@/components/social/DigitalHandshake';
 import { useI18n } from '@/hooks/useI18n';
 
 const TABS = [
-    { id: 'league', label: '?�라?�빙 리그', icon: Trophy },
-    { id: 'assets', label: '?�셋 ?��??�스', icon: Star },
-    { id: 'handshake', label: '?��????�드?�이??, icon: Shield },
+    { id: 'league', label: '드라이빙 리그', icon: Trophy },
+    { id: 'assets', label: '에셋 쇼케이스', icon: Star },
+    { id: 'handshake', label: '디지털 핸드셰이크', icon: Shield },
 ] as const;
 
 type TabId = typeof TABS[number]['id'];
 
 const STATS = [
-    { label: '�?참여 ?�라?�버', value: '28,412', icon: Users, color: 'text-blue-400' },
-    { label: '?�번 �?리그 보상', value: '142,000 OZP', icon: Trophy, color: 'text-amber-400' },
-    { label: '검증된 ?�코 ?�수', value: '98.4%', icon: TrendingUp, color: 'text-emerald-400' },
+    { label: '총 참여 드라이버', value: '28,412', icon: Users, color: 'text-blue-400' },
+    { label: '이번 주 리그 보상', value: '142,000 OZP', icon: Trophy, color: 'text-amber-400' },
+    { label: '검증된 에코 점수', value: '98.4%', icon: TrendingUp, color: 'text-emerald-400' },
     { label: '글로벌 리전', value: '14개국', icon: Globe, color: 'text-purple-400' },
 ];
 
@@ -60,7 +60,7 @@ export default function SocialLeaguePage() {
                             Earn.
                         </h1>
                         <p className="text-xl text-slate-400 max-w-2xl leading-relaxed">
-                            ?�시�??�라?�빙 리그?�서 경쟁?�고, ?��? ?�셋???�집?�며, 글로벌 ?�라?�버 ?�트?�크?� ?�결?�세??
+                            실시간 드라이빙 리그에서 경쟁하고, 희귀 에셋을 수집하며, 글로벌 드라이버 네트워크와 연결하세요.
                         </p>
                     </motion.div>
 
@@ -134,17 +134,17 @@ export default function SocialLeaguePage() {
                         <div className="flex items-center gap-2 mb-2">
                             <Zap size={16} className="text-blue-400" />
                             <span className="text-xs font-black uppercase tracking-widest text-blue-400">
-                                ?�즌 2026 Q1 리그
+                                시즌 2026 Q1 리그
                             </span>
                         </div>
-                        <h3 className="text-2xl font-black text-white">지�?바로 리그??참여?�세??/h3>
-                        <p className="text-slate-400 mt-1">OBD ?�결 ???�동?�로 ??��??반영?�니??</p>
+                        <h3 className="text-2xl font-black text-white">지금 바로 리그에 참여하세요</h3>
+                        <p className="text-slate-400 mt-1">OBD 연결 후 자동으로 랭킹에 반영됩니다.</p>
                     </div>
                     <a
                         href="/vehicle/obd-bridge"
                         className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-widest text-xs py-4 px-8 rounded-2xl transition-all shrink-0"
                     >
-                        OBD ?�결?�기 <ArrowRight size={16} />
+                        OBD 연결하기 <ArrowRight size={16} />
                     </a>
                 </div>
             </div>

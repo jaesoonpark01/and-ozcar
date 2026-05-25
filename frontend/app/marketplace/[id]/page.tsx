@@ -2,9 +2,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import MarketplaceLayout from '../../../components/layout/MarketplaceLayout';
-import PurchaseAction from '../../../components/marketplace/PurchaseAction';
-import { MiningService } from '../../../services/miningService';
+
+import PurchaseAction from '@/components/marketplace/PurchaseAction';
+import { MiningService } from '@/services/miningService';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ShieldCheck, Zap, Sparkles, AlertCircle, BarChart, Info, Star, Lock as LockIcon, ExternalLink } from 'lucide-react';

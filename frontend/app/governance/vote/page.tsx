@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { useWeb3 } from "@/components/Web3Provider";
 
 const options = [
-    { id: "A", label: "공격???�태�??�장", desc: "?�각 20% / ?�레?��?80%", icon: <Users size={24} />, color: "text-blue-400" },
-    { id: "B", label: "가�?보존 (?�재 ?��?)", desc: "?�각 50% / ?�레?��?50%", icon: <Landmark size={24} />, color: "text-emerald-400" },
-    { id: "C", label: "가�??�승 극�???, desc: "?�각 80% / ?�레?��?20%", icon: <Flame size={24} />, color: "text-red-400" },
+    { id: "A", label: "공격적 생태계 확장", desc: "소각 20% / 트레저리 80%", icon: <Users size={24} />, color: "text-blue-400" },
+    { id: "B", label: "가치 보존 (현재 유지)", desc: "소각 50% / 트레저리 50%", icon: <Landmark size={24} />, color: "text-emerald-400" },
+    { id: "C", label: "가치 상승 극대화", desc: "소각 80% / 트레저리 20%", icon: <Flame size={24} />, color: "text-red-400" },
 ];
 
 export default function GovernanceVotePage() {
@@ -42,27 +42,27 @@ export default function GovernanceVotePage() {
                             <Vote size={18} /> OIP-1 (Ozcar Improvement Proposal #1)
                         </div>
 
-                        <h1 className="text-3xl font-black italic tracking-tighter mb-4 text-white">?�랫???�수?�금 배분 규정??/h1>
+                        <h1 className="text-3xl font-black italic tracking-tighter mb-4 text-white">플랫폼 순수익금 배분 규정안</h1>
 
                         <div className="flex items-center gap-4 mb-6 text-sm text-slate-400 border-y border-slate-800 py-3">
-                            <span>?�안?? <strong>Ozcar Core Team</strong></span>
-                            <span>?�태: <strong className="text-emerald-400 animate-pulse">?�표 진행 �?/strong></span>
-                            <span>?��? ?�간: <strong className="font-mono">14h 22m</strong></span>
+                            <span>제안자: <strong>Ozcar Core Team</strong></span>
+                            <span>상태: <strong className="text-emerald-400 animate-pulse">투표 진행 중</strong></span>
+                            <span>남은 시간: <strong className="font-mono">14h 22m</strong></span>
                         </div>
 
                         <div className="prose prose-invert prose-slate max-w-none text-sm leading-relaxed mb-6">
                             <p>
-                                ?�즈�??�운???�러�? �??�건?� ?�이???�매 �?구독 모델?�서 발생?�는 분기�??�여 ?�익(?�금 ?�름)???�??처리 방안???�정?�기 ?�함?�니??
-                                ?�마??컨트?�트�??�해 ?�동 집행???�금??비율(?�큰 ?�각 vs DAO 금고 ?�????직접 결정??주십?�오.
-                                ?�로???�라?�스�??�이�??�해 강도�??�일 것인지(C??, ?�후 마�???�?그랜?��? ?�해 금고�?채울 것인지(A?? ?�운?�들???��?가 ?�요?�니??
+                                오즈카 파운더 여러분, 본 안건은 데이터 판매 및 구독 모델에서 발생하는 분기별 잉여 수익(현금 흐름)에 대한 처리 방안을 확정하기 위함입니다.
+                                스마트 컨트랙트를 통해 자동 집행될 자금의 비율(토큰 소각 vs DAO 금고 저장)을 직접 결정해 주십시오.
+                                플로어 프라이스를 높이기 위해 강도를 높일 것인지(C안), 향후 마케팅 및 그랜트를 위해 금고를 채울 것인지(A안) 파운더들의 의지가 필요합니다.
                             </p>
                         </div>
 
                         <div className="bg-black/60 rounded-2xl p-4 border border-slate-800 flex gap-4 text-slate-300">
                             <Activity size={24} className="text-purple-400 flex-shrink-0" />
                             <div className="text-xs">
-                                <strong>?�족??�?가�?조건:</strong> ?�체 ?�이?�몬???�래?�넘 ?�운?�의 30% ?�상 참석. 최다 ?�표 ?�건 ?�동 채택.<br />
-                                ?�표 ??변�?불�??�며, OZC ?�큰 1개�? ?�모?�니??(가?�비 ?�외).
+                                <strong>정족수 및 가결 조건:</strong> 전체 다이아몬드/플래티넘 파운더의 30% 이상 참석. 최다 득표 안건 자동 채택.<br />
+                                투표 후 변경 불가하며, OZC 토큰 1개가 소모됩니다 (가스비 제외).
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@ export default function GovernanceVotePage() {
                                                 {opt.icon}
                                             </div>
                                             <div>
-                                                <h4 className="text-xl font-bold mb-1">?�건 {opt.id}: {opt.label}</h4>
+                                                <h4 className="text-xl font-bold mb-1">안건 {opt.id}: {opt.label}</h4>
                                                 <p className="text-sm text-slate-400">{opt.desc}</p>
                                             </div>
                                         </div>
@@ -98,16 +98,16 @@ export default function GovernanceVotePage() {
                                     disabled={!selected || isCasting || !account}
                                     className="w-full h-16 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest text-lg rounded-2xl mt-4"
                                 >
-                                    {isCasting ? "?�체???�랜??�� ?�송 �?.." : "?�표 ?�출 ?�정"}
+                                    {isCasting ? "온체인 트랜잭션 전송 중..." : "투표 제출 확정"}
                                 </Button>
-                                {!account && <p className="text-xs text-red-400 text-center mt-2">?�표�??�해 지갑을 ?�결?�세??</p>}
+                                {!account && <p className="text-xs text-red-400 text-center mt-2">투표를 위해 지갑을 연결하세요.</p>}
                             </motion.div>
                         ) : (
                             <motion.div key="voted" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-emerald-950/30 border border-emerald-500/50 rounded-3xl p-12 text-center backdrop-blur-xl">
                                 <Check className="text-emerald-400 mx-auto mb-6 bg-emerald-500/20 p-4 rounded-full" size={80} />
-                                <h2 className="text-3xl font-black italic tracking-tighter text-emerald-400 mb-2">?�표가 블록체인??기록?�었?�니??/h2>
+                                <h2 className="text-3xl font-black italic tracking-tighter text-emerald-400 mb-2">투표가 블록체인에 기록되었습니다</h2>
                                 <p className="text-slate-300 mb-8 max-w-sm mx-auto">
-                                    ?�운?�님??결정???�스?�에 반영?�었?�니?? 마감 ???�체??로직???�라 ?�금???�동 분배/?�각?�니??
+                                    파운더님의 결정이 시스템에 반영되었습니다. 마감 후 온체인 로직에 따라 자금이 자동 분배/소각됩니다.
                                 </p>
                                 <div className="bg-black/40 border border-slate-800 rounded-xl p-4 text-xs font-mono text-slate-500 overflow-hidden text-left mb-8 max-w-md mx-auto">
                                     <div className="text-emerald-500 mb-1">TxHash:</div>
@@ -122,7 +122,7 @@ export default function GovernanceVotePage() {
                 <div className="space-y-6">
                     <div className="bg-black/50 border border-slate-800 rounded-3xl p-6 backdrop-blur-xl">
                         <h3 className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-6 flex items-center gap-2">
-                            <Coins size={14} /> ?�재 ?�론 (?�시�?
+                            <Coins size={14} /> 현재 여론 (실시간)
                         </h3>
 
                         <div className="space-y-6">
@@ -143,16 +143,16 @@ export default function GovernanceVotePage() {
                         </div>
 
                         <p className="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-800 text-center">
-                            ?�표가 ?�료?�면 결과???�라 DAO 금고?�서 ?�동?�로 ?�금???�직입?�다 (OzcarTreasury.sol ?�용).
+                            투표가 완료되면 결과에 따라 DAO 금고에서 자동으로 자금이 움직입니다 (OzcarTreasury.sol 활용).
                         </p>
                     </div>
 
                     <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/10 border border-purple-500/20 rounded-3xl p-6 relative overflow-hidden text-center">
                         <Flame size={32} className="text-red-500 mx-auto mb-2 opacity-50" />
-                        <div className="text-sm font-bold text-purple-300 mb-1">?�재 ?�적 ?�각??/div>
+                        <div className="text-sm font-bold text-purple-300 mb-1">현재 누적 소각량</div>
                         <div className="text-2xl font-black font-mono text-white mb-4">4,204,115 OZC</div>
                         <button className="text-xs uppercase tracking-widest px-4 py-2 border border-slate-600 rounded-full hover:bg-slate-800 transition-colors w-full text-slate-300">
-                            ?�각 ?�역 보기 (Polygonscan)
+                            소각 내역 보기 (Polygonscan)
                         </button>
                     </div>
                 </div>

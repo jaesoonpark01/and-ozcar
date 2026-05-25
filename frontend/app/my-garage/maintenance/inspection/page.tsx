@@ -12,17 +12,18 @@ type InspectionItem = {
 };
 
 const INITIAL_ITEMS: InspectionItem[] = [
-  // ?�진�?  { id: "e1", category: "engine", name: "?�진 ?�일 ?�벨 �??�태", status: "NORMAL" },
-  { id: "e2", category: "engine", name: "?�각???�수 ?��?", status: "NORMAL" },
-  { id: "e3", category: "engine", name: "?�라?�브 벨트 ?�력", status: "NORMAL" },
-  // ?�면/?��?
-  { id: "f1", category: "front", name: "?�드?�프/?�개???�등", status: "NORMAL" },
-  { id: "f2", category: "front", name: "?�드?�드 ?�크?�치", status: "NORMAL" },
-  { id: "f3", category: "front", name: "?�론??범퍼 ?�상", status: "NORMAL" },
-  // ?�체(리프??
-  { id: "u1", category: "under", name: "?�진/미션 ?�단 ?�유", status: "NORMAL" },
-  { id: "u2", category: "under", name: "?�스?�션 부??마모", status: "NORMAL" },
-  { id: "u3", category: "under", name: "브레?�크 ?�드 ?�량", status: "NORMAL" },
+  // 엔진룸
+  { id: "e1", category: "engine", name: "엔진 오일 레벨 및 상태", status: "NORMAL" },
+  { id: "e2", category: "engine", name: "냉각수 누수 여부", status: "NORMAL" },
+  { id: "e3", category: "engine", name: "드라이브 벨트 장력", status: "NORMAL" },
+  // 전면/외관
+  { id: "f1", category: "front", name: "헤드램프/안개등 점등", status: "NORMAL" },
+  { id: "f2", category: "front", name: "윈드실드 스크래치", status: "NORMAL" },
+  { id: "f3", category: "front", name: "프론트 범퍼 손상", status: "NORMAL" },
+  // 하체(리프트)
+  { id: "u1", category: "under", name: "엔진/미션 하단 누유", status: "NORMAL" },
+  { id: "u2", category: "under", name: "서스펜션 부싱 마모", status: "NORMAL" },
+  { id: "u3", category: "under", name: "브레이크 패드 잔량", status: "NORMAL" },
 ];
 
 export default function InspectionPage() {
@@ -30,14 +31,14 @@ export default function InspectionPage() {
   const [items, setItems] = useState<InspectionItem[]>(INITIAL_ITEMS);
   const [markers, setMarkers] = useState<{ x: number; y: number }[]>([]);
 
-  // ?��??�이????- Delta Sync (?�정????���??�송)
+  // 시뮬레이션 용 - Delta Sync (수정된 항목만 전송)
   const handleSaveDelta = async () => {
     const defects = items.filter((item) => item.status !== "NORMAL");
-    console.log("?? [Delta Sync] Sending only changed items ->", defects);
+    console.log("🚀 [Delta Sync] Sending only changed items ->", defects);
     
     // In a real app, this would call Supabase RPC: upsert_inspection_delta
     // const { data, error } = await supabase.rpc('upsert_inspection_delta', { ... })
-    alert(`?�기???�료! ${defects.length}개의 ?�정???�이?�만 ?�송?�었?�니??`);
+    alert(`동기화 완료! ${defects.length}개의 수정된 데이터만 전송되었습니다.`);
   };
 
   const setItemStatus = (id: string, status: "NORMAL" | "DEFECT" | "REPAIR") => {
@@ -59,18 +60,18 @@ export default function InspectionPage() {
         <header className="flex justify-between items-center mb-10 pb-6 border-b border-slate-800">
           <div>
             <h1 className="text-3xl font-black text-white">20-Min Cut Inspection</h1>
-            <p className="text-sm text-slate-500 mt-2 font-mono">VIN: KNA2394019230 ??2026 Santa Fe</p>
+            <p className="text-sm text-slate-500 mt-2 font-mono">VIN: KNA2394019230 • 2026 Santa Fe</p>
           </div>
           <button 
             onClick={handleSaveDelta}
             className="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold text-white shadow-lg shadow-blue-500/20 transition-all font-mono"
           >
-            ?��? ?�료 (Delta Sync)
+            점검 완료 (Delta Sync)
           </button>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* 좌측: 검????�� 리스??(All-Normal Default) */}
+          {/* 좌측: 검사 항목 리스트 (All-Normal Default) */}
           <div className="space-y-12 h-[calc(100vh-200px)] overflow-y-auto pr-4 scrollbar-hide">
             {["engine", "front", "under"].map((catId) => (
               <section 
@@ -91,7 +92,7 @@ export default function InspectionPage() {
                           onClick={() => setItemStatus(item.id, "NORMAL")}
                           className={`px-4 py-2 rounded-lg font-bold flex items-center gap-2 ${item.status === "NORMAL" ? "bg-green-600 text-white" : "bg-slate-800 text-slate-400"}`}
                         >
-                          <Check size={16} /> ?�호
+                          <Check size={16} /> 양호
                         </button>
                         <button 
                           onClick={() => setItemStatus(item.id, "DEFECT")}
@@ -107,13 +108,13 @@ export default function InspectionPage() {
             ))}
           </div>
 
-          {/* ?�측: Visual Punch-In (3D 모킹) */}
+          {/* 우측: Visual Punch-In (3D 모킹) */}
           <div className="sticky top-8">
             <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
               <AlertCircle className="text-amber-500" />
               Visual Punch-In Tracker
             </h3>
-            <p className="text-xs text-slate-400 mb-6">차량 결함 부?��? ?�치?�여 직�??�으�??�태�?맵핑?�세??</p>
+            <p className="text-xs text-slate-400 mb-6">차량 결함 부위를 터치하여 직관적으로 상태를 맵핑하세요.</p>
             
             <div 
               onClick={handlePunchIn}

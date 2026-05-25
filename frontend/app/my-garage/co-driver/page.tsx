@@ -39,7 +39,7 @@ export default function AgenticCoDriverPage() {
                         </div>
                         <h1 className="text-3xl md:text-5xl font-black italic tracking-tighter mb-4">Agentic Co-Driver</h1>
                         <p className="text-slate-400 text-sm max-w-md leading-relaxed">
-                            ?�톨로�? ?�이브리??RAG 지?�망???�해 증상(Symptom)??근본 ?�인(Root Cause)??추적?�고, ?�마??컨트?�트�?최적???�비 ?�루?�을 ?�율 ?�찰?�니??
+                            온톨로지 하이브리드 RAG 지식망을 통해 증상(Symptom)의 근본 원인(Root Cause)을 추적하고, 스마트 컨트랙트로 최적의 정비 솔루션을 자율 입찰합니다.
                         </p>
                     </div>
 
@@ -71,7 +71,7 @@ export default function AgenticCoDriverPage() {
                                 initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 8.5 }}
                                 className="absolute top-[80px] left-[20px] bg-blue-900/40 border border-blue-500/50 p-3 rounded-xl backdrop-blur-md w-48 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
                                 <div className="text-[10px] text-blue-300 font-bold tracking-widest flex justify-between">KINETIC EVENT <Activity size={12}/></div>
-                                <div className="text-white text-sm font-semibold mt-1">2/18 비포?�로 강한 충격</div>
+                                <div className="text-white text-sm font-semibold mt-1">2/18 비포장로 강한 충격</div>
                                 <div className="text-slate-400 text-xs mt-1">G-Sensor: 3.2G Spike</div>
                             </motion.div>
 
@@ -79,7 +79,7 @@ export default function AgenticCoDriverPage() {
                                 initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 8.7 }}
                                 className="absolute top-[280px] left-[20px] bg-red-900/40 border border-red-500/50 p-3 rounded-xl backdrop-blur-md w-48 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
                                 <div className="text-[10px] text-red-300 font-bold tracking-widest flex justify-between">SEMANTIC STATE <AlertTriangle size={12}/></div>
-                                <div className="text-white text-sm font-semibold mt-1">?�측 ??밸런???�탈</div>
+                                <div className="text-white text-sm font-semibold mt-1">우측 휠 밸런스 이탈</div>
                                 <div className="text-slate-400 text-xs mt-1">OBD-II RPM Mismatch</div>
                             </motion.div>
 
@@ -88,7 +88,7 @@ export default function AgenticCoDriverPage() {
                                 initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 9.5 }}
                                 className="absolute top-[170px] left-[200px] bg-purple-900/40 border border-purple-500/50 p-3 rounded-xl backdrop-blur-md w-56 shadow-[0_0_15px_rgba(168,85,247,0.2)] z-10">
                                 <div className="text-[10px] text-purple-300 font-bold tracking-widest flex justify-between">DYNAMIC CAUSALITY <Zap size={12}/></div>
-                                <div className="text-white text-sm font-semibold mt-1">?�비 12% ?�기 ?�락 진행�?/div>
+                                <div className="text-white text-sm font-semibold mt-1">연비 12% 단기 하락 진행중</div>
                                 <div className="text-slate-400 text-xs mt-1">Expected Loss: -$45/month</div>
                             </motion.div>
 
@@ -97,7 +97,7 @@ export default function AgenticCoDriverPage() {
                                 initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: chatStep >= 4 ? 1 : 0, scale: 1 }} transition={{ duration: 0.5 }}
                                 className="absolute top-[70px] left-[320px] bg-white/10 border border-emerald-500/50 p-3 rounded-xl backdrop-blur-md w-48 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
                                 <div className="text-[10px] text-emerald-400 font-bold tracking-widest flex justify-between">AGENTIC ACTION <Wrench size={12}/></div>
-                                <div className="text-white text-sm font-semibold mt-1">Pro-Master ?�찰 ?�작</div>
+                                <div className="text-white text-sm font-semibold mt-1">Pro-Master 입찰 시작</div>
                                 <div className="text-emerald-300 text-xs mt-1">Smart Contract Bidding</div>
                             </motion.div>
                         </div>
@@ -127,7 +127,7 @@ export default function AgenticCoDriverPage() {
                                     </div>
                                     <div className="bg-slate-800/80 border border-slate-700 p-4 rounded-2xl rounded-tl-none">
                                         <p className="text-sm leading-relaxed text-slate-200">
-                                            ?�운?�님, ?�재 차량 ?�비가 ?�상 범위 ?��?**12% ?�락**?�는 ?�상??감�??�었?�니?? ?�인??추적?�까??
+                                            파운더님, 현재 차량 연비가 정상 범위 대비 **12% 하락**하는 현상이 감지되었습니다. 원인을 추적할까요?
                                         </p>
                                     </div>
                                 </motion.div>
@@ -137,7 +137,7 @@ export default function AgenticCoDriverPage() {
                                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex gap-4 max-w-[85%] self-end flex-row-reverse">
                                     <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center shrink-0 text-xs font-bold">ME</div>
                                     <div className="bg-blue-600/20 border border-blue-500/30 p-4 rounded-2xl rounded-tr-none">
-                                        <p className="text-sm text-blue-100">?? 갑자�???그런거�?? ?�명?�줘.</p>
+                                        <p className="text-sm text-blue-100">응, 갑자기 왜 그런거지? 설명해줘.</p>
                                     </div>
                                 </motion.div>
                             )}
@@ -149,15 +149,15 @@ export default function AgenticCoDriverPage() {
                                     </div>
                                     <div className="bg-slate-800/80 border border-slate-700 p-4 rounded-2xl rounded-tl-none space-y-3">
                                         <p className="text-sm leading-relaxed text-slate-200">
-                                            지??그래??Graph RAG) 분석 결과?�니?? 
+                                            지식 그래프(Graph RAG) 분석 결과입니다. 
                                         </p>
                                         <div className="bg-black/50 p-3 rounded-lg border border-slate-700 text-xs text-slate-400 font-mono leading-relaxed">
-                                            &gt; 2??18??강원??주행 �?G-Sensor 3.2G 충격 감�? (Kinetic)<br/>
-                                            &gt; ?�후 ?�측 ?�륜 ?�도 ?�서?� GPS ?�도 �?미세 ?�차 발생 (Semantic)<br/>
-                                            &gt; 조향�??�?�짐?�로 ?�한 ?�?�어 마찰 ?�??증�?�??�비 ?�락 ?�정 (Dynamic)
+                                            &gt; 2월 18일 강원도 주행 중 G-Sensor 3.2G 충격 감지 (Kinetic)<br/>
+                                            &gt; 이후 우측 전륜 속도 센서와 GPS 속도 간 미세 오차 발생 (Semantic)<br/>
+                                            &gt; 조향각 틀어짐으로 인한 타이어 마찰 저항 증가로 연비 하락 판정 (Dynamic)
                                         </div>
                                         <p className="text-sm leading-relaxed text-slate-200">
-                                            ?�순 ?�러 코드가 ?�닌 물리??충격???�한 **???�라?�먼??불균??*??근본 ?�인?�니?? 방치 ??????????$45???�류�??�실???�상?�니??
+                                            단순 에러 코드가 아닌 물리적 충격에 의한 **휠 얼라인먼트 불균형**이 근본 원인입니다. 방치 시 한 달 내 약 $45의 유류비 손실이 예상됩니다.
                                         </p>
                                     </div>
                                 </motion.div>
@@ -170,11 +170,11 @@ export default function AgenticCoDriverPage() {
                                     </div>
                                     <div className="bg-emerald-900/20 border border-emerald-500/30 p-4 rounded-2xl rounded-tl-none shadow-[0_0_15px_rgba(16,185,129,0.1)]">
                                         <p className="text-sm leading-relaxed text-emerald-100 mb-4">
-                                            ?�결???�해 반경 10km ?�내??검증된 Pro-Master ?�트?�들?�게 ?�라?�먼??교정 ??���?Bidding) ?�레?��? ?�동 개설?�까?? ?�마??컨트?�트�?최�?가�?보장받을 ???�습?�다.
+                                            해결을 위해 반경 10km 이내의 검증된 Pro-Master 파트너들에게 얼라인먼트 교정 역경매(Bidding) 스레드를 자동 개설할까요? 스마트 컨트랙트로 최저가를 보장받을 수 있습니다.
                                         </p>
                                         <div className="flex gap-2">
-                                            <Button size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-white w-full">?�스?�랙????���? ?�행</Button>
-                                            <Button size="sm" variant="outline" className="border-slate-600 text-slate-300 w-full hover:bg-slate-800">?�중??/Button>
+                                            <Button size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-white w-full">예스트랙트(역경매) 실행</Button>
+                                            <Button size="sm" variant="outline" className="border-slate-600 text-slate-300 w-full hover:bg-slate-800">나중에</Button>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -191,7 +191,7 @@ export default function AgenticCoDriverPage() {
                         <div className="flex-1 h-12 bg-white/5 border border-white/10 rounded-full flex items-center px-4">
                             <input 
                                 type="text" 
-                                placeholder="�??�라?�버?�게 ?�성?�로 지?�하거나 ?�력?�세??.." 
+                                placeholder="코-드라이버에게 음성으로 지시하거나 입력하세요..." 
                                 className="bg-transparent border-none outline-none w-full text-sm text-white placeholder-slate-500"
                                 disabled
                             />

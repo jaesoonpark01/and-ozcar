@@ -19,15 +19,15 @@ const MOCK_ECO_METADATA = {
 };
 
 const ECO_STATS = [
-    { label: '?�감???�소', value: '148.6 kg', icon: Leaf, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
-    { label: '?�수???�너지', value: '312 kWh', icon: Battery, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
-    { label: '�?주행거리', value: '8,240 km', icon: TrendingUp, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
-    { label: '글로벌 ?�코 ??��', value: '#1,284', icon: Globe, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
+    { label: '절감된 탄소', value: '148.6 kg', icon: Leaf, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+    { label: '회수된 에너지', value: '312 kWh', icon: Battery, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
+    { label: '총 주행거리', value: '8,240 km', icon: TrendingUp, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
+    { label: '글로벌 에코 랭킹', value: '#1,284', icon: Globe, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
 ];
 
 const TABS = [
-    { id: 'nft', label: '?�코 ?�라?�빙 NFT', icon: Award },
-    { id: 'twin', label: '?��????�윈', icon: BarChart3 },
+    { id: 'nft', label: '에코 드라이빙 NFT', icon: Award },
+    { id: 'twin', label: '디지털 트윈', icon: BarChart3 },
 ] as const;
 
 type TabId = typeof TABS[number]['id'];
@@ -65,7 +65,7 @@ export default function EcoLabPage() {
                             Earn More.
                         </h1>
                         <p className="text-xl text-slate-400 max-w-2xl leading-relaxed">
-                            친환�?주행 ?�이?��? ?��? ?�코 NFT�?변?�하?�요. ?�소 ?�감 ?�적???��????�산???�니??
+                            친환경 주행 데이터를 희귀 에코 NFT로 변환하세요. 탄소 절감 실적이 디지털 자산이 됩니다.
                         </p>
                     </motion.div>
 
@@ -133,21 +133,21 @@ export default function EcoLabPage() {
                                 <div className="bg-white/3 border border-white/5 rounded-3xl p-8">
                                     <div className="flex items-center gap-3 mb-4">
                                         <Zap className="text-emerald-400" size={20} />
-                                        <h3 className="text-lg font-black text-white">?�코 NFT?�?</h3>
+                                        <h3 className="text-lg font-black text-white">에코 NFT란?</h3>
                                     </div>
                                     <p className="text-slate-400 leading-relaxed text-sm">
-                                        ?�신??친환�?주행 기록??블록체인 ?�에 ?�구?�으�?기록???��???증서?�니??
-                                        ?�소 ?�감?? ?�수 ?�너지, ?�코 ?�코?��? NFT 메�??�이?�에 ?�겨 거래 가?�한 ?�산???�니??
+                                        당신의 친환경 주행 기록이 블록체인 위에 영구적으로 기록된 디지털 증서입니다.
+                                        탄소 절감량, 회수 에너지, 에코 스코어가 NFT 메타데이터에 담겨 거래 가능한 자산이 됩니다.
                                     </p>
                                 </div>
                                 <div className="bg-emerald-950/20 border border-emerald-500/20 rounded-3xl p-8">
-                                    <h3 className="text-lg font-black text-white mb-4">?�어 ?�스??/h3>
+                                    <h3 className="text-lg font-black text-white mb-4">티어 시스템</h3>
                                     <div className="space-y-3">
                                         {[
-                                            { tier: 'SEED', req: '?�코 ?�수 50+', color: 'text-lime-500' },
-                                            { tier: 'LEAF', req: '?�코 ?�수 70+', color: 'text-green-400' },
-                                            { tier: 'TREE', req: '?�코 ?�수 85+', color: 'text-emerald-400' },
-                                            { tier: 'FOREST', req: '?�코 ?�수 93+', color: 'text-cyan-400' },
+                                            { tier: 'SEED', req: '에코 점수 50+', color: 'text-lime-500' },
+                                            { tier: 'LEAF', req: '에코 점수 70+', color: 'text-green-400' },
+                                            { tier: 'TREE', req: '에코 점수 85+', color: 'text-emerald-400' },
+                                            { tier: 'FOREST', req: '에코 점수 93+', color: 'text-cyan-400' },
                                         ].map(item => (
                                             <div key={item.tier} className="flex justify-between items-center">
                                                 <span className={`font-black text-sm ${item.color}`}>{item.tier}</span>
@@ -170,17 +170,17 @@ export default function EcoLabPage() {
                         <div className="flex items-center gap-2 mb-2">
                             <Leaf size={16} className="text-emerald-400" />
                             <span className="text-xs font-black uppercase tracking-widest text-emerald-400">
-                                지�?바로 ?�작
+                                지금 바로 시작
                             </span>
                         </div>
-                        <h3 className="text-2xl font-black text-white">친환�?주행?�로 NFT�??�득?�세??/h3>
-                        <p className="text-slate-400 mt-1">OBD ?�결 ???�코 ?�이?��? ?�동 ?�적?�니??</p>
+                        <h3 className="text-2xl font-black text-white">친환경 주행으로 NFT를 획득하세요</h3>
+                        <p className="text-slate-400 mt-1">OBD 연결 후 에코 데이터가 자동 누적됩니다.</p>
                     </div>
                     <a
                         href="/vehicle/obd-bridge"
                         className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase tracking-widest text-xs py-4 px-8 rounded-2xl transition-all shrink-0"
                     >
-                        OBD ?�결?�기 <ArrowRight size={16} />
+                        OBD 연결하기 <ArrowRight size={16} />
                     </a>
                 </div>
             </div>

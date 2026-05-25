@@ -3,10 +3,10 @@
 
 import React, { useState } from 'react';
 
-import { useWeb3 } from '../../components/Web3Provider';
+import { useWeb3 } from '@/components/Web3Provider';
 import { ShieldCheck, Zap, Sparkles, Car, Cpu, Database } from 'lucide-react';
 import Link from 'next/link';
-import { useI18n } from '../../hooks/useI18n';
+import { useI18n } from '@/hooks/useI18n';
 
 export default function SellPage() {
     const { account, connectWallet, vehicleNFT } = useWeb3();
@@ -48,7 +48,7 @@ export default function SellPage() {
             <>
                 <div className="max-w-3xl mx-auto text-center py-32 animate-in zoom-in-95 duration-700">
                     <div className="w-24 h-24 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center text-5xl mx-auto mb-10 shadow-xl shadow-emerald-500/20">
-                        ??
+                        ✨
                     </div>
                     <h1 className="text-6xl font-black text-slate-900 mb-6 tracking-tighter">{t('sell_success_title')}</h1>
                     <p className="text-xl text-slate-400 font-medium mb-12 max-w-lg mx-auto leading-relaxed">

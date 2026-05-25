@@ -17,18 +17,18 @@ const MOCK_ENERGY_METADATA = {
 };
 
 const TABS = [
-    { id: 'market', label: 'V2G ?�너지 마켓', icon: Zap },
-    { id: 'optimizer', label: '?�마??충전 최적??, icon: Battery },
-    { id: 'nft', label: '?�너지 ?�산 NFT', icon: Globe },
+    { id: 'market', label: 'V2G 에너지 마켓', icon: Zap },
+    { id: 'optimizer', label: '스마트 충전 최적화', icon: Battery },
+    { id: 'nft', label: '에너지 자산 NFT', icon: Globe },
 ] as const;
 
 type TabId = typeof TABS[number]['id'];
 
 const STATS = [
-    { label: '?�재 ?�력 ?��?', value: '??142/kWh', icon: TrendingUp, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
+    { label: '현재 전력 단가', value: '₩ 142/kWh', icon: TrendingUp, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
     { label: '방전 보상(today)', value: '2,840 OZP', icon: Zap, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
-    { label: '참여 차량 ??, value: '4,192?�', icon: Battery, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
-    { label: '?�감 ?�소(today)', value: '18.4 ton', icon: Globe, color: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20' },
+    { label: '참여 차량 수', value: '4,192대', icon: Battery, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+    { label: '절감 탄소(today)', value: '18.4 ton', icon: Globe, color: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20' },
 ];
 
 export default function V2GMarketPage() {
@@ -55,14 +55,14 @@ export default function V2GMarketPage() {
                             </span>
                         </div>
                         <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-none mb-6">
-                            ??차�?
+                            내 차가
                             <span className="block italic text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-blue-400">
-                                발전?��? ?�다.
+                                발전소가 된다.
                             </span>
                         </h1>
                         <p className="text-xl text-slate-400 max-w-2xl leading-relaxed">
-                            차량 배터리�? 그리?�에 방전?�고 ?�시�?OZP 보상??받으?�요.
-                            ?�마???��?줄러�?충전 비용??최소?�합?�다.
+                            차량 배터리를 그리드에 방전하고 실시간 OZP 보상을 받으세요.
+                            스마트 스케줄러로 충전 비용을 최소화합니다.
                         </p>
 
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
@@ -118,16 +118,16 @@ export default function V2GMarketPage() {
                     <div>
                         <div className="flex items-center gap-2 mb-2">
                             <Zap size={16} className="text-yellow-400" />
-                            <span className="text-xs font-black uppercase tracking-widest text-yellow-400">그리??기여 ?�작</span>
+                            <span className="text-xs font-black uppercase tracking-widest text-yellow-400">그리드 기여 시작</span>
                         </div>
-                        <h3 className="text-2xl font-black text-white">방전 참여�?OZP 보상 받기</h3>
-                        <p className="text-slate-400 mt-1">OBD ?�결 ??V2G 참여 ?�정??가?�합?�다.</p>
+                        <h3 className="text-2xl font-black text-white">방전 참여로 OZP 보상 받기</h3>
+                        <p className="text-slate-400 mt-1">OBD 연결 후 V2G 참여 설정이 가능합니다.</p>
                     </div>
                     <a
                         href="/vehicle/obd-bridge"
                         className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-black font-black uppercase tracking-widest text-xs py-4 px-8 rounded-2xl transition-all shrink-0"
                     >
-                        OBD ?�결?�기 <ArrowRight size={16} />
+                        OBD 연결하기 <ArrowRight size={16} />
                     </a>
                 </div>
             </div>

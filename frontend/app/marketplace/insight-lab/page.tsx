@@ -25,7 +25,7 @@ export default function InsightLabPage() {
                             Insight Lab
                         </h1>
                         <p className="text-slate-400 max-w-2xl text-sm leading-relaxed">
-                            방�???차량 ?�이???�이?�에 기반?�여 ?�로??B2B 가치�? 창출?�는 ?�즈카의 ?�뇌. ?�직 검증된 ?�운?�들만이 ?�근 가?�한 ?�라?�빗 ?�구?�입?�다.
+                            방대한 차량 데이터 레이크에 기반하여 새로운 B2B 가치를 창출하는 오즈카의 두뇌. 오직 검증된 파운더들만이 접근 가능한 프라이빗 연구소입니다.
                         </p>
                     </div>
                     
@@ -48,10 +48,11 @@ export default function InsightLabPage() {
                 {!hasInsightPass ? (
                     <div className="flex flex-col items-center justify-center py-20 text-center">
                         <Lock size={64} className="text-slate-700 mb-6" />
-                        <h2 className="text-2xl font-bold text-white mb-2">?�사?�트 ???�근 권한???�습?�다</h2>
-                        <p className="text-slate-400 max-w-md">?�위 1% 마스???�급 ?�운??�?OZC ?�테?�킹 조건??충족?�여 Insight Pass NFT�?발급받으?�요.</p>
+                        <h2 className="text-2xl font-bold text-white mb-2">인사이트 랩 접근 권한이 없습니다</h2>
+                        <p className="text-slate-400 max-w-md">상위 1% 마스터 등급 파운더 및 OZC 스테이킹 조건을 충족하여 Insight Pass NFT를 발급받으세요.</p>
                         <button onClick={() => setHasInsightPass(true)} className="mt-8 px-6 py-2 border border-slate-700 rounded-full text-xs text-slate-400 hover:text-white hover:border-slate-500">
-                            [?�모?? 권한 ?�성???�스??                        </button>
+                            [데모용] 권한 활성화 테스트
+                        </button>
                     </div>
                 ) : (
                     <>
@@ -71,21 +72,21 @@ export default function InsightLabPage() {
                                         <div className="p-3 bg-blue-500/10 text-blue-400 rounded-xl"><Battery size={24} /></div>
                                         <span className="text-[10px] font-bold px-2 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-md">LIVE (B-aaS)</span>
                                     </div>
-                                    <h3 className="text-lg font-bold text-white mb-2">?�생??주기 배터�??�명 진단</h3>
+                                    <h3 className="text-lg font-bold text-white mb-2">전생애 주기 배터리 수명 진단</h3>
                                     <p className="text-xs text-slate-400 mb-6 flex-1">
-                                        AI가 ?�집???�기�??�압/?�류 ?�이?��? 기반?�로 ?�후?�에 ?�른 가�??�정 ?��? ?�계 �??�고리즘 ?�이?�싱.
+                                        AI가 수집한 전기차 전압/전류 데이터를 기반으로 노후화에 따른 가치 산정 표준 설계 및 알고리즘 라이선싱.
                                     </p>
                                     <div className="space-y-4 border-t border-white/10 pt-4 mt-auto">
                                         <div className="flex justify-between text-xs">
-                                            <span className="text-slate-500">?��?기업</span>
-                                            <span className="font-bold">EV ?�조?? ?�배?�리 기업</span>
+                                            <span className="text-slate-500">타겟 기업</span>
+                                            <span className="font-bold">EV 제조사, 폐배터리 기업</span>
                                         </div>
                                         <div className="flex justify-between text-xs">
-                                            <span className="text-slate-500">?�적 ?�이?�스 ?�익</span>
+                                            <span className="text-slate-500">누적 라이선스 수익</span>
                                             <span className="font-bold text-emerald-400">$142,500</span>
                                         </div>
                                         <button className="w-full py-2 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-bold transition-colors flex justify-center items-center gap-1 group-hover:text-purple-400">
-                                            ?�로?�트 참여?�기 <ChevronRight size={14} />
+                                            프로젝트 참여하기 <ChevronRight size={14} />
                                         </button>
                                     </div>
                                 </motion.div>
@@ -96,21 +97,21 @@ export default function InsightLabPage() {
                                         <div className="p-3 bg-amber-500/10 text-amber-400 rounded-xl"><Target size={24} /></div>
                                         <span className="text-[10px] font-bold px-2 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-md">BETA (SaaS)</span>
                                     </div>
-                                    <h3 className="text-lg font-bold text-white mb-2">?�이??로컬 ?�비 ?�요 ?�측</h3>
+                                    <h3 className="text-lg font-bold text-white mb-2">하이퍼-로컬 정비 수요 예측</h3>
                                     <p className="text-xs text-slate-400 mb-6 flex-1">
-                                        ?�정 지??�� 차량 부???�모 ?�턴??분석?�여 부???�조??�??�통?�에 최적???�고 관�??�략 컨설???�이???�공.
+                                        특정 지역의 차량 부품 소모 패턴을 분석하여 부품 제조사 및 유통사에 최적의 재고 관리 전략 컨설팅 데이터 제공.
                                     </p>
                                     <div className="space-y-4 border-t border-white/10 pt-4 mt-auto">
                                         <div className="flex justify-between text-xs">
-                                            <span className="text-slate-500">?��?기업</span>
-                                            <span className="font-bold">?�동�?부???�통�?/span>
+                                            <span className="text-slate-500">타겟 기업</span>
+                                            <span className="font-bold">자동차 부품 유통망</span>
                                         </div>
                                         <div className="flex justify-between text-xs">
-                                            <span className="text-slate-500">?�적 구독 ?�익</span>
+                                            <span className="text-slate-500">누적 구독 수익</span>
                                             <span className="font-bold text-emerald-400">$48,200</span>
                                         </div>
                                         <button className="w-full py-2 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-bold transition-colors flex justify-center items-center gap-1 group-hover:text-purple-400">
-                                            ?�로?�트 참여?�기 <ChevronRight size={14} />
+                                            프로젝트 참여하기 <ChevronRight size={14} />
                                         </button>
                                     </div>
                                 </motion.div>
@@ -121,21 +122,21 @@ export default function InsightLabPage() {
                                         <div className="p-3 bg-rose-500/10 text-rose-400 rounded-xl"><CarFront size={24} /></div>
                                         <span className="text-[10px] font-bold px-2 py-1 bg-slate-500/10 text-slate-400 border border-slate-500/20 rounded-md">PLANNING</span>
                                     </div>
-                                    <h3 className="text-lg font-bold text-white mb-2">?�율주행 '?��? ?�나리오' ??/h3>
+                                    <h3 className="text-lg font-bold text-white mb-2">자율주행 '엣지 시나리오' 셋</h3>
                                     <p className="text-xs text-slate-400 mb-6 flex-1">
-                                        ?�고 직전???�이 주행 ?�턴, ?�한�???�� ??극한 ?�경???�시 ?�이?��? ?�별?�여 ?�율주행 ?�습??고단가 ?�이?�셋 가�?
+                                        사고 직전의 특이 주행 패턴, 혹한기/폭우 등 극한 환경의 원시 데이터를 선별하여 자율주행 학습용 고단가 데이터셋 가공.
                                     </p>
                                     <div className="space-y-4 border-t border-white/10 pt-4 mt-auto">
                                         <div className="flex justify-between text-xs">
-                                            <span className="text-slate-500">?��?기업</span>
-                                            <span className="font-bold">글로벌 ?�율주행 ?�구??/span>
+                                            <span className="text-slate-500">타겟 기업</span>
+                                            <span className="font-bold">글로벌 자율주행 연구소</span>
                                         </div>
                                         <div className="flex justify-between text-xs">
-                                            <span className="text-slate-500">?�상 ?��?</span>
+                                            <span className="text-slate-500">예상 단가</span>
                                             <span className="font-bold text-blue-400">$10,000 / Set</span>
                                         </div>
                                         <button className="w-full py-2 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-bold transition-colors flex justify-center items-center gap-1 group-hover:text-purple-400">
-                                            ?�로?�트 참여?�기 <ChevronRight size={14} />
+                                            프로젝트 참여하기 <ChevronRight size={14} />
                                         </button>
                                     </div>
                                 </motion.div>
@@ -152,24 +153,24 @@ export default function InsightLabPage() {
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
                                 <div className="bg-black/50 border border-white/10 p-6 rounded-3xl">
-                                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">?�이???�운???�익</div>
+                                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">데이터 파운더 수익</div>
                                     <div className="text-3xl font-black text-purple-400 italic mb-2">50%</div>
-                                    <p className="text-xs text-slate-400">비즈?�스 모델 ?�계 �?가�?참여??직접 배당 (USDC 즉시 ?�산)</p>
+                                    <p className="text-xs text-slate-400">비즈니스 모델 설계 및 가공 참여자 직접 배당 (USDC 즉시 정산)</p>
                                 </div>
                                 <div className="bg-black/50 border border-white/10 p-6 rounded-3xl">
-                                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">?�리지???�운??로열??/div>
+                                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">오리지널 파운더 로열티</div>
                                     <div className="text-3xl font-black text-blue-400 italic mb-2">20%</div>
-                                    <p className="text-xs text-slate-400">?�이???�프?��? 구축???�랫??초기 기여??배분</p>
+                                    <p className="text-xs text-slate-400">데이터 인프라를 구축한 플랫폼 초기 기여자 배분</p>
                                 </div>
                                 <div className="bg-black/50 border border-white/10 p-6 rounded-3xl">
                                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">메인 DAO Treasury</div>
                                     <div className="text-3xl font-black text-emerald-400 italic mb-2">20%</div>
-                                    <p className="text-xs text-slate-400">?�체 ?�태�??�프???�장???�한 ?�투???�원 귀??/p>
+                                    <p className="text-xs text-slate-400">전체 생태계 인프라 확장을 위한 재투자 재원 귀속</p>
                                 </div>
                                 <div className="bg-black/50 border border-white/10 p-6 rounded-3xl">
-                                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">OZC ?�큰 ?�각</div>
+                                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">OZC 토큰 소각</div>
                                     <div className="text-3xl font-black text-rose-400 italic mb-2">10%</div>
-                                    <p className="text-xs text-slate-400">?�큰 가�??�승???�한 ?�장가 매수 ???�동 ?�각 집행</p>
+                                    <p className="text-xs text-slate-400">토큰 가치 상승을 위한 시장가 매수 후 자동 소각 집행</p>
                                 </div>
                             </div>
                         </div>
