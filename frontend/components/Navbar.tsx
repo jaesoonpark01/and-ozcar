@@ -414,7 +414,7 @@ export default function Navbar() {
                             <Link href="/" className="p-3 text-slate-400 hover:text-white transition-colors" onClick={() => setIsBottomNavVisible(false)}>
                                 <Globe size={20} />
                             </Link>
-                            <Link href="/sentinel" className="p-4 bg-blue-600 text-white rounded-full shadow-lg shadow-blue-900/40 -translate-y-2 hover:scale-105 transition-transform" onClick={() => setIsBottomNavVisible(false)}>
+                            <Link href="/my-garage/sentinel" className="p-4 bg-blue-600 text-white rounded-full shadow-lg shadow-blue-900/40 -translate-y-2 hover:scale-105 transition-transform" onClick={() => setIsBottomNavVisible(false)}>
                                 <Activity size={24} />
                             </Link>
                             <Link href="/dashboard" className="p-3 text-slate-400 hover:text-white transition-colors" onClick={() => setIsBottomNavVisible(false)}>
