@@ -152,9 +152,9 @@ export default function AgenticCoDriverPage() {
                                             지식 그래프(Graph RAG) 분석 결과입니다. 
                                         </p>
                                         <div className="bg-black/50 p-3 rounded-lg border border-slate-700 text-xs text-slate-400 font-mono leading-relaxed">
-                                            > 2월 18일 강원도 주행 중 G-Sensor 3.2G 충격 감지 (Kinetic)<br/>
-                                            > 이후 우측 전륜 속도 센서와 GPS 속도 간 미세 오차 발생 (Semantic)<br/>
-                                            > 조향각 틀어짐으로 인한 타이어 마찰 저항 증가로 연비 하락 판정 (Dynamic)
+                                            &gt; 2월 18일 강원도 주행 중 G-Sensor 3.2G 충격 감지 (Kinetic)<br/>
+                                            &gt; 이후 우측 전륜 속도 센서와 GPS 속도 간 미세 오차 발생 (Semantic)<br/>
+                                            &gt; 조향각 틀어짐으로 인한 타이어 마찰 저항 증가로 연비 하락 판정 (Dynamic)
                                         </div>
                                         <p className="text-sm leading-relaxed text-slate-200">
                                             단순 에러 코드가 아닌 물리적 충격에 의한 **휠 얼라인먼트 불균형**이 근본 원인입니다. 방치 시 한 달 내 약 $45의 유류비 손실이 예상됩니다.
