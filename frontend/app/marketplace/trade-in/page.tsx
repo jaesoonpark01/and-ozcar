@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import MarketplaceLayout from '../../components/layout/MarketplaceLayout'
+
 import { Landmark, ArrowRight, ShieldCheck, Percent, Wallet, Info } from 'lucide-react'
 import Link from 'next/link'
 
@@ -18,7 +18,7 @@ export default function TradeInPage() {
     }
 
     return (
-        <MarketplaceLayout>
+        <>
             <div className="max-w-4xl mx-auto">
                 <div className="mb-12 text-center">
                     <div className="inline-flex items-center gap-2 bg-blue-50 text-[#0052FF] px-4 py-2 rounded-full text-xs font-black uppercase mb-6 tracking-widest border border-blue-100">
@@ -38,7 +38,7 @@ export default function TradeInPage() {
                                 <div>
                                     <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-6">Trade-in Vehicle</h3>
                                     <div className="flex items-center gap-4 p-6 bg-slate-50 rounded-[2rem] border border-slate-100">
-                                        <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center text-white text-2xl">ðŸš™</div>
+                                        <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center text-white text-2xl">?š™</div>
                                         <div>
                                             <h4 className="font-black text-slate-900">Tesla Model 3</h4>
                                             <p className="text-[10px] text-slate-500 font-bold uppercase">VIN: OZCAR-KR-1234567</p>
@@ -62,7 +62,7 @@ export default function TradeInPage() {
                                 <div className="space-y-4">
                                     <div className="flex justify-between items-center py-4 border-b border-slate-50">
                                         <span className="text-slate-500 font-medium">Appraised Equity</span>
-                                        <span className="font-black text-slate-900">â‚©45,200,000</span>
+                                        <span className="font-black text-slate-900">??5,200,000</span>
                                     </div>
                                     <div className="flex justify-between items-center py-4 border-b border-slate-50">
                                         <span className="text-slate-500 font-medium">Interest Rate (APR)</span>
@@ -73,7 +73,7 @@ export default function TradeInPage() {
                                     </div>
                                     <div className="flex justify-between items-center py-4 text-xl">
                                         <span className="font-black text-slate-900">Total Credit Line</span>
-                                        <span className="font-black text-[#0052FF]">â‚©1.2B MAX</span>
+                                        <span className="font-black text-[#0052FF]">??.2B MAX</span>
                                     </div>
                                 </div>
 
@@ -135,6 +135,6 @@ export default function TradeInPage() {
                     </div>
                 </div>
             </div>
-        </MarketplaceLayout>
+        </>
     )
 }

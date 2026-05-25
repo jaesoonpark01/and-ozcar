@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import MarketplaceLayout from '../../components/layout/MarketplaceLayout';
+
 import { useWeb3 } from '../../components/Web3Provider';
 import { ShieldCheck, Zap, Sparkles, Car, Cpu, Database } from 'lucide-react';
 import Link from 'next/link';
@@ -45,10 +45,10 @@ export default function SellPage() {
 
     if (status === 'SUCCESS') {
         return (
-            <MarketplaceLayout>
+            <>
                 <div className="max-w-3xl mx-auto text-center py-32 animate-in zoom-in-95 duration-700">
                     <div className="w-24 h-24 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center text-5xl mx-auto mb-10 shadow-xl shadow-emerald-500/20">
-                        ✨
+                        ??
                     </div>
                     <h1 className="text-6xl font-black text-slate-900 mb-6 tracking-tighter">{t('sell_success_title')}</h1>
                     <p className="text-xl text-slate-400 font-medium mb-12 max-w-lg mx-auto leading-relaxed">
@@ -66,12 +66,12 @@ export default function SellPage() {
                         </button>
                     </div>
                 </div>
-            </MarketplaceLayout>
+            </>
         );
     }
 
     return (
-        <MarketplaceLayout>
+        <>
             <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center py-10">
                 <div className="space-y-10">
                     <div>
@@ -162,6 +162,6 @@ export default function SellPage() {
                     <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#0052FF]/5 rounded-full blur-[60px] pointer-events-none" />
                 </div>
             </div>
-        </MarketplaceLayout>
+        </>
     );
 }

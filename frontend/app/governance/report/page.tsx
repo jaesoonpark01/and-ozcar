@@ -17,14 +17,14 @@ export default function GlobalInvestorReport() {
                             Q1 2026 Founder's Report
                         </div>
                         <h1 className="text-4xl md:text-5xl font-black italic tracking-tighter mb-2">Q1 Financial Performance</h1>
-                        <p className="text-slate-400 max-w-xl">오즈카 생태계의 분기별 자금 흐름과 성장을 투명하게 공시합니다. 다이아몬드, 플래티넘 파운더 전용 기밀 자료입니다.</p>
+                        <p className="text-slate-400 max-w-xl">?�즈�??�태계의 분기�??�금 ?�름�??�장???�명?�게 공시?�니?? ?�이?�몬?? ?�래?�넘 ?�운???�용 기�? ?�료?�니??</p>
                     </div>
                     <div className="flex gap-4">
                         <Button variant="outline" className="border-slate-700 hover:bg-slate-800 text-slate-300">
-                            <Download size={16} className="mr-2" /> PDF 저장
+                            <Download size={16} className="mr-2" /> PDF ?�??
                         </Button>
                         <Button className="bg-white text-black hover:bg-slate-200">
-                            <Share2 size={16} className="mr-2" /> 포트폴리오 요약 공유
+                            <Share2 size={16} className="mr-2" /> ?�트?�리???�약 공유
                         </Button>
                     </div>
                 </div>
@@ -70,23 +70,23 @@ export default function GlobalInvestorReport() {
 
                         <div className="space-y-6">
                             <div className="p-4 bg-black/40 rounded-2xl border border-slate-800">
-                                <h4 className="font-bold text-white mb-2 italic">1. 다목적 AI 데이터 파이프라인 개방</h4>
+                                <h4 className="font-bold text-white mb-2 italic">1. ?�목??AI ?�이???�이?�라??개방</h4>
                                 <p className="text-sm text-slate-400 leading-relaxed">
-                                    자율주행 R&D 연구소 및 보험사에 실시간 OBD-II + 블랙박스 Vision 데이터를 패키징하여 B2B 구독 모델로 제공. (예상 ARR 증가율: 120%)
+                                    ?�율주행 R&D ?�구??�?보험?�에 ?�시�?OBD-II + 블랙박스 Vision ?�이?��? ?�키징하??B2B 구독 모델�??�공. (?�상 ARR 증�??? 120%)
                                 </p>
                             </div>
 
                             <div className="p-4 bg-black/40 rounded-2xl border border-slate-800">
-                                <h4 className="font-bold text-white mb-2 italic">2. 글로벌 노드 확장 수수료</h4>
+                                <h4 className="font-bold text-white mb-2 italic">2. 글로벌 ?�드 ?�장 ?�수�?/h4>
                                 <p className="text-sm text-slate-400 leading-relaxed">
-                                    2026년 하반기 동남아시아(베트남, 인도네시아) 진출. 해당 권역에서 발생하는 OZC 트랜잭션 수수료의 10%를 Genesis 파운더 금고로 영구 편입.
+                                    2026???�반�??�남?�시??베트?? ?�도?�시?? 진출. ?�당 권역?�서 발생?�는 OZC ?�랜??�� ?�수료의 10%�?Genesis ?�운??금고�??�구 ?�입.
                                 </p>
                             </div>
 
                             <div className="p-4 bg-black/40 rounded-2xl border border-slate-800">
-                                <h4 className="font-bold text-white mb-2 italic">3. Sovereign NFT 마켓플레이스 활성화</h4>
+                                <h4 className="font-bold text-white mb-2 italic">3. Sovereign NFT 마켓?�레?�스 ?�성??/h4>
                                 <p className="text-sm text-slate-400 leading-relaxed">
-                                    에이징된 데이터 가치(플래티넘, 다이아몬드 등급) 차량의 NFT 거래 시 발생하는 로열티 풀을 거버넌스 투표를 통해 홀더들에게 에어드랍.
+                                    ?�이징된 ?�이??가�??�래?�넘, ?�이?�몬???�급) 차량??NFT 거래 ??발생?�는 로열???�??거버?�스 ?�표�??�해 ?�?�들?�게 ?�어?�랍.
                                 </p>
                             </div>
                         </div>

@@ -25,7 +25,7 @@ export default function DataMonetizationPage() {
                             Data Monetization
                         </h1>
                         <p className="text-slate-400 max-w-2xl text-sm md:text-base">
-                            영지식 증명(ZKP) 기반으로 안전하게 차량 데이터를 익명화하여 제공하고, 실시간 조회 수수료를 OZC 토큰으로 배당받으세요.
+                            ?��???증명(ZKP) 기반?�로 ?�전?�게 차량 ?�이?��? ?�명?�하???�공?�고, ?�시�?조회 ?�수료�? OZC ?�큰?�로 배당받으?�요.
                         </p>
                     </div>
                 </div>
@@ -49,10 +49,10 @@ export default function DataMonetizationPage() {
                                     <div className={`p-3 rounded-xl ${isSellingEnabled ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-slate-400'}`}>
                                         {isSellingEnabled ? <Unlock size={24} /> : <Lock size={24} />}
                                     </div>
-                                    <h2 className="text-2xl font-bold text-white">데이터 판매 승인</h2>
+                                    <h2 className="text-2xl font-bold text-white">?�이???�매 ?�인</h2>
                                 </div>
                                 <p className="text-slate-400 text-sm">
-                                    활성화 시, 중고차 딜러 및 보험사가 귀하의 차량 데이터를 익명 조회할 수 있으며, 조회 건당 로열티(OZC)가 즉시 지급됩니다.
+                                    ?�성???? 중고�??�러 �?보험?��? 귀?�의 차량 ?�이?��? ?�명 조회?????�으�? 조회 건당 로열??OZC)가 즉시 지급됩?�다.
                                 </p>
                             </div>
                             {/* Toggle Switch */}
@@ -70,13 +70,13 @@ export default function DataMonetizationPage() {
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="p-4 rounded-2xl bg-black/40 border border-white/5">
-                                <div className="text-sm text-slate-400 mb-1">총 누적 수익</div>
+                                <div className="text-sm text-slate-400 mb-1">�??�적 ?�익</div>
                                 <div className="text-3xl font-black text-emerald-400 italic">
                                     {ozcEarned.toLocaleString()} <span className="text-lg text-emerald-600">OZC</span>
                                 </div>
                             </div>
                             <div className="p-4 rounded-2xl bg-black/40 border border-white/5">
-                                <div className="text-sm text-slate-400 mb-1">데이터 조회 횟수</div>
+                                <div className="text-sm text-slate-400 mb-1">?�이??조회 ?�수</div>
                                 <div className="text-3xl font-black text-white italic">
                                     {queriesCount} <span className="text-lg text-slate-500">Hits</span>
                                 </div>
@@ -92,8 +92,8 @@ export default function DataMonetizationPage() {
                         className="col-span-1 p-8 rounded-3xl bg-blue-900/10 border border-blue-500/20 flex flex-col gap-6"
                     >
                         <div>
-                            <h2 className="text-xl font-bold text-white mb-2">내 데이터 가치 평가</h2>
-                            <p className="text-slate-400 text-sm">현재 제공 중인 데이터의 희소성과 무결성 등급입니다.</p>
+                            <h2 className="text-xl font-bold text-white mb-2">???�이??가�??��?</h2>
+                            <p className="text-slate-400 text-sm">?�재 ?�공 중인 ?�이?�의 ?�소?�과 무결???�급?�니??</p>
                         </div>
 
                         <div className="space-y-4">
@@ -102,7 +102,7 @@ export default function DataMonetizationPage() {
                                     <ShieldCheck className="text-blue-400" size={20} />
                                     <div>
                                         <div className="font-bold text-sm">NXP S32K3 보증</div>
-                                        <div className="text-xs text-slate-400">하드웨어 무결성 서명됨</div>
+                                        <div className="text-xs text-slate-400">?�드?�어 무결???�명??/div>
                                     </div>
                                 </div>
                                 <div className="text-xs font-black text-blue-400 bg-blue-500/20 px-2 py-1 rounded">x1.5 가중치</div>
@@ -112,18 +112,18 @@ export default function DataMonetizationPage() {
                                 <div className="flex items-center gap-3">
                                     <Activity className="text-amber-400" size={20} />
                                     <div>
-                                        <div className="font-bold text-sm">프리미엄 쿼리 대상</div>
-                                        <div className="text-xs text-slate-400">정밀 SOH 배터리 로그 포함</div>
+                                        <div className="font-bold text-sm">?�리미엄 쿼리 ?�??/div>
+                                        <div className="text-xs text-slate-400">?��? SOH 배터�?로그 ?�함</div>
                                     </div>
                                 </div>
-                                <div className="text-xs font-black text-amber-400 bg-amber-500/20 px-2 py-1 rounded">고단가 판매</div>
+                                <div className="text-xs font-black text-amber-400 bg-amber-500/20 px-2 py-1 rounded">고단가 ?�매</div>
                             </div>
                         </div>
 
                         <div className="mt-auto pt-4 border-t border-white/10">
                             <div className="flex justify-between items-center text-sm">
-                                <span className="text-slate-400">예상 1회 조회 수익</span>
-                                <span className="font-bold text-white">~$3.50 (OZC 환산)</span>
+                                <span className="text-slate-400">?�상 1??조회 ?�익</span>
+                                <span className="font-bold text-white">~$3.50 (OZC ?�산)</span>
                             </div>
                         </div>
                     </motion.div>
@@ -131,13 +131,13 @@ export default function DataMonetizationPage() {
 
                 {/* Revenue Structure Information */}
                 <div className="mt-12">
-                    <h3 className="text-lg font-bold text-white mb-6 uppercase tracking-widest border-b border-white/10 pb-2">수익 배분 구조 (Revenue Sharing)</h3>
+                    <h3 className="text-lg font-bold text-white mb-6 uppercase tracking-widest border-b border-white/10 pb-2">?�익 배분 구조 (Revenue Sharing)</h3>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         {[
-                            { label: "차주 보상 (Data Owner)", percent: "50%", desc: "데이터 제공 동의에 대한 실시간 로열티 지급", color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
-                            { label: "정비사 보상 (Mechanic)", percent: "15%", desc: "데이터를 최초에 마이닝하고 보증한 마스터 정비사 지급", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
-                            { label: "플랫폼 운영비 (Platform)", percent: "20%", desc: "데이터 큐레이션, 서버, API 게이트웨이 유지비", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
-                            { label: "생태계 소각 (Token Burn)", percent: "15%", desc: "OZC 토큰 가치 방어 및 생태계 선순환을 위한 자동 소각", color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
+                            { label: "차주 보상 (Data Owner)", percent: "50%", desc: "?�이???�공 ?�의???�???�시�?로열??지�?, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
+                            { label: "?�비??보상 (Mechanic)", percent: "15%", desc: "?�이?��? 최초??마이?�하�?보증??마스???�비??지�?, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
+                            { label: "?�랫???�영�?(Platform)", percent: "20%", desc: "?�이???�레?�션, ?�버, API 게이?�웨???��?�?, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
+                            { label: "?�태�??�각 (Token Burn)", percent: "15%", desc: "OZC ?�큰 가�?방어 �??�태�??�순?�을 ?�한 ?�동 ?�각", color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
                         ].map((item, idx) => (
                             <div key={idx} className={`p-5 rounded-2xl border ${item.bg} ${item.border}`}>
                                 <div className={`text-2xl font-black italic mb-2 ${item.color}`}>{item.percent}</div>

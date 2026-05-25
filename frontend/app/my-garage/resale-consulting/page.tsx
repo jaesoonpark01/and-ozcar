@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import MarketplaceLayout from '../../../components/layout/MarketplaceLayout'
+
 import { TrendingUp, Calendar, Target, ArrowRight, ShieldCheck, Zap } from 'lucide-react'
 import Link from 'next/link'
 
@@ -14,7 +14,7 @@ export default function ResaleConsultingPage() {
     ]
 
     return (
-        <MarketplaceLayout>
+        <>
             <div className="mb-12">
                 <Link href="/my-garage" className="text-slate-400 hover:text-slate-600 font-bold text-sm flex items-center gap-2 mb-4 group">
                     <ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
@@ -40,7 +40,7 @@ export default function ResaleConsultingPage() {
                                 Market Peak Detected:<br />February - May 2026
                             </h2>
                             <p className="text-blue-100 text-lg font-medium max-w-lg mb-8">
-                                Your vehicle has reached its maximum trust premium. Selling now could yield ₩2,100,000 more than regional averages.
+                                Your vehicle has reached its maximum trust premium. Selling now could yield ??,100,000 more than regional averages.
                             </p>
                             <div className="flex gap-4">
                                 <Link href="/my-garage" className="bg-white text-[#0052FF] px-8 py-4 rounded-2xl font-black text-sm hover:scale-105 transition-all shadow-xl">
@@ -68,7 +68,7 @@ export default function ResaleConsultingPage() {
                                         style={{ height: `${(item.value / 4520) * 100}%` }}
                                     >
                                         <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <span className="bg-slate-900 text-white px-3 py-1 rounded-lg text-xs font-bold">₩{item.value}만</span>
+                                            <span className="bg-slate-900 text-white px-3 py-1 rounded-lg text-xs font-bold">??item.value}�?/span>
                                         </div>
                                     </div>
                                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">{item.date}</span>
@@ -88,7 +88,7 @@ export default function ResaleConsultingPage() {
                         <div className="space-y-6">
                             <div className="flex justify-between items-center">
                                 <span className="text-sm font-bold text-slate-600">Defense Bonus</span>
-                                <span className="text-lg font-black text-emerald-500">+₩185만</span>
+                                <span className="text-lg font-black text-emerald-500">+??85�?/span>
                             </div>
                             <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                                 <div className="w-3/4 h-full bg-emerald-500" />
@@ -122,6 +122,6 @@ export default function ResaleConsultingPage() {
                     </div>
                 </div>
             </div>
-        </MarketplaceLayout>
+        </>
     )
 }

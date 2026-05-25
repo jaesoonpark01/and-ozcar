@@ -54,7 +54,7 @@ export default function VehicleDetailPage() {
     }, [vehicle.vin]);
 
     return (
-        <MarketplaceLayout>
+        <>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 pb-20">
                 {/* Left: Enhanced Visuals & Spec Grid */}
                 <div className="space-y-10">
@@ -259,7 +259,7 @@ export default function VehicleDetailPage() {
                     </div>
                 </div>
             </div>
-        </MarketplaceLayout>
+        </>
     );
 }
 

@@ -19,12 +19,12 @@ export default function JuryDashboard() {
                             <ShieldAlert className="text-red-500" size={24} />
                             <h1 className="text-2xl font-black italic tracking-tight">Case #OZ-2026-0301-77</h1>
                         </div>
-                        <p className="text-slate-400">대상 차량: <span className="text-white font-bold">Tesla Model 3 (Sovereign Diamond Edition)</span></p>
+                        <p className="text-slate-400">?�??차량: <span className="text-white font-bold">Tesla Model 3 (Sovereign Diamond Edition)</span></p>
                     </div>
                     <div className="mt-4 md:mt-0 text-right">
-                        <div className="text-sm font-bold text-red-400 uppercase tracking-widest animate-pulse">투표 마감 임박</div>
+                        <div className="text-sm font-bold text-red-400 uppercase tracking-widest animate-pulse">?�표 마감 ?�박</div>
                         <div className="text-3xl font-black font-mono">23:45:12</div>
-                        <div className="text-xs text-[#00FFC2] mt-1">판결 보상: 50 OZC 예정</div>
+                        <div className="text-xs text-[#00FFC2] mt-1">?�결 보상: 50 OZC ?�정</div>
                     </div>
                 </div>
 
@@ -54,16 +54,16 @@ export default function JuryDashboard() {
                                 </div>
                                 <div className="flex justify-between text-[10px] text-slate-500">
                                     <span>12:05:01</span>
-                                    <span className="text-red-400">격차 149초 지속구간</span>
+                                    <span className="text-red-400">격차 149�?지?�구�?/span>
                                     <span>12:07:30</span>
                                 </div>
                             </div>
 
                             <div className="p-4 bg-red-900/10 border-l-4 border-red-500 rounded-r-xl">
                                 <p className="text-sm text-red-200">
-                                    "물리적 이동 데이터와 휠 회전 데이터가 일치하지 않음. типич(전형적)인 GPS 시뮬레이션(Spoofing) 패턴으로 분석됨."
+                                    "물리???�동 ?�이?��? ???�전 ?�이?��? ?�치?��? ?�음. ?ипи?(?�형????GPS ?��??�이??Spoofing) ?�턴?�로 분석??"
                                 </p>
-                                <div className="mt-3 text-xs font-bold text-red-400">Anomaly Score (신뢰도): 98% (매우 높음)</div>
+                                <div className="mt-3 text-xs font-bold text-red-400">Anomaly Score (?�뢰??: 98% (매우 ?�음)</div>
                             </div>
                         </div>
                     </div>
@@ -87,9 +87,9 @@ export default function JuryDashboard() {
 
                             <div className="p-4 bg-orange-900/20 border-l-4 border-orange-500 rounded-r-xl mt-4">
                                 <p className="text-sm text-orange-200">
-                                    "터널 진입 후 GPS 신호 튐 현상 발생. 실제로는 주행 중이었으나 OBD 데이터 전송 오류 가능성 있음. T맵 기록도 첨부합니다."
+                                    "?�널 진입 ??GPS ?�호 ???�상 발생. ?�제로는 주행 중이?�으??OBD ?�이???�송 ?�류 가?�성 ?�음. T�?기록??첨�??�니??"
                                 </p>
-                                <button className="mt-2 text-xs font-bold text-orange-400 hover:underline">T-Map 주행기록 보조 로그.jpg (첨부 1)</button>
+                                <button className="mt-2 text-xs font-bold text-orange-400 hover:underline">T-Map 주행기록 보조 로그.jpg (첨�? 1)</button>
                             </div>
                         </div>
                     </div>
@@ -98,30 +98,30 @@ export default function JuryDashboard() {
                 {/* Action Panel & AI Agent Aid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div className="lg:col-span-2">
-                        <h3 className="text-slate-400 font-bold uppercase tracking-widest text-sm mb-4">Verdict Panel (판결)</h3>
+                        <h3 className="text-slate-400 font-bold uppercase tracking-widest text-sm mb-4">Verdict Panel (?�결)</h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
                             <Button onClick={() => setVoted("innocent")} disabled={voted !== null} className={`h-full flex flex-col items-center justify-center gap-4 p-6 rounded-2xl border-2 transition-all ${voted === "innocent" ? "bg-emerald-500/20 border-emerald-500" : "bg-black/50 border-emerald-900/30 hover:border-emerald-500"}`}>
                                 <ShieldCheck size={36} className="text-emerald-400" />
                                 <div className="text-center">
-                                    <div className="font-black text-emerald-400 italic text-lg leading-none mb-1">정상 주행</div>
-                                    <div className="text-[10px] text-slate-400 leading-tight">Dismiss Case<br />(동결 해제 및 복구)</div>
+                                    <div className="font-black text-emerald-400 italic text-lg leading-none mb-1">?�상 주행</div>
+                                    <div className="text-[10px] text-slate-400 leading-tight">Dismiss Case<br />(?�결 ?�제 �?복구)</div>
                                 </div>
                             </Button>
 
                             <Button onClick={() => setVoted("guilty")} disabled={voted !== null} className={`h-full flex flex-col items-center justify-center gap-4 p-6 rounded-2xl border-2 transition-all ${voted === "guilty" ? "bg-red-500/20 border-red-500" : "bg-black/50 border-red-900/30 hover:border-red-500"}`}>
                                 <Crosshair size={36} className="text-red-500" />
                                 <div className="text-center">
-                                    <div className="font-black text-red-500 italic text-lg leading-none mb-1">부정 징후</div>
-                                    <div className="text-[10px] text-slate-400 leading-tight">Uphold Penalty<br />(리워드 소각 및 패널티)</div>
+                                    <div className="font-black text-red-500 italic text-lg leading-none mb-1">부??징후</div>
+                                    <div className="text-[10px] text-slate-400 leading-tight">Uphold Penalty<br />(리워???�각 �??�널??</div>
                                 </div>
                             </Button>
 
                             <Button onClick={() => setVoted("inconclusive")} disabled={voted !== null} className={`h-full flex flex-col items-center justify-center gap-4 p-6 rounded-2xl border-2 transition-all ${voted === "inconclusive" ? "bg-amber-500/20 border-amber-500" : "bg-black/50 border-amber-900/30 hover:border-amber-500"}`}>
                                 <AlertTriangle size={36} className="text-amber-500" />
                                 <div className="text-center">
-                                    <div className="font-black text-amber-500 italic text-lg leading-none mb-1">증거 부족</div>
-                                    <div className="text-[10px] text-slate-400 leading-tight">Inconclusive<br />(재심사 요청)</div>
+                                    <div className="font-black text-amber-500 italic text-lg leading-none mb-1">증거 부�?/div>
+                                    <div className="text-[10px] text-slate-400 leading-tight">Inconclusive<br />(?�심???�청)</div>
                                 </div>
                             </Button>
 
@@ -130,7 +130,7 @@ export default function JuryDashboard() {
                         <AnimatePresence>
                             {voted && (
                                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="mt-4 p-4 bg-emerald-900/20 text-emerald-400 border border-emerald-500/30 rounded-xl font-bold flex items-center justify-between">
-                                    <span>투표가 암호화되어 블록체인에 전송되었습니다. (Commit 완료)</span>
+                                    <span>?�표가 ?�호?�되??블록체인???�송?�었?�니?? (Commit ?�료)</span>
                                     <Check size={20} />
                                 </motion.div>
                             )}
@@ -142,8 +142,8 @@ export default function JuryDashboard() {
                             <BrainCircuit size={16} /> Jury AI Aid
                         </h3>
                         <p className="text-xs text-blue-200 leading-relaxed font-mono">
-                            "배심원님, 제출된 블랙박스 영상 속 속도계는 움직이고 있으나 STN2120 OBD 데이터는 0을 가리킵니다. 이는 '동글 접촉 불량'이거나 '고의적 차단' 중 하나입니다.<br /><br />
-                            과거 이 유저의 [정비 이력]을 분석한 결과 동글 교체나 관련 수리 기록이 전혀 존재하지 않습니다. 장비 불량보다는 인위적 훼손 가능성에 주의 깊게 살펴주세요."
+                            "배심?�님, ?�출??블랙박스 ?�상 ???�도계는 ?�직이�??�으??STN2120 OBD ?�이?�는 0??가리킵?�다. ?�는 '?��? ?�촉 불량'?�거??'고의??차단' �??�나?�니??<br /><br />
+                            과거 ???��???[?�비 ?�력]??분석??결과 ?��? 교체??관???�리 기록???��? 존재?��? ?�습?�다. ?�비 불량보다???�위???�손 가?�성??주의 깊게 ?�펴주세??"
                         </p>
                         <div className="mt-6 flex justify-between items-center px-4 py-2 bg-black/50 rounded-lg border border-slate-700 font-bold text-xs uppercase tracking-widest text-slate-400">
                             My Justice Score <span className="text-yellow-400 tabular-nums">1,240 PT</span>

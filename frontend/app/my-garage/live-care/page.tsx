@@ -24,7 +24,7 @@ export default function LiveCarePage() {
     setMissionActive(true);
     setTimeout(() => {
       setSafetyScore(prev => Math.min(100, prev + 5));
-      alert("🎉 자산 방어 미션 성공! 자산 온도 5도 상승!");
+      alert("?�� ?�산 방어 미션 ?�공! ?�산 ?�도 5???�승!");
       setMissionActive(false);
     }, 3000);
   };
@@ -36,12 +36,12 @@ export default function LiveCarePage() {
           <h1 className="text-3xl font-black text-white flex items-center gap-3">
             <Activity className="text-blue-500" /> Live-Care Asset Simulation
           </h1>
-          <p className="text-sm text-slate-500 mt-2">차량 데이터를 연동하여 미래 잔존 가치를 방어하세요.</p>
+          <p className="text-sm text-slate-500 mt-2">차량 ?�이?��? ?�동?�여 미래 ?�존 가치�? 방어?�세??</p>
         </div>
         <div className="text-right">
           <p className="text-xs text-blue-400 font-bold uppercase tracking-widest mb-1">Current Estimate</p>
           <h2 className="text-4xl font-black font-mono tracking-tighter">
-            ₩{(currentValue).toLocaleString()}
+            ??(currentValue).toLocaleString()}
           </h2>
         </div>
       </header>
@@ -77,16 +77,16 @@ export default function LiveCarePage() {
             </div>
 
             <p className="text-xs text-center text-slate-500">
-              현재 자산 유지 온도가 {safetyScore > 80 ? '아주 양호' : '주의 요망'} 수준입니다.<br/>
-              정비 지연 시 매월 가치가 하락합니다.
+              ?�재 ?�산 ?��? ?�도가 {safetyScore > 80 ? '?�주 ?�호' : '주의 ?�망'} ?��??�니??<br/>
+              ?�비 지????매월 가치�? ?�락?�니??
             </p>
           </div>
 
           {/* Gamified Mission Widget */}
           <div className="bg-gradient-to-br from-blue-900/30 to-indigo-900/10 p-6 rounded-3xl border border-blue-500/20">
             <h3 className="text-sm font-bold text-blue-400 mb-4 uppercase tracking-widest">Today's Mission</h3>
-            <p className="text-lg font-black text-white mb-2">퇴근길 급가속 제로(0)</p>
-            <p className="text-sm text-slate-400 mb-6">급가속을 줄여 엔진 스트레스를 낮추고 잔존 가치를 보호하세요.</p>
+            <p className="text-lg font-black text-white mb-2">?�근�?급�????�로(0)</p>
+            <p className="text-sm text-slate-400 mb-6">급�??�을 줄여 ?�진 ?�트?�스�???���??�존 가치�? 보호?�세??</p>
             
             <button 
               onClick={handleStartMission}
@@ -96,9 +96,9 @@ export default function LiveCarePage() {
               }`}
             >
               {missionActive ? (
-                <><Activity size={18} className="animate-spin" /> 주행 데이터 분석 중...</>
+                <><Activity size={18} className="animate-spin" /> 주행 ?�이??분석 �?..</>
               ) : (
-                <><CheckCircle size={18} /> 미션 시작하기</>
+                <><CheckCircle size={18} /> 미션 ?�작?�기</>
               )}
             </button>
           </div>
@@ -110,12 +110,12 @@ export default function LiveCarePage() {
             <div className="flex justify-between items-start mb-10">
               <div>
                 <h2 className="text-2xl font-black text-white mb-2">1 Year Value Forecast</h2>
-                <p className="text-sm text-slate-500">엔진오일 교환 시기에 따른 비교</p>
+                <p className="text-sm text-slate-500">?�진?�일 교환 ?�기???�른 비교</p>
               </div>
               <div className="text-right">
                 <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Simulated Future Value</p>
                 <h3 className="text-3xl font-black font-mono tracking-tighter text-blue-400">
-                  ₩{(simulatedValue).toLocaleString()}
+                  ??(simulatedValue).toLocaleString()}
                 </h3>
               </div>
             </div>
@@ -123,8 +123,8 @@ export default function LiveCarePage() {
             {/* Simple Graph Mockup */}
             <div className="flex-1 relative border-l border-b border-slate-800 mb-10 mx-4">
                {/* Y Axis labels */}
-               <div className="absolute -left-16 top-0 text-[10px] text-slate-600 font-mono">₩30M</div>
-               <div className="absolute -left-16 bottom-0 text-[10px] text-slate-600 font-mono">₩25M</div>
+               <div className="absolute -left-16 top-0 text-[10px] text-slate-600 font-mono">??0M</div>
+               <div className="absolute -left-16 bottom-0 text-[10px] text-slate-600 font-mono">??5M</div>
                
                {/* 'Bad' Scenario Line (No maintenance) */}
                <div className="absolute left-0 top-0 w-full h-full pointer-events-none">
@@ -133,7 +133,7 @@ export default function LiveCarePage() {
                  </svg>
                  {!hasMaintained && (
                    <div className="absolute right-0 bottom-[10%] -translate-y-[80%] bg-red-500/20 text-red-500 text-xs px-2 py-1 rounded font-bold border border-red-500/50 flex items-center gap-1">
-                     <TrendingDown size={12} /> 방치 (수명 저하)
+                     <TrendingDown size={12} /> 방치 (?�명 ?�??
                    </div>
                  )}
                </div>
@@ -145,7 +145,7 @@ export default function LiveCarePage() {
                  </svg>
                  {hasMaintained && (
                    <div className="absolute right-0 top-[20%] -translate-y-1/2 bg-blue-500/20 text-blue-400 text-xs px-2 py-1 rounded font-bold border border-blue-500/50 flex items-center gap-1">
-                     <TrendingUp size={12} /> 방어 성공
+                     <TrendingUp size={12} /> 방어 ?�공
                    </div>
                  )}
                </div>
@@ -155,16 +155,16 @@ export default function LiveCarePage() {
             <div className="mt-auto bg-black/40 p-6 rounded-2xl border border-white/5 flex items-center justify-between">
               <div>
                 <p className="text-sm font-bold text-white mb-1">
-                  {hasMaintained ? "✨ 정비가 완료되었습니다" : <><AlertCircle className="inline text-amber-500 w-4 h-4 mb-1" /> 엔진오일 교환 시기 도과</>}
+                  {hasMaintained ? "???�비가 ?�료?�었?�니?? : <><AlertCircle className="inline text-amber-500 w-4 h-4 mb-1" /> ?�진?�일 교환 ?�기 ?�과</>}
                 </p>
-                <p className="text-xs text-slate-400">적기 정비로 부품 수명을 연장하면 중고차 감가를 크게 방어할 수 있습니다.</p>
+                <p className="text-xs text-slate-400">?�기 ?�비�?부???�명???�장?�면 중고�?감�?�??�게 방어?????�습?�다.</p>
               </div>
               
               <div className="flex items-center gap-4">
                 {hasMaintained && (
                   <div className="text-right animate-in fade-in slide-in-from-right-4">
                     <p className="text-[10px] text-green-400 uppercase tracking-widest font-bold">Value Saved</p>
-                    <p className="text-2xl font-black text-green-500 font-mono">+₩{savedValue.toLocaleString()}</p>
+                    <p className="text-2xl font-black text-green-500 font-mono">+??savedValue.toLocaleString()}</p>
                   </div>
                 )}
                 <button 
@@ -173,7 +173,7 @@ export default function LiveCarePage() {
                     hasMaintained ? "bg-slate-800 text-slate-400 hover:bg-slate-700" : "bg-blue-600 text-white hover:bg-blue-500 shadow-blue-600/20 hover:scale-105"
                   }`}
                 >
-                  {hasMaintained ? "시뮬레이션 초기화" : "정비 효과(ROI) 미리보기"}
+                  {hasMaintained ? "?��??�이??초기?? : "?�비 ?�과(ROI) 미리보기"}
                 </button>
               </div>
             </div>

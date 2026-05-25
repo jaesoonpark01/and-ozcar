@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import MarketplaceLayout from '../../components/layout/MarketplaceLayout';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { useWeb3 } from '../../components/Web3Provider';
@@ -100,7 +100,7 @@ export default function MyGaragePage() {
     };
 
     return (
-        <MarketplaceLayout>
+        <>
             <div className="mb-12 flex justify-between items-end">
                 <div>
                     <h1 className="text-5xl font-black text-slate-900 mb-2 tracking-tight">{t('garage_title')}</h1>
@@ -134,16 +134,16 @@ export default function MyGaragePage() {
                                 <div className="flex flex-col items-end gap-2">
                                     <span className="bg-blue-50 text-[#0052FF] text-[10px] font-black px-3 py-1.5 rounded-full border border-blue-100 uppercase">Token #{car.tokenId}</span>
                                     <Link href={`/explorer?vin=${car.vin}`} className="text-[10px] font-bold text-[#0052FF] hover:underline flex items-center gap-1">
-                                        {t('garage_view_timeline')} â†—
+                                        {t('garage_view_timeline')} ??
                                     </Link>
                                     <Link href={`/vehicle/ar-demo?vin=${car.vin}`} className="text-[10px] font-bold text-emerald-600 hover:underline flex items-center gap-1">
-                                        {t('garage_inspect_ar')} ðŸŒŒ
+                                        {t('garage_inspect_ar')} ?ŒŒ
                                     </Link>
                                     <Link href={`/my-garage/resale-consulting?vin=${car.vin}`} className="text-[10px] font-bold text-blue-600 hover:underline flex items-center gap-1">
-                                        {t('garage_consult_value')} ðŸ“ˆ
+                                        {t('garage_consult_value')} ?“ˆ
                                     </Link>
                                     <Link href={`/service/book?vin=${car.vin}`} className="text-[10px] font-bold text-slate-500 hover:underline flex items-center gap-1">
-                                        {t('garage_book_service')} ðŸ”§
+                                        {t('garage_book_service')} ?”§
                                     </Link>
                                 </div>
                             </div>
@@ -185,7 +185,7 @@ export default function MyGaragePage() {
                                             onClick={() => setSelectedTokenId(null)}
                                             className="px-4 bg-white border border-slate-200 rounded-xl font-bold text-sm text-slate-400 hover:bg-slate-100"
                                         >
-                                            âœ•
+                                            ??
                                         </button>
                                     </div>
                                 </div>
@@ -202,7 +202,7 @@ export default function MyGaragePage() {
                 </div>
             ) : (
                 <div className="bg-slate-50 border-2 border-dashed border-slate-200 rounded-[3rem] p-24 text-center">
-                    <div className="text-6xl mb-6 opacity-30">ðŸš™</div>
+                    <div className="text-6xl mb-6 opacity-30">?š™</div>
                     <h3 className="text-2xl font-black text-slate-800 mb-2">{t('garage_empty')}</h3>
                     <p className="text-slate-500 mb-8 max-w-sm mx-auto">{t('garage_empty_desc')}</p>
                     <Link href="/sell" className="bg-slate-900 text-white px-10 py-4 rounded-2xl font-black text-sm hover:scale-105 transition-all inline-block shadow-2xl">
@@ -213,14 +213,14 @@ export default function MyGaragePage() {
 
             {status === 'SUCCESS' && (
                 <div className="fixed bottom-10 right-10 z-[100] bg-[#10B981] text-white p-8 rounded-3xl shadow-[0_20px_60px_rgba(16,185,129,0.3)] animate-in slide-in-from-right flex items-center gap-6">
-                    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl">âœ…</div>
+                    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl">??/div>
                     <div>
                         <h3 className="font-black text-xl mb-1">{t('garage_success_title')}</h3>
                         <p className="text-sm opacity-80">{t('garage_success_desc')}</p>
                     </div>
                 </div>
             )}
-        </MarketplaceLayout>
+        </>
     );
 }
 

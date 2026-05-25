@@ -2,7 +2,7 @@
 "use client";
 
 import React from 'react'; // Trigger Build
-import MarketplaceLayout from '../../components/layout/MarketplaceLayout';
+
 import VehicleCard from '../../components/marketplace/VehicleCard';
 import { motion, AnimatePresence } from 'framer-motion';
 import AIAuctionBidding from '../../components/marketplace/AIAuctionBidding';
@@ -67,7 +67,7 @@ export default function MarketplacePage() {
     const [category, setCategory] = React.useState<'vehicle' | 'data'>('vehicle');
 
     return (
-        <MarketplaceLayout>
+        <>
             <div className="mb-0">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                     <div>
@@ -127,7 +127,7 @@ export default function MarketplacePage() {
                         <div className="mb-20">
                             <div className="flex items-center gap-4 mb-8">
                                 <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center shadow-inner">
-                                    <span className="text-2xl">ðŸ”¥</span>
+                                    <span className="text-2xl">?”¥</span>
                                 </div>
                                 <div>
                                     <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-none">{t('market_hot_auction')}</h2>
@@ -164,6 +164,6 @@ export default function MarketplacePage() {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </MarketplaceLayout>
+        </>
     );
 }

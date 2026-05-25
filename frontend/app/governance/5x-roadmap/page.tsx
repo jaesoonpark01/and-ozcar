@@ -5,15 +5,15 @@ import { motion } from 'framer-motion';
 import { TrendingUp, Globe, ShieldCheck, Zap, LineChart, Banknote } from 'lucide-react';
 
 const MULTIPLIERS = [
-    { title: '현금 배당 (Dividend)', value: '1.5x', desc: '연평균 40~60%의 USDC/KRW 배당 누적', icon: Banknote, color: 'text-emerald-400' },
-    { title: 'NFT 자산 가치 상향', value: '2.0x', desc: '소각(Burn) 및 바이백을 통한 Sovereign NFT 희귀도 상승', icon: TrendingUp, color: 'text-blue-400' },
-    { title: '데이터 권리금', value: '1.5x', desc: 'B2B 독점 데이터 매각에 따른 특별 성과 분배', icon: Zap, color: 'text-purple-400' },
+    { title: '?�금 배당 (Dividend)', value: '1.5x', desc: '?�평�?40~60%??USDC/KRW 배당 ?�적', icon: Banknote, color: 'text-emerald-400' },
+    { title: 'NFT ?�산 가�??�향', value: '2.0x', desc: '?�각(Burn) �?바이백을 ?�한 Sovereign NFT ?��????�승', icon: TrendingUp, color: 'text-blue-400' },
+    { title: '?�이??권리�?, value: '1.5x', desc: 'B2B ?�점 ?�이??매각???�른 ?�별 ?�과 분배', icon: Zap, color: 'text-purple-400' },
 ];
 
 const TIMELINE = [
-    { year: '2025-2026', title: '시스템 입증 및 국내 안착', metric: '국내 노드 1만 대 확보', result: '150% (원금 대비 누적)' },
-    { year: '2026-2027', title: '글로벌 확장 및 아시아 진출', metric: '해외 노드 10만 대 돌파', result: '250% (원금 대비 누적)' },
-    { year: '2027-2028', title: '데이터 뱅크 전환 (Monopoly)', metric: '완성차 제조사 B2B 공급', result: '500% (최종 5X 달성)' },
+    { year: '2025-2026', title: '?�스???�증 �?�?�� ?�착', metric: '�?�� ?�드 1�??� ?�보', result: '150% (?�금 ?��??�적)' },
+    { year: '2026-2027', title: '글로벌 ?�장 �??�시??진출', metric: '?�외 ?�드 10�??� ?�파', result: '250% (?�금 ?��??�적)' },
+    { year: '2027-2028', title: '?�이??뱅크 ?�환 (Monopoly)', metric: '?�성�??�조??B2B 공급', result: '500% (최종 5X ?�성)' },
 ];
 
 export default function Roadmap5xPage() {
@@ -33,10 +33,10 @@ export default function Roadmap5xPage() {
                     </div>
                     <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter mb-6">
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">OZCAR </span>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">5X 수익화 로드맵</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">5X ?�익??로드�?/span>
                     </h1>
                     <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-                        복리의 마법이 AI 기술과 만났을 때. 이 문서는 3년 내 다이아몬드 파운더의 <br className="hidden md:block"/>투자 원금을 5배(500%)로 환원하는 확정적 재무 시나리오입니다.
+                        복리??마법??AI 기술�?만났???? ??문서??3?????�이?�몬???�운?�의 <br className="hidden md:block"/>?�자 ?�금??5�?500%)�??�원?�는 ?�정???�무 ?�나리오?�니??
                     </p>
                 </div>
 
@@ -75,8 +75,7 @@ export default function Roadmap5xPage() {
                 {/* Timeline */}
                 <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
                     <LineChart className="text-blue-400" />
-                    연도별 수익화 타임라인
-                </h2>
+                    ?�도�??�익???�?�라??                </h2>
                 <div className="space-y-4 mb-20">
                     {TIMELINE.map((t, i) => (
                         <motion.div 
@@ -118,24 +117,24 @@ export default function Roadmap5xPage() {
                         <div className="p-3 bg-blue-500/20 rounded-xl border border-blue-500/30">
                             <ShieldCheck className="text-blue-400" size={24} />
                         </div>
-                        <h2 className="text-3xl font-black">2027 글로벌 진출 특별 보장 조항</h2>
+                        <h2 className="text-3xl font-black">2027 글로벌 진출 ?�별 보장 조항</h2>
                     </div>
                     <div className="space-y-6 max-w-3xl">
                         <p className="text-lg text-slate-300 leading-relaxed">
-                            오즈카 생태계가 베트남, 인도네시아 등 해외 시장으로 진출할 때, 2026 오리지널 파운더(Diamond/Platinum)들의 기득권은 영구히 보장됩니다.
+                            ?�즈�??�태계�? 베트?? ?�도?�시?????�외 ?�장?�로 진출???? 2026 ?�리지???�운??Diamond/Platinum)?�의 기득권�? ?�구??보장?�니??
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="bg-black/40 border border-white/5 rounded-2xl p-6">
-                                <h4 className="font-bold text-emerald-400 mb-2">프리패스 화이트리스트</h4>
-                                <p className="text-sm text-slate-400 leading-relaxed">신규 국가 Genesis 노드 NFT 발행 시 전체 물량의 40%를 최우선 할당 및 50% 반값 할인을 제공합니다.</p>
+                                <h4 className="font-bold text-emerald-400 mb-2">?�리?�스 ?�이?�리?�트</h4>
+                                <p className="text-sm text-slate-400 leading-relaxed">?�규 �?? Genesis ?�드 NFT 발행 ???�체 물량??40%�?최우???�당 �?50% 반값 ?�인???�공?�니??</p>
                             </div>
                             <div className="bg-black/40 border border-white/5 rounded-2xl p-6">
-                                <h4 className="font-bold text-blue-400 mb-2">글로벌 데이터 로열티</h4>
-                                <p className="text-sm text-slate-400 leading-relaxed">해외 데이터 판매 수익의 5%가 오리지널 파운더들의 지갑으로 영구 귀속(에어드랍) 됩니다.</p>
+                                <h4 className="font-bold text-blue-400 mb-2">글로벌 ?�이??로열??/h4>
+                                <p className="text-sm text-slate-400 leading-relaxed">?�외 ?�이???�매 ?�익??5%가 ?�리지???�운?�들??지갑으�??�구 귀???�어?�랍) ?�니??</p>
                             </div>
                         </div>
                         <p className="text-sm text-slate-500 italic mt-6">
-                            * 본 문서는 Ozcar DAO 거버넌스 헌장에 의해 법적 효력을 발휘합니다.
+                            * �?문서??Ozcar DAO 거버?�스 ?�장???�해 법적 ?�력??발휘?�니??
                         </p>
                     </div>
                 </motion.div>

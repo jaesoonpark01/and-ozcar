@@ -164,7 +164,7 @@ export default function MaintenancePortal() {
                                                     onClick={() => setShowChurnModal(true)}
                                                     className="text-xs text-slate-500 hover:text-red-400 underline decoration-slate-700 transition-colors"
                                                 >
-                                                    구독 해지하기 (테스트용)
+                                                    구독 ?��??�기 (?�스?�용)
                                                 </button>
                                             )}
                                         </div>
@@ -187,7 +187,7 @@ export default function MaintenancePortal() {
                                     Mining <span className="text-neon-green">Master Plan</span>
                                 </h2>
                                 <p className="text-slate-400 text-sm leading-relaxed">
-                                    정직한 정비 기록은 곧 수익이 됩니다. 마이닝 시뮬레이터를 통해 정비사님의 명성 가치를 확인하세요.
+                                    ?�직???�비 기록?� �??�익???�니?? 마이???��??�이?��? ?�해 ?�비?�님??명성 가치�? ?�인?�세??
                                 </p>
                             </div>
 
@@ -195,12 +195,12 @@ export default function MaintenancePortal() {
 
                             <div className="grid md:grid-cols-2 gap-8">
                                 <div className="carbon-panel p-8 rounded-3xl border border-white/5">
-                                    <h4 className="text-lg font-black italic text-white mb-4 uppercase">Step 1: 자산화</h4>
-                                    <p className="text-xs text-slate-500 leading-relaxed uppercase">사라지는 기술을 블록체인에 박제하여 영구적인 명성 자산으로 만드십시오.</p>
+                                    <h4 className="text-lg font-black italic text-white mb-4 uppercase">Step 1: ?�산??/h4>
+                                    <p className="text-xs text-slate-500 leading-relaxed uppercase">?�라지??기술??블록체인??박제?�여 ?�구?�인 명성 ?�산?�로 만드??��??</p>
                                 </div>
                                 <div className="carbon-panel p-8 rounded-3xl border border-white/5">
-                                    <h4 className="text-lg font-black italic text-white mb-4 uppercase">Step 2: 마이닝</h4>
-                                    <p className="text-xs text-slate-500 leading-relaxed uppercase">정직한 기록 한 건이 OZC 토큰 보상으로 직결되는 확실한 수익 전략을 경험하세요.</p>
+                                    <h4 className="text-lg font-black italic text-white mb-4 uppercase">Step 2: 마이??/h4>
+                                    <p className="text-xs text-slate-500 leading-relaxed uppercase">?�직??기록 ??건이 OZC ?�큰 보상?�로 직결?�는 ?�실???�익 ?�략??경험?�세??</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -296,12 +296,12 @@ export default function MaintenancePortal() {
                     onKeep={() => {
                         setShowChurnModal(false);
                         setIsSubscribed(true);
-                        alert("구독을 유지해주셔서 감사합니다. OZP 포인트 2배 부스팅이 적용되었습니다.");
+                        alert("구독???��??�주?�서 감사?�니?? OZP ?�인??2�?부?�팅???�용?�었?�니??");
                     }}
                     onConfirmCancel={() => {
                         setShowChurnModal(false);
                         setIsSubscribed(false);
-                        alert("구독이 해지되었습니다. 무료 버전을 계속 이용해 주세요.");
+                        alert("구독???��??�었?�니?? 무료 버전??계속 ?�용??주세??");
                     }}
                     onClose={() => setShowChurnModal(false)}
                 />
