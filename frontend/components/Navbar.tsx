@@ -143,8 +143,8 @@ export default function Navbar() {
                 `}>
                     {/* Logo Area */}
                     <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 relative flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <img src="/ozlogo.svg" alt="Ozcar Logo" className="w-[95%] h-[95%] object-contain drop-shadow-md" />
+                        <div className="w-10 h-10 sm:w-14 sm:h-14 relative flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <img src="/ozlogo.svg" alt="Ozcar Logo" className="w-full h-full object-contain drop-shadow-md" />
                         </div>
                         <span className="text-lg sm:text-2xl font-black tracking-tighter italic text-white group-hover:text-blue-400 transition-colors">OZCAR</span>
                     </Link>
