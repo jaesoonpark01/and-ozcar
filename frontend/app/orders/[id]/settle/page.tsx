@@ -5,7 +5,7 @@ import MarketplaceLayout from '../../../../components/layout/MarketplaceLayout'
 import { CheckCircle2, ShieldAlert, PenTool, Lock, ArrowRight, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
 
-export default function finalSignOffPage() {
+export default function FinalSignOffPage() {
     const [isSigned, setIsSigned] = useState(false)
     const [isProcessing, setIsProcessing] = useState(false)
 
