@@ -40,7 +40,7 @@ export default function MiningSimulator() {
     const [result, setResult] = useState({ token: 0, usd: 0, multiplier: 1.0 });
 
     useEffect(() => {
-    calculate earnings();
+        calculate();
     }, [state]);
 
     const calculate = () => {
