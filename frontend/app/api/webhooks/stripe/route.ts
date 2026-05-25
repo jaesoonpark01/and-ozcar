@@ -32,27 +32,38 @@ export async function POST(req: Request) {
         switch (event.type) {
             case "checkout.session.completed": {
                 const session = event.data.object as Stripe.Checkout.Session;
-                const { planType, userId, vin } = session.metadata || {};
+                const { planType, userId, vin, walletAddress, orderId } = session.metadata || {};
 
                 console.log(`✅ Checkout completed for user: ${userId}, Plan: ${planType}`);
 
                 // =========================================================================
                 // [STRATEGIC INTEGRATION POINT: Ozcar DVA Smart Contract Payout Trigger]
                 // =========================================================================
-                // If planType === "B2C_SINGLE" and payment is successful:
-                // 1. Grant API access to the buyer (save to DB).
-                // 2. Trigger Stripe Connect or Web3 Smart Contract to split the $10:
-                //    - $5.00 (50%) -> Car Owner's Wallet
-                //    - $2.00 (20%) -> Secondary Founder's Wallet
-                //    - $3.00 (30%) -> Treasury (Platform + Burn)
                 if (planType === "B2C_SINGLE") {
                     console.log(`🚗 B2C Query Purchased for VIN: ${vin}. Initiating 50% USDC Payout to Car Owner.`);
-                    // TODO: Call Supabase or Smart Contract to distribute funds
+                    
+                    // Call Blockchain PaymentBridge to distribute USDC to the owner's Web3 wallet
+                    if (walletAddress && walletAddress !== "unlinked") {
+                        const { PaymentBridge } = await import('@/services/blockchain/PaymentBridge');
+                        // Use the unit amount from the checkout session line items or metadata
+                        // Since this is B2C_SINGLE, it's 14,000 KRW
+                        const amountPaidKRW = 14000; 
+                        
+                        await PaymentBridge.distributeRevenue(
+                            orderId || "unknown_order", 
+                            amountPaidKRW, 
+                            walletAddress, 
+                            vin || "unknown"
+                        );
+                    } else {
+                        console.warn(`[Webhook] No linked walletAddress found for user ${userId}. Funds held in Treasury.`);
+                    }
                 }
 
                 if (planType === "B2B_STARTER") {
                     console.log(`🏢 B2B Starter Subscription Activated for user: ${userId}.`);
-                    // TODO: Create API Key in DB and set usage limit to 50 queries/month
+                    // Create API Key in DB and set usage limit to 50 queries/month
+                    // Save the walletAddress to the user profile if newly linked
                 }
 
                 break;

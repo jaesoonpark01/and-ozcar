@@ -4,10 +4,12 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, Loader2, Database, Shield } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useWeb3 } from "@/components/Web3Provider";
 
 export default function PricingPage() {
     const [isLoading, setIsLoading] = useState<string | null>(null);
     const router = useRouter();
+    const { account } = useWeb3();
 
     const handleCheckout = async (planType: string) => {
         try {
@@ -18,7 +20,8 @@ export default function PricingPage() {
                 body: JSON.stringify({ 
                     planType,
                     userId: "demo_user_123", // Real app will use Supabase Auth session
-                    vin: planType === "B2C_SINGLE" ? "KNA" + Math.floor(Math.random() * 100000000) : undefined
+                    vin: planType === "B2C_SINGLE" ? "KNA" + Math.floor(Math.random() * 100000000) : undefined,
+                    walletAddress: account || "unlinked", // Passed for Web3 Payout splits
                 }),
             });
             const data = await res.json();
@@ -84,14 +87,14 @@ export default function PricingPage() {
                             <h3 className="text-2xl font-bold text-white mb-2">B2C Single Query</h3>
                             <p className="text-sm text-slate-400">개인 구매자용 단건 조회</p>
                         </div>
-                        <div className="mb-6">
-                            <span className="text-5xl font-black italic">$10</span>
+                        <div className="mb-6 flex items-baseline gap-1">
+                            <span className="text-5xl font-black italic">₩14,000</span>
                             <span className="text-slate-500 text-sm"> / 건</span>
                         </div>
                         <ul className="space-y-4 mb-10 flex-1">
                             <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={20} className="text-blue-400 shrink-0" /> 특정 차량(VIN) 정밀 복원 기록</li>
                             <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={20} className="text-blue-400 shrink-0" /> 사고 상세 내역 리포트</li>
-                            <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={20} className="text-blue-400 shrink-0" /> NXP S32K3 무결성 검증 포함</li>
+                            <li className="flex gap-3 text-sm text-slate-300"><CheckCircle2 size={20} className="text-blue-400 shrink-0" /> 수익의 50%를 차량 소유주에게 USDC로 지급 (Web3)</li>
                         </ul>
                         <button 
                             onClick={() => handleCheckout("B2C_SINGLE")}
@@ -112,8 +115,8 @@ export default function PricingPage() {
                             <h3 className="text-2xl font-bold text-blue-400 mb-2">B2B Starter</h3>
                             <p className="text-sm text-blue-200/60">중소형 딜러사 및 렌터카 업체 최적화</p>
                         </div>
-                        <div className="mb-8">
-                            <span className="text-5xl font-black italic text-white">$450</span>
+                        <div className="mb-8 flex items-baseline gap-1">
+                            <span className="text-5xl font-black italic text-white">₩600,000</span>
                             <span className="text-blue-200/50 text-sm"> / 월</span>
                         </div>
                         <ul className="space-y-4 mb-10 flex-1">
