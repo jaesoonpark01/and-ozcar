@@ -168,6 +168,11 @@ export default function Navbar() {
             ]
         },
         {
+            href: "/pricing",
+            label: t('nav_pricing' as any) || "Pricing",
+            icon: <Zap size={14} />,
+        },
+        {
             href: "/governance",
             label: t('nav_dao'),
             icon: <Landmark size={14} />,
